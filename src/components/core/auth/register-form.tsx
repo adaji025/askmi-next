@@ -131,6 +131,7 @@ export function RegisterForm() {
       // TODO: Replace with actual registration API call
       await new Promise((resolve) => setTimeout(resolve, 1000));
       console.log("Form submitted:", { accountType, ...formData });
+      router.push("/dashboard");
       // Navigate to login or dashboard after successful registration
     } catch (err) {
       setError("Registration failed. Please try again.");

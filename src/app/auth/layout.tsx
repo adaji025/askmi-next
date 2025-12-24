@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 const AuthLayout = ({
   children,
 }: Readonly<{
@@ -7,7 +9,7 @@ const AuthLayout = ({
     <div className="flex">
       <div className="max-w-118.5 w-full h-screen bg-primary hidden lg:flex  text-white flex-col justify-between p-6 xl:p-10">
         <div className="">
-          <img
+          <Image
             src={"/images/svgs/askmi-logo.svg"}
             height={32}
             width={120}
