@@ -1,6 +1,6 @@
 "use client";
 
-import { type Icon } from "@tabler/icons-react";
+import * as React from "react";
 
 import {
   SidebarGroup,
@@ -17,16 +17,16 @@ export function NavMain({
   items: {
     title: string;
     url: string;
-    icon?: Icon;
+    icon?: React.ComponentType;
   }[];
 }) {
   return (
     <>
       <SidebarGroup>
         <SidebarGroupContent className="flex flex-col gap-2">
-          <SidebarGroupLabel className="-mb-2">OVERVIEW</SidebarGroupLabel>
+          <SidebarGroupLabel className="-mb-2">MAIN</SidebarGroupLabel>
           <SidebarMenu>
-            {items.slice(0, 1).map((item) => (
+            {items.slice(0, 4).map((item) => (
               <SidebarMenuItem key={item.title}>
                 <SidebarMenuButton tooltip={item.title}>
                   {item.icon && <item.icon />}
@@ -40,27 +40,9 @@ export function NavMain({
 
       <SidebarGroup>
         <SidebarGroupContent className="flex flex-col gap-2">
-          <SidebarGroupLabel className="-mb-2">
-            USER MANAGEMENT
-          </SidebarGroupLabel>
+          <SidebarGroupLabel className="-mb-2">MANAGE</SidebarGroupLabel>
           <SidebarMenu>
-            {items.slice(1, 3).map((item) => (
-              <SidebarMenuItem key={item.title}>
-                <SidebarMenuButton tooltip={item.title}>
-                  {item.icon && <item.icon />}
-                  <span>{item.title}</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            ))}
-          </SidebarMenu>
-        </SidebarGroupContent>
-      </SidebarGroup>
-
-      <SidebarGroup>
-        <SidebarGroupContent className="flex flex-col gap-2">
-          <SidebarGroupLabel className="-mb-2">OPERATIONS</SidebarGroupLabel>
-          <SidebarMenu>
-            {items.slice(3, 5).map((item) => (
+            {items.slice(4).map((item) => (
               <SidebarMenuItem key={item.title}>
                 <SidebarMenuButton tooltip={item.title}>
                   {item.icon && <item.icon />}

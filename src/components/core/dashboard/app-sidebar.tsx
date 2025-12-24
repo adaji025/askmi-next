@@ -3,7 +3,6 @@ import Logo from "@/assets/images/svgs/askmi-logo.svg";
 
 import * as React from "react";
 
-
 import {
   Sidebar,
   SidebarContent,
@@ -16,7 +15,14 @@ import {
 import { NavMain } from "./nav-main";
 import { NavUser } from "./nav-user";
 import Image from "next/image";
-import { AnalyticsSVG, CampaignsSVG, DashboardSVG, InfluencersSVG, SurveysSVG } from "./svg";
+import {
+  AnalyticsSVG,
+  BillingsSVG,
+  CampaignsSVG,
+  DashboardSVG,
+  InfluencersSVG,
+  SurveysSVG,
+} from "./svg";
 
 const data = {
   user: {
@@ -35,12 +41,12 @@ const data = {
       url: "/campaigns",
       icon: CampaignsSVG,
     },
-     {
+    {
       title: "Surveys",
       url: "/surveys",
       icon: SurveysSVG,
     },
-     {
+    {
       title: "Analytics",
       url: "/Analytics",
       icon: AnalyticsSVG,
@@ -51,11 +57,15 @@ const data = {
       icon: InfluencersSVG,
     },
     {
-      title: "OCR Reviews",
-      url: "/ocr-reviews",
+      title: "Billings",
+      url: "/billings",
+      icon: BillingsSVG,
+    },
+    {
+      title: "Settings",
+      url: "/settings",
       icon: SurveysSVG,
     },
-   
   ],
 };
 
