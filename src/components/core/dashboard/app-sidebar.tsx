@@ -38,32 +38,32 @@ const data = {
     },
     {
       title: "Campaign",
-      url: "/campaigns",
+      url: "/dashboard/campaigns",
       icon: CampaignsSVG,
     },
     {
       title: "Surveys",
-      url: "/surveys",
+      url: "/dashboard/surveys",
       icon: SurveysSVG,
     },
     {
       title: "Analytics",
-      url: "/Analytics",
+      url: "/dashboard/analytics",
       icon: AnalyticsSVG,
     },
     {
       title: "Influencers",
-      url: "/influencers",
+      url: "/dashboard/influencers",
       icon: InfluencersSVG,
     },
     {
       title: "Billings",
-      url: "/billings",
+      url: "/dashboard/billings",
       icon: BillingsSVG,
     },
     {
       title: "Settings",
-      url: "/settings",
+      url: "/dashboard/settings",
       icon: SurveysSVG,
     },
   ],

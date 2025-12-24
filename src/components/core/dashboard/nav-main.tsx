@@ -10,6 +10,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import Link from "next/link";
 
 export function NavMain({
   items,
@@ -27,15 +28,17 @@ export function NavMain({
           <SidebarGroupLabel className="-mb-2">MAIN</SidebarGroupLabel>
           <SidebarMenu>
             {items.slice(0, 4).map((item) => (
-              <SidebarMenuItem key={item.title}>
-                <SidebarMenuButton
-                  tooltip={item.title}
-                  className="hover:bg-[#2563EB1A] hover:border hover:border-[#17274D] hover:border-r-4 hover:border-r-[#2563EB] hover:text-white"
-                >
-                  {item.icon && <item.icon />}
-                  <span>{item.title}</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
+              <Link href={item.url} key={item.title}>
+                <SidebarMenuItem>
+                  <SidebarMenuButton
+                    tooltip={item.title}
+                    className="hover:bg-[#2563EB1A] hover:border hover:border-[#17274D] hover:border-r-4 hover:border-r-[#2563EB] hover:text-white"
+                  >
+                    {item.icon && <item.icon />}
+                    <span>{item.title}</span>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              </Link>
             ))}
           </SidebarMenu>
         </SidebarGroupContent>
@@ -46,15 +49,17 @@ export function NavMain({
           <SidebarGroupLabel className="-mb-2">MANAGE</SidebarGroupLabel>
           <SidebarMenu>
             {items.slice(4).map((item) => (
-              <SidebarMenuItem key={item.title}>
-                <SidebarMenuButton
-                  tooltip={item.title}
-                  className="hover:bg-[#2563EB1A] hover:border hover:border-[#17274D] hover:border-r-4 hover:border-r-[#2563EB] hover:text-white"
-                >
-                  {item.icon && <item.icon />}
-                  <span>{item.title}</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
+              <Link href={item.url} key={item.title}>
+                <SidebarMenuItem>
+                  <SidebarMenuButton
+                    tooltip={item.title}
+                    className="hover:bg-[#2563EB1A] hover:border hover:border-[#17274D] hover:border-r-4 hover:border-r-[#2563EB] hover:text-white"
+                  >
+                    {item.icon && <item.icon />}
+                    <span>{item.title}</span>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              </Link>
             ))}
           </SidebarMenu>
         </SidebarGroupContent>
