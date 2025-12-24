@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import LanguageDropdown from "../dashboard/lang-dropdown";
+import InfluenceDirections from "./influencer-directions";
 
 export function RegisterForm() {
   const [accountType, setAccountType] = useState<"brand" | "influencer">(
@@ -38,20 +39,6 @@ export function RegisterForm() {
     }
     if (fullName.trim().length < 2) {
       return "Full name must be at least 2 characters";
-    }
-    return "";
-  };
-
-  const validateCompany = (company: string): string => {
-    if (!company.trim()) {
-      return accountType === "influencer"
-        ? "Instagram handle is required"
-        : "Company name is required";
-    }
-    if (company.trim().length < 2) {
-      return accountType === "influencer"
-        ? "Instagram handle must be at least 2 characters"
-        : "Company name must be at least 2 characters";
     }
     return "";
   };
@@ -92,7 +79,9 @@ export function RegisterForm() {
 
   const validateForm = (): boolean => {
     const fullNameError = validateFullName(formData.fullName);
-    const companyError = validateCompany(formData.company);
+    const companyError = formData.company.trim()
+      ? ""
+      : "Company name is required";
     const emailError = validateEmail(formData.email);
     const passwordError = validatePassword(formData.password);
     const confirmPasswordError = validateConfirmPassword(
@@ -158,8 +147,8 @@ export function RegisterForm() {
       <div className="flex justify-end mb-6">
         <LanguageDropdown />
       </div>
-      <div className="w-full max-w-md mx-auto">
-        <div className="text-center mb-8">
+      <div className="w-full ">
+        <div className="text-center mb-8 max-w-md mx-auto">
           <h1 className="text-[32px] text-center font-bold mb-2 text-blck">
             Create your account
           </h1>
@@ -169,185 +158,204 @@ export function RegisterForm() {
         </div>
 
         {/* Account Type Toggle */}
-        <div className="flex gap-2 mb-8 bg-secondary border rounded-lg p-0.5">
-          <button
-            onClick={() => setAccountType("brand")}
-            className={`flex-1 py-2.5 px-4 rounded-md text-sm font-medium transition-all ${
-              accountType === "brand"
-                ? "bg-white text-foreground border border-[#E2E8F0]"
-                : "text-muted-foreground hover:text-foreground"
-            }`}
-          >
-            As a brand
-          </button>
-          <button
-            onClick={() => setAccountType("influencer")}
-            className={`flex-1 py-2.5 px-4 rounded-md text-sm font-medium transition-all ${
-              accountType === "influencer"
-                ? "bg-white text-foreground border border-[#E2E8F0]"
-                : "text-muted-foreground hover:text-foreground"
-            }`}
-          >
-            As an influencer
-          </button>
+        <div className="max-w-md mx-auto">
+          <div className="flex gap-2 mb-8 bg-secondary border rounded-lg p-0.5 ">
+            <button
+              onClick={() => setAccountType("brand")}
+              className={`flex-1 py-2.5 px-4 rounded-md text-sm font-medium transition-all ${
+                accountType === "brand"
+                  ? "bg-white text-foreground border border-[#E2E8F0]"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              As a brand
+            </button>
+            <button
+              onClick={() => setAccountType("influencer")}
+              className={`flex-1 py-2.5 px-4 rounded-md text-sm font-medium transition-all ${
+                accountType === "influencer"
+                  ? "bg-white text-foreground border border-[#E2E8F0]"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              As an influencer
+            </button>
+          </div>
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="space-y-5">
-          {error && (
-            <div className="rounded-md bg-destructive/15 p-3 text-sm text-destructive">
-              {error}
-            </div>
-          )}
+        {accountType === "brand" && (
+          <div className="max-w-md mx-auto">
+            <form onSubmit={handleSubmit} className="space-y-5">
+              {error && (
+                <div className="rounded-md bg-destructive/15 p-3 text-sm text-destructive">
+                  {error}
+                </div>
+              )}
 
-          <div className="space-y-2">
-            <Label
-              htmlFor="fullName"
-              className="text-sm font-bold text-[#8E8E8E]"
-            >
-              Enter your full name
-            </Label>
-            <Input
-              id="fullName"
-              type="text"
-              placeholder="e.g John Doe Gabriel"
-              value={formData.fullName}
-              onChange={(e) => handleFieldChange("fullName", e.target.value)}
-              className={`h-11 bg-white rounded-[6px] ${
-                errors.fullName
-                  ? "border-destructive focus-visible:ring-destructive"
-                  : ""
-              }`}
-              disabled={isLoading}
-            />
-            {errors.fullName && (
-              <p className="text-sm text-destructive mt-1">{errors.fullName}</p>
-            )}
+              <div className="space-y-2">
+                <Label
+                  htmlFor="fullName"
+                  className="text-sm font-bold text-[#8E8E8E]"
+                >
+                  Enter your full name
+                </Label>
+                <Input
+                  id="fullName"
+                  type="text"
+                  placeholder="e.g John Doe Gabriel"
+                  value={formData.fullName}
+                  onChange={(e) =>
+                    handleFieldChange("fullName", e.target.value)
+                  }
+                  className={`h-11 bg-white rounded-[6px] ${
+                    errors.fullName
+                      ? "border-destructive focus-visible:ring-destructive"
+                      : ""
+                  }`}
+                  disabled={isLoading}
+                />
+                {errors.fullName && (
+                  <p className="text-sm text-destructive mt-1">
+                    {errors.fullName}
+                  </p>
+                )}
+              </div>
+
+              <div className="space-y-2">
+                <Label
+                  htmlFor="company"
+                  className="text-sm font-bold text-[#8E8E8E]"
+                >
+                  Company
+                </Label>
+                <Input
+                  id="company"
+                  type="text"
+                  placeholder="Enter company name"
+                  value={formData.company}
+                  onChange={(e) => handleFieldChange("company", e.target.value)}
+                  className={`h-11 bg-white rounded-[6px] ${
+                    errors.company
+                      ? "border-destructive focus-visible:ring-destructive"
+                      : ""
+                  }`}
+                  disabled={isLoading}
+                />
+                {errors.company && (
+                  <p className="text-sm text-destructive mt-1">
+                    {errors.company}
+                  </p>
+                )}
+              </div>
+
+              <div className="space-y-2">
+                <Label
+                  htmlFor="email"
+                  className="text-sm font-bold text-[#8E8E8E]"
+                >
+                  Work Email
+                </Label>
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="youremail@example.com"
+                  value={formData.email}
+                  onChange={(e) => handleFieldChange("email", e.target.value)}
+                  className={`h-11 bg-white rounded-[6px] ${
+                    errors.email
+                      ? "border-destructive focus-visible:ring-destructive"
+                      : ""
+                  }`}
+                  disabled={isLoading}
+                />
+                {errors.email && (
+                  <p className="text-sm text-destructive mt-1">
+                    {errors.email}
+                  </p>
+                )}
+              </div>
+
+              <div className="space-y-2">
+                <Label
+                  htmlFor="password"
+                  className="text-sm font-bold text-[#8E8E8E]"
+                >
+                  Password
+                </Label>
+                <Input
+                  id="password"
+                  type="password"
+                  placeholder="Create strong password"
+                  value={formData.password}
+                  onChange={(e) =>
+                    handleFieldChange("password", e.target.value)
+                  }
+                  className={`h-11 bg-white rounded-[6px] ${
+                    errors.password
+                      ? "border-destructive focus-visible:ring-destructive"
+                      : ""
+                  }`}
+                  disabled={isLoading}
+                />
+                {errors.password && (
+                  <p className="text-sm text-destructive mt-1">
+                    {errors.password}
+                  </p>
+                )}
+              </div>
+
+              <div className="space-y-2">
+                <Label
+                  htmlFor="confirmPassword"
+                  className="text-sm font-bold text-[#8E8E8E]"
+                >
+                  Confirm Password
+                </Label>
+                <Input
+                  id="confirmPassword"
+                  type="password"
+                  placeholder="Confirm your password"
+                  value={formData.confirmPassword}
+                  onChange={(e) =>
+                    handleFieldChange("confirmPassword", e.target.value)
+                  }
+                  className={`h-11 bg-white rounded-[6px] ${
+                    errors.confirmPassword
+                      ? "border-destructive focus-visible:ring-destructive"
+                      : ""
+                  }`}
+                  disabled={isLoading}
+                />
+                {errors.confirmPassword && (
+                  <p className="text-sm text-destructive mt-1">
+                    {errors.confirmPassword}
+                  </p>
+                )}
+              </div>
+
+              <Button
+                type="submit"
+                className="mt-12 rounded-[6px] w-full h-12 text-base font-medium bg-[#2563EB] hover:bg-[#2563EB]/90"
+                disabled={isLoading}
+              >
+                {isLoading ? "Creating account..." : "Create account"}
+              </Button>
+            </form>
+
+            <p className="text-center mt-6 text-sm text-muted-foreground">
+              Already have an account?{" "}
+              <Link
+                href={"/auth/sign-in"}
+                className="text-[#8B5CF6] font-medium cursor-pointer hover:underline"
+              >
+                Sign in.
+              </Link>
+            </p>
           </div>
+        )}
 
-          <div className="space-y-2">
-            <Label
-              htmlFor="company"
-              className="text-sm font-bold text-[#8E8E8E]"
-            >
-              {accountType === "influencer" ? "Instagram Handle" : "Company"}
-            </Label>
-            <Input
-              id="company"
-              type="text"
-              placeholder={
-                accountType === "influencer"
-                  ? "@yourhandle"
-                  : "Enter company name"
-              }
-              value={formData.company}
-              onChange={(e) => handleFieldChange("company", e.target.value)}
-              className={`h-11 bg-white rounded-[6px] ${
-                errors.company
-                  ? "border-destructive focus-visible:ring-destructive"
-                  : ""
-              }`}
-              disabled={isLoading}
-            />
-            {errors.company && (
-              <p className="text-sm text-destructive mt-1">{errors.company}</p>
-            )}
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="email" className="text-sm font-bold text-[#8E8E8E]">
-              Work Email
-            </Label>
-            <Input
-              id="email"
-              type="email"
-              placeholder="youremail@example.com"
-              value={formData.email}
-              onChange={(e) => handleFieldChange("email", e.target.value)}
-              className={`h-11 bg-white rounded-[6px] ${
-                errors.email
-                  ? "border-destructive focus-visible:ring-destructive"
-                  : ""
-              }`}
-              disabled={isLoading}
-            />
-            {errors.email && (
-              <p className="text-sm text-destructive mt-1">{errors.email}</p>
-            )}
-          </div>
-
-          <div className="space-y-2">
-            <Label
-              htmlFor="password"
-              className="text-sm font-bold text-[#8E8E8E]"
-            >
-              Password
-            </Label>
-            <Input
-              id="password"
-              type="password"
-              placeholder="Create strong password"
-              value={formData.password}
-              onChange={(e) => handleFieldChange("password", e.target.value)}
-              className={`h-11 bg-white rounded-[6px] ${
-                errors.password
-                  ? "border-destructive focus-visible:ring-destructive"
-                  : ""
-              }`}
-              disabled={isLoading}
-            />
-            {errors.password && (
-              <p className="text-sm text-destructive mt-1">{errors.password}</p>
-            )}
-          </div>
-
-          <div className="space-y-2">
-            <Label
-              htmlFor="confirmPassword"
-              className="text-sm font-bold text-[#8E8E8E]"
-            >
-              Confirm Password
-            </Label>
-            <Input
-              id="confirmPassword"
-              type="password"
-              placeholder="Confirm your password"
-              value={formData.confirmPassword}
-              onChange={(e) =>
-                handleFieldChange("confirmPassword", e.target.value)
-              }
-              className={`h-11 bg-white rounded-[6px] ${
-                errors.confirmPassword
-                  ? "border-destructive focus-visible:ring-destructive"
-                  : ""
-              }`}
-              disabled={isLoading}
-            />
-            {errors.confirmPassword && (
-              <p className="text-sm text-destructive mt-1">
-                {errors.confirmPassword}
-              </p>
-            )}
-          </div>
-
-          <Button
-            type="submit"
-            className="mt-12 rounded-[6px] w-full h-12 text-base font-medium bg-[#2563EB] hover:bg-[#2563EB]/90"
-            disabled={isLoading}
-          >
-            {isLoading ? "Creating account..." : "Create account"}
-          </Button>
-        </form>
-
-        <p className="text-center mt-6 text-sm text-muted-foreground">
-          Already have an account?{" "}
-          <Link
-            href={"/auth/sign-in"}
-            className="text-[#8B5CF6] font-medium cursor-pointer hover:underline"
-          >
-            Sign in.
-          </Link>
-        </p>
+        {accountType === "influencer" && <InfluenceDirections />}
       </div>
     </div>
   );

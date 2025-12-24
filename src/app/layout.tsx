@@ -11,11 +11,6 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "AskMi",
   description: "Connecting Brands with Influencers",
-  icons: {
-    icon: "/askmi.svg",
-    shortcut: "/askmi.svg",
-    apple: "/askmi.svg",
-  },
 };
 
 export default function RootLayout({
