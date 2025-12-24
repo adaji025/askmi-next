@@ -83,7 +83,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 <Image
                   src={"/images/svgs/askmi-logo.svg"}
                   height={32}
-                  width={120}
+                  width={90}
                   alt="askmi logo"
                 />
               </a>

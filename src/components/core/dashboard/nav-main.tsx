@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { usePathname } from "next/navigation";
 
 import {
   SidebarGroup,
@@ -11,6 +12,7 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import Link from "next/link";
+import { cn } from "@/lib/utils";
 
 export function NavMain({
   items,
@@ -21,46 +23,69 @@ export function NavMain({
     icon?: React.ComponentType;
   }[];
 }) {
+  const pathname = usePathname();
+
+  const isActive = (url: string) => {
+    if (url === "/dashboard") {
+      return pathname === "/dashboard";
+    }
+    return pathname.startsWith(url);
+  };
+
   return (
     <>
       <SidebarGroup>
         <SidebarGroupContent className="flex flex-col gap-2">
-          <SidebarGroupLabel className="-mb-2">MAIN</SidebarGroupLabel>
-          <SidebarMenu>
-            {items.slice(0, 4).map((item) => (
-              <Link href={item.url} key={item.title}>
-                <SidebarMenuItem>
-                  <SidebarMenuButton
-                    tooltip={item.title}
-                    className="hover:bg-[#2563EB1A] hover:border hover:border-[#17274D] hover:border-r-4 hover:border-r-[#2563EB] hover:text-white"
-                  >
-                    {item.icon && <item.icon />}
-                    <span>{item.title}</span>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              </Link>
-            ))}
+          <SidebarGroupLabel className="md:pl-4">MAIN</SidebarGroupLabel>
+          <SidebarMenu className="md:ml-2">
+            {items.slice(0, 4).map((item) => {
+              const active = isActive(item.url);
+              return (
+                <Link href={item.url} key={item.title}>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton
+                      tooltip={item.title}
+                      className={cn(
+                        "hover:bg-[#2563EB1A] hover:border hover:border-[#17274D] hover:border-r-4 hover:border-r-[#2563EB] hover:text-white",
+                        active &&
+                          "bg-[#2563EB1A] border border-[#17274D] border-r-4 border-r-[#2563EB] text-white"
+                      )}
+                    >
+                      {item.icon && <item.icon />}
+                      <span>{item.title}</span>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                </Link>
+              );
+            })}
           </SidebarMenu>
         </SidebarGroupContent>
       </SidebarGroup>
 
       <SidebarGroup>
         <SidebarGroupContent className="flex flex-col gap-2">
-          <SidebarGroupLabel className="-mb-2">MANAGE</SidebarGroupLabel>
-          <SidebarMenu>
-            {items.slice(4).map((item) => (
-              <Link href={item.url} key={item.title}>
-                <SidebarMenuItem>
-                  <SidebarMenuButton
-                    tooltip={item.title}
-                    className="hover:bg-[#2563EB1A] hover:border hover:border-[#17274D] hover:border-r-4 hover:border-r-[#2563EB] hover:text-white"
-                  >
-                    {item.icon && <item.icon />}
-                    <span>{item.title}</span>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              </Link>
-            ))}
+          <SidebarGroupLabel className="-mb-2 pl-4">MANAGE</SidebarGroupLabel>
+          <SidebarMenu className="md:ml-2">
+            {items.slice(4).map((item) => {
+              const active = isActive(item.url);
+              return (
+                <Link href={item.url} key={item.title}>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton
+                      tooltip={item.title}
+                      className={cn(
+                        "pl-3 hover:bg-[#2563EB1A] hover:border hover:border-[#17274D] hover:border-r-4 hover:border-r-[#2563EB] hover:text-white",
+                        active &&
+                          "bg-[#2563EB1A] border border-[#17274D] border-r-4 border-r-[#2563EB] text-white"
+                      )}
+                    >
+                      {item.icon && <item.icon />}
+                      <span>{item.title}</span>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                </Link>
+              );
+            })}
           </SidebarMenu>
         </SidebarGroupContent>
       </SidebarGroup>
