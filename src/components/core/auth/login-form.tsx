@@ -22,7 +22,6 @@ export function LoginForm() {
   });
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [language, setLanguage] = useState("en");
   const router = useRouter();
 
   const validateEmail = (email: string): string => {
@@ -128,11 +127,10 @@ export function LoginForm() {
               placeholder="youremail@example.com"
               value={formData.email}
               onChange={handleEmailChange}
-              className={`h-11 bg-white rounded-[6px] ${
-                errors.email
+              className={`h-11 bg-white rounded-[6px] ${errors.email
                   ? "border-destructive focus-visible:ring-destructive"
                   : ""
-              }`}
+                }`}
               disabled={isLoading}
             />
             {errors.email && (
@@ -153,11 +151,10 @@ export function LoginForm() {
               placeholder="Enter your password"
               value={formData.password}
               onChange={handlePasswordChange}
-              className={`h-11 bg-white rounded-[6px] ${
-                errors.password
+              className={`h-11 bg-white rounded-[6px] ${errors.password
                   ? "border-destructive focus-visible:ring-destructive"
                   : ""
-              }`}
+                }`}
               disabled={isLoading}
             />
             {errors.password && (
