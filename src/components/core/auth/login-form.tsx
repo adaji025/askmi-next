@@ -3,11 +3,13 @@
 import type React from "react";
 
 import { useState } from "react";
+import { Globe } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import LanguageDropdown from "../dashboard/lang-dropdown";
 
 export function LoginForm() {
   const [formData, setFormData] = useState({
@@ -20,8 +22,9 @@ export function LoginForm() {
   });
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [language, setLanguage] = useState("en");
   const router = useRouter();
-  
+
   const validateEmail = (email: string): string => {
     if (!email.trim()) {
       return "Email is required";
@@ -93,89 +96,94 @@ export function LoginForm() {
   };
 
   return (
-    <div className="w-full max-w-md mx-auto">
-      <div className="text-center mb-8">
-        <h1 className="text-[32px] font-bold mb-2 text-blck">
-          Sign In your account
-        </h1>
-        <p className="text-sm text-center text-[#5D6A6B]">
-          Welcome back! Please enter your details.
+    <div>
+      <div className="flex justify-end mb-6">
+        <LanguageDropdown />
+      </div>
+      <div className="w-full max-w-md mx-auto">
+        <div className="text-center mb-8">
+          <h1 className="text-[32px] font-bold mb-2 text-blck">
+            Sign In your account
+          </h1>
+          <p className="text-sm text-center text-[#5D6A6B]">
+            Welcome back! Please enter your details.
+          </p>
+        </div>
+
+        {/* Form */}
+        <form onSubmit={handleSubmit} className="space-y-5">
+          {error && (
+            <div className="rounded-md bg-destructive/15 p-3 text-sm text-destructive">
+              {error}
+            </div>
+          )}
+
+          <div className="space-y-2">
+            <Label htmlFor="email" className="text-sm font-bold text-[#8E8E8E]">
+              Email
+            </Label>
+            <Input
+              id="email"
+              type="email"
+              placeholder="youremail@example.com"
+              value={formData.email}
+              onChange={handleEmailChange}
+              className={`h-11 bg-white rounded-[6px] ${
+                errors.email
+                  ? "border-destructive focus-visible:ring-destructive"
+                  : ""
+              }`}
+              disabled={isLoading}
+            />
+            {errors.email && (
+              <p className="text-sm text-destructive mt-1">{errors.email}</p>
+            )}
+          </div>
+
+          <div className="space-y-2">
+            <Label
+              htmlFor="password"
+              className="text-sm font-bold text-[#8E8E8E]"
+            >
+              Password
+            </Label>
+            <Input
+              id="password"
+              type="password"
+              placeholder="Enter your password"
+              value={formData.password}
+              onChange={handlePasswordChange}
+              className={`h-11 bg-white rounded-[6px] ${
+                errors.password
+                  ? "border-destructive focus-visible:ring-destructive"
+                  : ""
+              }`}
+              disabled={isLoading}
+            />
+            {errors.password && (
+              <p className="text-sm text-destructive mt-1">{errors.password}</p>
+            )}
+          </div>
+
+          <Button
+            type="submit"
+            className="mt-12 rounded-[6px] w-full h-12 text-base font-medium bg-[#2563EB] hover:bg-[#2563EB]/90"
+            disabled={isLoading}
+          >
+            {isLoading ? "Signing in..." : "Sign In"}
+          </Button>
+        </form>
+
+        <p className="text-center mt-6 text-sm text-muted-foreground">
+          Don't have an account?{" "}
+          <Link
+            href={"/auth/sign-up"}
+            className="text-[#8B5CF6] font-medium cursor-pointer hover:underline"
+          >
+            Sign up.
+          </Link>
         </p>
       </div>
-
-      {/* Form */}
-      <form onSubmit={handleSubmit} className="space-y-5">
-        {error && (
-          <div className="rounded-md bg-destructive/15 p-3 text-sm text-destructive">
-            {error}
-          </div>
-        )}
-
-        <div className="space-y-2">
-          <Label htmlFor="email" className="text-sm font-bold text-[#8E8E8E]">
-            Email
-          </Label>
-          <Input
-            id="email"
-            type="email"
-            placeholder="youremail@example.com"
-            value={formData.email}
-            onChange={handleEmailChange}
-            className={`h-11 bg-white rounded-[6px] ${
-              errors.email
-                ? "border-destructive focus-visible:ring-destructive"
-                : ""
-            }`}
-            disabled={isLoading}
-          />
-          {errors.email && (
-            <p className="text-sm text-destructive mt-1">{errors.email}</p>
-          )}
-        </div>
-
-        <div className="space-y-2">
-          <Label
-            htmlFor="password"
-            className="text-sm font-bold text-[#8E8E8E]"
-          >
-            Password
-          </Label>
-          <Input
-            id="password"
-            type="password"
-            placeholder="Enter your password"
-            value={formData.password}
-            onChange={handlePasswordChange}
-            className={`h-11 bg-white rounded-[6px] ${
-              errors.password
-                ? "border-destructive focus-visible:ring-destructive"
-                : ""
-            }`}
-            disabled={isLoading}
-          />
-          {errors.password && (
-            <p className="text-sm text-destructive mt-1">{errors.password}</p>
-          )}
-        </div>
-
-        <Button
-          type="submit"
-          className="mt-12 rounded-[6px] w-full h-12 text-base font-medium bg-[#2563EB] hover:bg-[#2563EB]/90"
-          disabled={isLoading}
-        >
-          {isLoading ? "Signing in..." : "Sign In"}
-        </Button>
-      </form>
-
-      <p className="text-center mt-6 text-sm text-muted-foreground">
-        Don't have an account?{" "}
-        <Link
-          href={"/sign-up"}
-          className="text-[#8B5CF6] font-medium cursor-pointer hover:underline"
-        >
-          Sign up.
-        </Link>
-      </p>
     </div>
   );
 }

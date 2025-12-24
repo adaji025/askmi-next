@@ -14,6 +14,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { LogoutSVG } from "./svg";
+import LanguageDropdown from "./lang-dropdown";
 
 const pageNames: Record<string, string> = {
   "/dashboard": "Dashboard",
@@ -26,7 +27,6 @@ const pageNames: Record<string, string> = {
 };
 
 export function SiteHeader() {
-  const [language, setLanguage] = useState("en");
   const pathname = usePathname();
   const pageName = pageNames[pathname] || "Dashboard";
 
@@ -40,27 +40,7 @@ export function SiteHeader() {
         />
         <h1 className="text-2xl font-extrabold">{pageName}</h1>
         <div className="ml-auto flex items-center gap-2">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="sm" className="gap-2">
-                <Globe className="size-4" />
-                <span className="hidden sm:inline">
-                  {language === "en" ? "English" : "עברית"}
-                </span>
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuRadioGroup
-                value={language}
-                onValueChange={setLanguage}
-              >
-                <DropdownMenuRadioItem value="en">
-                  English
-                </DropdownMenuRadioItem>
-                <DropdownMenuRadioItem value="he">עברית</DropdownMenuRadioItem>
-              </DropdownMenuRadioGroup>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <LanguageDropdown />
           <Button variant="ghost" size="sm" className="relative">
             <Bell className="size-4" />
             <span className="absolute top-1 right-1.5 size-2 bg-[#8B5CF6] rounded-full"></span>
