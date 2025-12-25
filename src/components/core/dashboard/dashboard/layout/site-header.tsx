@@ -1,17 +1,16 @@
 "use client";
 
-import { useState } from "react";
 import { usePathname } from "next/navigation";
-import { Globe, Bell } from "lucide-react";
+import { Bell } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { SidebarTrigger } from "@/components/ui/sidebar";
-import { LogoutSVG } from "./svg";
 import LanguageDropdown from "./lang-dropdown";
+import { LogoutSVG } from "./svg";
 
 const pageNames: Record<string, string> = {
   "/dashboard": "Dashboard",
-  "/dashboard/campaigns": "Campaign",
+  "/dashboard/campaigns": "Campaigns",
   "/dashboard/surveys": "Surveys",
   "/dashboard/analytics": "Analytics",
   "/dashboard/influencers": "Influencers",

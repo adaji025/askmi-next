@@ -1,5 +1,5 @@
 "us";
-import { StatCard } from "@/components/core/dashboard/stat-card";
+import { StatCard } from "@/components/core/dashboard/dashboard/stat-card";
 
 const Home = () => {
   return <div>hello world</div>;

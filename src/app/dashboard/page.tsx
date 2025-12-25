@@ -1,16 +1,16 @@
 import { activities, campaigns } from "@/components/core/dashboard/data";
-import { ActivityItem } from "@/components/core/dashboard/recent-active-item";
-import { CampaignCard } from "@/components/core/dashboard/campaign-card";
-import { StatCard } from "@/components/core/dashboard/stat-card";
+import { ActivityItem } from "@/components/core/dashboard/dashboard/recent-active-item";
+import { CampaignCard } from "@/components/core/dashboard/dashboard/campaign-card";
+import { StatCard } from "@/components/core/dashboard/dashboard/stat-card";
 import {
   ActiveCampaignSVG,
   CompletionRateSVG,
   TotalResponseSVG,
   TotalSurveySVG,
-} from "@/components/core/dashboard/stat-card/svg";
+} from "@/components/core/dashboard/dashboard/stat-card/svg";
 import React from "react";
 import Image from "next/image";
-import { CampaignCTA } from "@/components/core/dashboard/campaign-card/campaign-cta";
+import { CampaignCTA } from "@/components/core/dashboard/dashboard/campaign-card/campaign-cta";
 
 const stats = [
   {

@@ -19,9 +19,9 @@ import {
   DashboardSVG,
   InfluencersSVG,
   SurveysSVG,
-} from "../dashboard/layout/svg";
-import { NavMain } from "../dashboard/layout/nav-main";
-import { NavUser } from "../dashboard/layout/nav-user";
+} from "./svg";
+import { NavMain } from "./nav-main";
+import { NavUser } from "./nav-user";
 
 const data = {
   user: {

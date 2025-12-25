@@ -1,10 +1,11 @@
-
 const Campaigns = () => {
   return (
     <div>
-      campaigns page
+      <div className="">
+        Track, manage, and optimize all your survey campaigns in one place
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default Campaigns
+export default Campaigns;

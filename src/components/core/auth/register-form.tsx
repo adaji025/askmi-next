@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import LanguageDropdown from "../dashboard/layout/lang-dropdown";
+import LanguageDropdown from "../dashboard/dashboard/layout/lang-dropdown";
 import InfluenceDirections from "./influencer-directions";
 
 export function RegisterForm() {

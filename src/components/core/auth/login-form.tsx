@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import LanguageDropdown from "../dashboard/layout/lang-dropdown";
+import LanguageDropdown from "../dashboard/dashboard/layout/lang-dropdown";
 
 export function LoginForm() {
   const [formData, setFormData] = useState({
