@@ -12,8 +12,6 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { NavMain } from "./nav-main";
-import { NavUser } from "./nav-user";
 import Image from "next/image";
 import {
   AnalyticsSVG,
@@ -23,6 +21,8 @@ import {
   InfluencersSVG,
   SurveysSVG,
 } from "./svg";
+import { NavMain } from "./nav-main";
+import { NavUser } from "./nav-user";
 
 const data = {
   user: {

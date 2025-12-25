@@ -1,7 +1,8 @@
-import React from "react";
+"us";
+import { StatCard } from "@/components/core/dashboard/stat-card";
 
 const Home = () => {
-  return <div>hello home</div>;
+  return <div>hello world</div>;
 };
 
 export default Home;
