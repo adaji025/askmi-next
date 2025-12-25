@@ -19,11 +19,11 @@ export function CampaignCard({
 
   return (
     <Card className="border border-[#E2E8F0] shadow-none rounded-sm">
-      <CardHeader className="pb-1">
+      <CardHeader className="pb-1 px-3 sm:px-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <div className="h-2 w-2 rounded-full bg-[#8B5CF6]" />
-            <h3 className="text-sm font-bold">{title}</h3>
+            <h3 className="text-xs sm:text-sm font-bold">{title}</h3>
           </div>
           <Badge
             variant="secondary"
@@ -33,12 +33,12 @@ export function CampaignCard({
           </Badge>
         </div>
       </CardHeader>
-      <CardContent>
+      <CardContent className="px-3 sm:px-4">
         <div className="space-y-2">
           <p className="text-xs text-[#8E8E8E] text-right">
             {responses} of {totalResponses} responses
           </p>
-          <Progress value={percentage} className="h-1.5" color="#2563EB" />
+          <Progress value={percentage} className="h-1.5" />
         </div>
       </CardContent>
     </Card>

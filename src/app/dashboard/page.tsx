@@ -1,6 +1,6 @@
 import { activities, campaigns } from "@/components/core/dashboard/data";
 import { ActivityItem } from "@/components/core/dashboard/recent-active-item";
-import { CampaignCard } from "@/components/core/dashboard/recent-active-item/campaign-card";
+import { CampaignCard } from "@/components/core/dashboard/campaign-card";
 import { StatCard } from "@/components/core/dashboard/stat-card";
 import {
   ActiveCampaignSVG,
@@ -53,9 +53,9 @@ const Dashboard = () => {
         ))}
       </div>
 
-      <div className="grid gap-4 lg:grid-cols-2 mt-10">
+      <div className="grid gap-4 lg:grid-cols-2 mt-4">
         {/* Active Campaigns Section */}
-        <div className="space-y-4 bg-white p-5 shadow-xs rounded">
+        <div className="space-y-4 bg-white p-2 sm:p-5 shadow-xs rounded">
           <h2 className="text-base font-semibold">Active Campaigns</h2>
           <div className="space-y-4">
             {campaigns.map((campaign) => (
@@ -71,7 +71,7 @@ const Dashboard = () => {
         </div>
 
         {/* Recent Activity Section */}
-        <div className="space-y-4 bg-white p-5 shadow-xs rounded">
+        <div className="space-y-4 bg-white p-2 sm:p-5 shadow-xs rounded">
           <h2 className="text-base font-bold">Recent Activity</h2>
           <div className="divide-y divide-border">
             {activities.map((activity) => (
