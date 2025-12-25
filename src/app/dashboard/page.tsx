@@ -9,6 +9,8 @@ import {
   TotalSurveySVG,
 } from "@/components/core/dashboard/stat-card/svg";
 import React from "react";
+import Image from "next/image";
+import { CampaignCTA } from "@/components/core/dashboard/campaign-card/campaign-cta";
 
 const stats = [
   {
@@ -44,6 +46,21 @@ const stats = [
     bgColor: "bg-[#F0F2FF]", // Light Lavender
   },
 ] as const;
+
+interface CampaignProps {
+  id: number;
+  title: string;
+  responses: number;
+  totalResponses: number;
+  status: "active";
+}
+
+interface ActivityProps {
+  id: number;
+  title: string;
+  metric: number;
+  timeAgo: string;
+}
 const Dashboard = () => {
   return (
     <div>
@@ -53,36 +70,58 @@ const Dashboard = () => {
         ))}
       </div>
 
+      {/* Campaign CTA */}
+      <div className="mt-4">
+        <CampaignCTA />
+      </div>
       <div className="grid gap-4 lg:grid-cols-2 mt-4">
         {/* Active Campaigns Section */}
         <div className="space-y-4 bg-white p-2 sm:p-5 shadow-xs rounded">
           <h2 className="text-base font-semibold">Active Campaigns</h2>
           <div className="space-y-4">
-            {campaigns.map((campaign) => (
-              <CampaignCard
-                key={campaign.id}
-                title={campaign.title}
-                responses={campaign.responses}
-                totalResponses={campaign.totalResponses}
-                status={campaign.status}
-              />
-            ))}
+            {campaigns.length ? (
+              campaigns?.map((campaign: CampaignProps) => (
+                <CampaignCard
+                  key={campaign.id}
+                  title={campaign.title}
+                  responses={campaign.responses}
+                  totalResponses={campaign.totalResponses}
+                  status={campaign.status}
+                />
+              ))
+            ) : (
+              <div className="min-h-50 gap-2 text-[#8E8E8E] text-sm flex flex-col justify-center items-center">
+                <Image
+                  src={"/images/svgs/campaign-filled.svg"}
+                  width={20}
+                  height={20}
+                  alt="No Active Campaigns"
+                />
+                You have no active campaigns yet
+              </div>
+            )}
           </div>
         </div>
 
         {/* Recent Activity Section */}
         <div className="space-y-4 bg-white p-2 sm:p-5 shadow-xs rounded">
           <h2 className="text-base font-bold">Recent Activity</h2>
-          <div className="divide-y divide-border">
-            {activities.map((activity) => (
-              <ActivityItem
-                key={activity.id}
-                title={activity.title}
-                metric={activity.metric}
-                timeAgo={activity.timeAgo}
-              />
-            ))}
-          </div>
+          {activities.length ? (
+            <div className="divide-y divide-border">
+              {activities.map((activity: ActivityProps) => (
+                <ActivityItem
+                  key={activity.id}
+                  title={activity.title}
+                  metric={activity.metric}
+                  timeAgo={activity.timeAgo}
+                />
+              ))}
+            </div>
+          ) : (
+            <div className="min-h-50 text-sm text-[#8E8E8E] flex flex-col justify-center items-center">
+              No Recent Activity
+            </div>
+          )}
         </div>
       </div>
     </div>
