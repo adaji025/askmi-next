@@ -18,16 +18,16 @@ export function CampaignCard({
   const percentage = (responses / totalResponses) * 100
 
   return (
-    <Card className="border border-border">
-      <CardHeader className="pb-3">
+    <Card className="border border-[#E2E8F0] shadow-none rounded-sm">
+      <CardHeader className="pb-1">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <div className="h-2 w-2 rounded-full bg-[#8B5CF6]" />
-            <h3 className="text-base font-medium">{title}</h3>
+            <h3 className="text-sm font-bold">{title}</h3>
           </div>
           <Badge
             variant="secondary"
-            className="bg-[#DCFCE7] text-[#16A34A] hover:bg-[#DCFCE7] font-normal"
+            className="bg-[#DCFCE7] text-[10px]! rounded border border-[#4AC36026] text-[#16A34A] hover:bg-[#DCFCE7] font-medium"
           >
             {status === "active" ? "Active" : "Inactive"}
           </Badge>
@@ -35,10 +35,10 @@ export function CampaignCard({
       </CardHeader>
       <CardContent>
         <div className="space-y-2">
-          <p className="text-sm text-muted-foreground text-right">
+          <p className="text-xs text-[#8E8E8E] text-right">
             {responses} of {totalResponses} responses
           </p>
-          <Progress value={percentage} className="h-1.5" />
+          <Progress value={percentage} className="h-1.5" color="#2563EB" />
         </div>
       </CardContent>
     </Card>

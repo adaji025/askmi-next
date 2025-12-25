@@ -53,10 +53,10 @@ const Dashboard = () => {
         ))}
       </div>
 
-      <div className="grid gap-8 lg:grid-cols-2 mt-10">
+      <div className="grid gap-4 lg:grid-cols-2 mt-10">
         {/* Active Campaigns Section */}
-        <div className="space-y-4">
-          <h2 className="text-xl font-semibold">Active Campaigns</h2>
+        <div className="space-y-4 bg-white p-5 shadow-xs rounded">
+          <h2 className="text-base font-semibold">Active Campaigns</h2>
           <div className="space-y-4">
             {campaigns.map((campaign) => (
               <CampaignCard
@@ -71,8 +71,8 @@ const Dashboard = () => {
         </div>
 
         {/* Recent Activity Section */}
-        <div className="space-y-4">
-          <h2 className="text-xl font-semibold">Recent Activity</h2>
+        <div className="space-y-4 bg-white p-5 shadow-xs rounded">
+          <h2 className="text-base font-bold">Recent Activity</h2>
           <div className="divide-y divide-border">
             {activities.map((activity) => (
               <ActivityItem
