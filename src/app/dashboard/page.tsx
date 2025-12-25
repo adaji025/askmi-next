@@ -1,3 +1,6 @@
+import { activities, campaigns } from "@/components/core/dashboard/data";
+import { ActivityItem } from "@/components/core/dashboard/recent-active-item";
+import { CampaignCard } from "@/components/core/dashboard/recent-active-item/campaign-card";
 import { StatCard } from "@/components/core/dashboard/stat-card";
 import {
   ActiveCampaignSVG,
@@ -48,6 +51,39 @@ const Dashboard = () => {
         {stats.map((stat, index) => (
           <StatCard key={index} {...stat} />
         ))}
+      </div>
+
+      <div className="grid gap-8 lg:grid-cols-2 mt-10">
+        {/* Active Campaigns Section */}
+        <div className="space-y-4">
+          <h2 className="text-xl font-semibold">Active Campaigns</h2>
+          <div className="space-y-4">
+            {campaigns.map((campaign) => (
+              <CampaignCard
+                key={campaign.id}
+                title={campaign.title}
+                responses={campaign.responses}
+                totalResponses={campaign.totalResponses}
+                status={campaign.status}
+              />
+            ))}
+          </div>
+        </div>
+
+        {/* Recent Activity Section */}
+        <div className="space-y-4">
+          <h2 className="text-xl font-semibold">Recent Activity</h2>
+          <div className="divide-y divide-border">
+            {activities.map((activity) => (
+              <ActivityItem
+                key={activity.id}
+                title={activity.title}
+                metric={activity.metric}
+                timeAgo={activity.timeAgo}
+              />
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );
