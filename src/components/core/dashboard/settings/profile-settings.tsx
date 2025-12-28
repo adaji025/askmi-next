@@ -11,12 +11,24 @@ import {
 import { useState } from "react";
 import ChangeLangDialog from "./change-lang";
 import EditPhoneNumberDialog from "./edit-phone-number";
+import EditEmailDialog from "./edit-email";
+import EditNameDialog from "./edit-name";
+import EditCompanyNameDialog from "./edit-company-name";
+import EditTimezoneDialog from "./edit-timezone";
 
 export function ProfileSettings() {
   const [openLangDialog, setOpenLangDialog] = useState(false);
   const [currentLanguage, setCurrentLanguage] = useState("en");
   const [openPhoneDialog, setOpenPhoneDialog] = useState(false);
   const [currentPhoneNumber, setCurrentPhoneNumber] = useState("+1 (555) 123-4567");
+  const [openEmailDialog, setOpenEmailDialog] = useState(false);
+  const [currentEmail, setCurrentEmail] = useState("Sarahsmith@example.com");
+  const [openNameDialog, setOpenNameDialog] = useState(false);
+  const [currentName, setCurrentName] = useState("Sarah Smith");
+  const [openCompanyDialog, setOpenCompanyDialog] = useState(false);
+  const [currentCompanyName, setCurrentCompanyName] = useState("Acme Corporation");
+  const [openTimezoneDialog, setOpenTimezoneDialog] = useState(false);
+  const [currentTimezone, setCurrentTimezone] = useState("Pacific Time (PT)");
 
   return (
     <div className="space-y-6">
@@ -32,6 +44,38 @@ export function ProfileSettings() {
         currentPhoneNumber={currentPhoneNumber}
         onSave={(phoneNumber, countryCode) => {
           setCurrentPhoneNumber(`${countryCode} ${phoneNumber}`);
+        }}
+      />
+      <EditEmailDialog
+        open={openEmailDialog}
+        onOpenChange={setOpenEmailDialog}
+        currentEmail={currentEmail}
+        onSave={(email) => {
+          setCurrentEmail(email);
+        }}
+      />
+      <EditNameDialog
+        open={openNameDialog}
+        onOpenChange={setOpenNameDialog}
+        currentName={currentName}
+        onSave={(name) => {
+          setCurrentName(name);
+        }}
+      />
+      <EditCompanyNameDialog
+        open={openCompanyDialog}
+        onOpenChange={setOpenCompanyDialog}
+        currentCompanyName={currentCompanyName}
+        onSave={(companyName) => {
+          setCurrentCompanyName(companyName);
+        }}
+      />
+      <EditTimezoneDialog
+        open={openTimezoneDialog}
+        onOpenChange={setOpenTimezoneDialog}
+        currentTimezone={currentTimezone}
+        onSave={(timezone) => {
+          setCurrentTimezone(timezone);
         }}
       />
       <div className="flex flex-col gap-1">
@@ -89,7 +133,7 @@ export function ProfileSettings() {
             <TableCell className="py-6 w-1/3">
               <div className="flex flex-col">
                 <span className="text-sm font-bold text-foreground">
-                  Sarah Smith
+                  {currentName}
                 </span>
                 <span className="text-xs text-muted-foreground mt-0.5">
                   Your name as it appears to influencers
@@ -100,6 +144,7 @@ export function ProfileSettings() {
               <Button
                 variant="outline"
                 size="sm"
+                onClick={() => setOpenNameDialog(true)}
                 className="h-8 px-4 text-xs font-medium bg-white border-border hover:bg-muted text-foreground"
               >
                 Edit
@@ -117,7 +162,7 @@ export function ProfileSettings() {
             <TableCell className="py-6">
               <div className="flex flex-col">
                 <span className="text-sm font-bold text-foreground">
-                  Sarahsmith@example.com
+                  {currentEmail}
                 </span>
                 <span className="text-xs text-muted-foreground mt-0.5">
                   Primary email for platform communications
@@ -128,6 +173,7 @@ export function ProfileSettings() {
               <Button
                 variant="outline"
                 size="sm"
+                onClick={() => setOpenEmailDialog(true)}
                 className="h-8 px-4 text-xs font-medium bg-white border-border hover:bg-muted text-foreground"
               >
                 Edit
@@ -145,7 +191,7 @@ export function ProfileSettings() {
             <TableCell className="py-6">
               <div className="flex flex-col">
                 <span className="text-sm font-bold text-foreground">
-                  Acme Corporation
+                  {currentCompanyName}
                 </span>
                 <span className="text-xs text-muted-foreground mt-0.5">
                   Your brand or company name
@@ -156,6 +202,7 @@ export function ProfileSettings() {
               <Button
                 variant="outline"
                 size="sm"
+                onClick={() => setOpenCompanyDialog(true)}
                 className="h-8 px-4 text-xs font-medium bg-white border-border hover:bg-muted text-foreground"
               >
                 Edit
@@ -240,7 +287,7 @@ export function ProfileSettings() {
               <TableCell className="py-6 w-1/3">
                 <div className="flex flex-col">
                   <span className="text-sm font-bold text-foreground">
-                    Pacific Time (PT)
+                    {currentTimezone}
                   </span>
                   <span className="text-xs text-muted-foreground mt-0.5">
                     Used for campaign scheduling
@@ -251,6 +298,7 @@ export function ProfileSettings() {
                 <Button
                   variant="outline"
                   size="sm"
+                  onClick={() => setOpenTimezoneDialog(true)}
                   className="h-8 px-4 text-xs font-medium bg-white border-border hover:bg-muted text-foreground"
                 >
                   Change
