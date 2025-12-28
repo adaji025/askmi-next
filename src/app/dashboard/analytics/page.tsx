@@ -66,9 +66,7 @@ const Analytics = () => {
   return (
     <div>
       <div className="flex items-center justify-between">
-        <div className="">
-          Campaign performance and insight metrics all in all
-        </div>
+        <h2>Campaign performance and insight metrics all in all</h2>
         <div className="flex items-center gap-2">
           <div className="flex items-center gap-2">
             <div className="">All Time</div>
@@ -90,7 +88,7 @@ const Analytics = () => {
             className="bg-[#2563EB] cursor-pointer rounded-md text-sm font-medium px-3 text-white hover:bg-blue-700 border-none shadow-none"
           >
             <ExportSVG />
-            Export
+            Export Report
           </Button>
         </div>
       </div>

@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 interface StatCardProps {
   title: string;
   value: string | number;
-  icon: React.ComponentType;
+  icon?: React.ComponentType;
   trend?: string;
   trendType?: "up" | "down";
   bgColor: string;
@@ -29,7 +29,7 @@ export function StatCard({
     >
       <div className="flex justify-between items-start">
         <h3 className="text-sm font-medium text-slate-900">{title}</h3>
-        <Icon />
+        {Icon && <Icon />}
       </div>
 
       <div className="flex justify-between items-end">
