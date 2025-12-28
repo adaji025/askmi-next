@@ -1,3 +1,4 @@
+"use client"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
@@ -7,10 +8,21 @@ import {
   TableCell,
   TableRow,
 } from "@/components/ui/table";
+import { useState } from "react";
+import ChangeLangDialog from "./change-lang";
 
 export function ProfileSettings() {
+  const [openLangDialog, setOpenLangDialog] = useState(false);
+  const [currentLanguage, setCurrentLanguage] = useState("en");
+
   return (
     <div className="space-y-6">
+      <ChangeLangDialog
+        open={openLangDialog}
+        onOpenChange={setOpenLangDialog}
+        currentLanguage={currentLanguage}
+        onSave={(lang) => setCurrentLanguage(lang)}
+      />
       <div className="flex flex-col gap-1">
         <h2 className="text-xl font-bold text-foreground">My Profile</h2>
       </div>
@@ -187,7 +199,7 @@ export function ProfileSettings() {
               <TableCell className="py-6 w-1/3">
                 <div className="flex flex-col">
                   <span className="text-sm font-bold text-foreground">
-                    English
+                    {currentLanguage === "en" ? "English" : "עברית"}
                   </span>
                   <span className="text-xs text-muted-foreground mt-0.5">
                     Platform display language
@@ -198,6 +210,7 @@ export function ProfileSettings() {
                 <Button
                   variant="outline"
                   size="sm"
+                  onClick={() => setOpenLangDialog(true)}
                   className="h-8 px-4 text-xs font-medium bg-white border-border hover:bg-muted text-foreground"
                 >
                   Change
