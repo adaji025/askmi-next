@@ -1,6 +1,7 @@
 import { PlusCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import Link from "next/link";
 
 export function CampaignCTA() {
   return (
@@ -29,11 +30,12 @@ export function CampaignCTA() {
           </div>
         </div>
       </div>
-
-      <Button className="mt-4 shrink-0 text-sm! rounded-md bg-[#2563eb] px-6 py-6 font-semibold hover:bg-[#1d4ed8] md:mt-0 md:self-end">
-        <PlusCircle className="h-5 w-5" />
-        New campaign
-      </Button>
+      <Link href="/dashboard/create-campaign">
+        <Button className="mt-4 shrink-0 text-sm! rounded-md bg-[#2563eb] px-6 py-6 font-semibold hover:bg-[#1d4ed8] md:mt-0 md:self-end">
+          <PlusCircle className="h-5 w-5" />
+          New campaign
+        </Button>
+      </Link>
     </div>
   );
 }

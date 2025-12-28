@@ -22,10 +22,12 @@ const pageNames: Record<string, string> = {
 export function SiteHeader() {
   const pathname = usePathname();
   const pageName = pageNames[pathname] || "Dashboard";
-  
+
   // Check if we're on a campaign detail page (/dashboard/campaigns/[id])
-  const isCampaignDetailPage = pathname.startsWith("/dashboard/campaigns/") && 
-                                pathname !== "/dashboard/campaigns";
+  const isCampaignDetailPage =
+    pathname.startsWith("/dashboard/campaigns/") &&
+    pathname !== "/dashboard/campaigns" &&
+    pathname !== "/dashboard/campaigns/create-camapaign";
 
   return (
     <header className="flex h-(--header-height) shrink-0 border-b transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-(--header-height)">

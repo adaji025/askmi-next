@@ -29,6 +29,10 @@ export function NavMain({
     if (url === "/dashboard") {
       return pathname === "/dashboard";
     }
+    // Make campaigns active for both /dashboard/campaigns and /dashboard/create-campaign
+    if (url === "/dashboard/campaigns") {
+      return pathname.startsWith("/dashboard/campaigns") || pathname === "/dashboard/create-campaign";
+    }
     return pathname.startsWith(url);
   };
 
