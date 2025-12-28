@@ -25,7 +25,12 @@ import {
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 
-export function CampaignSetup() {
+interface IProps {
+  handleNext: (
+    value: "Campaign Setup" | "Budget & Timeline" | "Review"
+  ) => void;
+}
+export function CampaignSetup({ handleNext }: IProps) {
   const [surveyType, setSurveyType] = useState<"existing" | "new">("existing");
   const [votes, setVotes] = useState([25000]);
 
@@ -187,7 +192,10 @@ export function CampaignSetup() {
 
       {/* Action Footer */}
       <div className="flex justify-end pt-4">
-        <Button className="px-10 h-12 text-base font-semibold bg-[#2563EB] hover:bg-[#2563EB]/90 rounded-lg transition-all active:scale-95">
+        <Button
+          onClick={() => handleNext("Budget & Timeline")}
+          className="px-10 h-12 text-base font-semibold bg-[#2563EB] hover:bg-[#2563EB]/90 rounded-lg transition-all active:scale-95"
+        >
           Continue
         </Button>
       </div>

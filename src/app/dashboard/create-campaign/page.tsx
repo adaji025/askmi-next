@@ -3,6 +3,8 @@ import { Button } from "@/components/ui/button";
 import React from "react";
 import { useRouter } from "next/navigation";
 import { CampaignSetup } from "@/components/core/dashboard/create-campaign/setup";
+import BudgetAndTimeline from "@/components/core/dashboard/create-campaign/budget-and-timeline";
+import Review from "@/components/core/dashboard/create-campaign/review";
 
 const CreateCampaign = () => {
   const [active, setActive] = React.useState<
@@ -10,8 +12,14 @@ const CreateCampaign = () => {
   >("Campaign Setup");
   const steps = ["Campaign Setup", "Budget & Timeline", "Review"];
   const router = useRouter();
+
+  const handleNext = (
+    value: "Campaign Setup" | "Budget & Timeline" | "Review"
+  ) => {
+    setActive(value);
+  };
   return (
-    <div className="max-w-250 mx-auto px-4">
+    <div className="max-w-250 w-full mx-auto px-4">
       <div className="flex gap-4 items-center justify-between">
         <div className="flex gap-3">
           {steps.map((step, index) => (
@@ -47,7 +55,13 @@ const CreateCampaign = () => {
       </div>
 
       <div className="mt-10">
-        {active === "Campaign Setup" && <CampaignSetup />}
+        {active === "Campaign Setup" && (
+          <CampaignSetup handleNext={handleNext} />
+        )}
+        {active === "Budget & Timeline" && (
+          <BudgetAndTimeline handleNext={handleNext} />
+        )}
+        {active === "Review" && <Review />}
       </div>
     </div>
   );
