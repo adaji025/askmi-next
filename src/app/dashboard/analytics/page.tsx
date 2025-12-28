@@ -1,13 +1,14 @@
 import { AgeDistribution } from "@/components/core/dashboard/analytics/age-distribution";
 import { VoteCollectionChart } from "@/components/core/dashboard/analytics/vote-collection-chart";
-import { InfluencersSVG } from "@/components/core/dashboard/dashboard/layout/svg";
+import {
+  CampaignsSVG,
+  InfluencersSVG,
+  SurveysSVG,
+} from "@/components/core/dashboard/dashboard/layout/svg";
 import { ActivityItem } from "@/components/core/dashboard/dashboard/recent-active-item";
 import { StatCard } from "@/components/core/dashboard/dashboard/stat-card";
-import {
-  TotalResponseSVG,
-  TotalSurveySVG,
-} from "@/components/core/dashboard/dashboard/stat-card/svg";
 import { activities } from "@/components/core/dashboard/data";
+import { WadOfMoneySVG } from "@/components/core/dashboard/svg";
 
 interface ActivityProps {
   id: number;
@@ -15,29 +16,30 @@ interface ActivityProps {
   metric: number;
   timeAgo: string;
 }
+
 const stats = [
   {
-    title: "Verified influencers",
-    value: "20",
+    title: "Total Votes",
+    value: "20, 000",
     icon: InfluencersSVG,
-    // trend: "+4.2%",
-    // trendType: "up",
     bgColor: "bg-[#EAF5FF]", // Light Blue
   },
   {
-    title: "Avg votes per survey",
-    value: "20",
-    icon: TotalResponseSVG,
-    // trend: "+4.2%",
-    // trendType: "up",
+    title: "Active Campaigns",
+    value: "4",
+    icon: CampaignsSVG,
+    bgColor: "bg-[#EAF5FF]", // Light Blue
+  },
+  {
+    title: "Avg Response Rate",
+    value: "78%",
+    icon: SurveysSVG,
     bgColor: "bg-[#F0F2FF]", // Light Lavender
   },
   {
-    title: "Total Surveys",
-    value: "20",
-    icon: TotalSurveySVG,
-    // trend: "-0.03%",
-    // trendType: "down",
+    title: "Total Spend",
+    value: "$63,771",
+    icon: WadOfMoneySVG,
     bgColor: "bg-[#EAF5FF]", // Light Blue
   },
 ] as const;
@@ -45,7 +47,7 @@ const stats = [
 const Analytics = () => {
   return (
     <div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {stats.map((stat, index) => (
           <StatCard key={index} {...stat} />
         ))}
