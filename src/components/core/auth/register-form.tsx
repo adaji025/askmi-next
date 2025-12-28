@@ -6,10 +6,22 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { ChevronDown } from "lucide-react";
+import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import LanguageDropdown from "../dashboard/dashboard/layout/lang-dropdown";
 import InfluenceDirections from "./influencer-directions";
+import { PhoneInput } from "./phone-number-input";
+
+
+
+
 
 export function RegisterForm() {
   const [accountType, setAccountType] = useState<"brand" | "influencer">(
@@ -19,6 +31,8 @@ export function RegisterForm() {
     fullName: "",
     company: "",
     email: "",
+    phoneNumber: "",
+    countryCode: "+1",
     password: "",
     confirmPassword: "",
   });
@@ -26,6 +40,7 @@ export function RegisterForm() {
     fullName: "",
     company: "",
     email: "",
+    phoneNumber: "",
     password: "",
     confirmPassword: "",
   });
@@ -77,12 +92,29 @@ export function RegisterForm() {
     return "";
   };
 
+  const validatePhoneNumber = (phoneNumber: string): string => {
+    if (!phoneNumber.trim()) {
+      return "Phone number is required";
+    }
+    // Basic validation - at least 7 digits
+    const phoneRegex = /^[\d\s\-\(\)]+$/;
+    if (!phoneRegex.test(phoneNumber)) {
+      return "Please enter a valid phone number";
+    }
+    const digitsOnly = phoneNumber.replace(/\D/g, "");
+    if (digitsOnly.length < 7) {
+      return "Phone number must be at least 7 digits";
+    }
+    return "";
+  };
+
   const validateForm = (): boolean => {
     const fullNameError = validateFullName(formData.fullName);
     const companyError = formData.company.trim()
       ? ""
       : "Company name is required";
     const emailError = validateEmail(formData.email);
+    const phoneNumberError = validatePhoneNumber(formData.phoneNumber);
     const passwordError = validatePassword(formData.password);
     const confirmPasswordError = validateConfirmPassword(
       formData.confirmPassword,
@@ -93,6 +125,7 @@ export function RegisterForm() {
       fullName: fullNameError,
       company: companyError,
       email: emailError,
+      phoneNumber: phoneNumberError,
       password: passwordError,
       confirmPassword: confirmPasswordError,
     });
@@ -101,6 +134,7 @@ export function RegisterForm() {
       !fullNameError &&
       !companyError &&
       !emailError &&
+      !phoneNumberError &&
       !passwordError &&
       !confirmPasswordError
     );
@@ -132,9 +166,9 @@ export function RegisterForm() {
 
   const handleFieldChange = (field: keyof typeof formData, value: string) => {
     setFormData({ ...formData, [field]: value });
-    // Clear error when user starts typing
-    if (errors[field]) {
-      setErrors({ ...errors, [field]: "" });
+    // Clear error when user starts typing (only for fields that have errors)
+    if (field !== "countryCode" && errors[field as keyof typeof errors]) {
+      setErrors({ ...errors, [field as keyof typeof errors]: "" });
     }
     // Clear confirm password error if password changes
     if (field === "password" && errors.confirmPassword) {
@@ -159,7 +193,7 @@ export function RegisterForm() {
 
         {/* Account Type Toggle */}
         <div className="max-w-md mx-auto">
-          <div className="flex gap-2 mb-8 bg-secondary border rounded-lg p-0.5 ">
+          <div className="flex gap-2 mb-8 border rounded-lg p-0.5 ">
             <button
               onClick={() => setAccountType("brand")}
               className={`flex-1 py-2.5 px-4 rounded-md text-sm font-medium transition-all ${
@@ -272,6 +306,34 @@ export function RegisterForm() {
                 {errors.email && (
                   <p className="text-sm text-destructive mt-1">
                     {errors.email}
+                  </p>
+                )}
+              </div>
+
+              <div className="space-y-2">
+                <Label
+                  htmlFor="phone"
+                  className="text-sm font-bold text-[#8E8E8E]"
+                >
+                  Phone Number
+                </Label>
+                <PhoneInput
+                  value={formData.phoneNumber}
+                  onChange={(value) => handleFieldChange("phoneNumber", value)}
+                  countryCode={formData.countryCode}
+                  onCountryCodeChange={(code) =>
+                    setFormData({ ...formData, countryCode: code })
+                  }
+                  placeholder="123 - 456 - 789"
+                  className={`h-11 bg-white rounded-[6px] ${
+                    errors.phoneNumber
+                      ? "border-destructive focus-within:ring-destructive"
+                      : ""
+                  }`}
+                />
+                {errors.phoneNumber && (
+                  <p className="text-sm text-destructive mt-1">
+                    {errors.phoneNumber}
                   </p>
                 )}
               </div>
