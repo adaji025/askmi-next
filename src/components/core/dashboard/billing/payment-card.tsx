@@ -11,7 +11,7 @@ interface PaymentCardProps {
 
 export function PaymentCard({ brand, last4, expiry, isDefault }: PaymentCardProps) {
   return (
-    <div className="flex items-center justify-between p-4 border rounded-xl bg-card shadow-sm">
+    <div className="flex items-center justify-between p-4 border rounded-lg bg-card border-[#E2E8F0]">
       <div className="flex items-center gap-4">
         <div className="w-12 h-8 flex items-center justify-center">
           {brand === "mastercard" ? (

@@ -4,7 +4,7 @@ import { PaymentCard } from "./payment-card"
 
 export function BillingSettings() {
   return (
-    <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-4 p-2 sm:p-4">
       {/* Payment Methods Section */}
       <section className="space-y-6 bg-white rounded-md">
         <h2 className="text-xl font-bold tracking-tight">Payment Methods</h2>
@@ -24,7 +24,7 @@ export function BillingSettings() {
       </section>
 
       {/* Billing Information Section */}
-      <section className="space-y-6 bg-white rounded-md">
+      <section className="space-y-6 bg-white rounded-md p-2 sm:p-4">
         <h2 className="text-xl font-bold tracking-tight">Billing Information</h2>
         <div className="space-y-0">
           <div className="flex items-center justify-between py-5 border-b first:pt-0">

@@ -30,7 +30,7 @@ const stats = [
 const Billings = () => {
   return (
     <div>
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between px-2">
         <div className="">Dynamic billing based on actual votes delivered</div>
         <Button
           size="sm"
