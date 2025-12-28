@@ -1,8 +1,7 @@
-"us";
-import { StatCard } from "@/components/core/dashboard/dashboard/stat-card";
+import { redirect } from "next/navigation";
 
 const Home = () => {
-  return <div>hello world</div>;
+  redirect("/dashboard");
 };
 
 export default Home;
