@@ -1,11 +1,12 @@
-import React from 'react'
+import { SettingsComp } from "@/components/core/dashboard/settings";
+import React from "react";
 
 const Settings = () => {
   return (
     <div>
-      settings page
+      <SettingsComp />
     </div>
-  )
-}
+  );
+};
 
-export default Settings
+export default Settings;
