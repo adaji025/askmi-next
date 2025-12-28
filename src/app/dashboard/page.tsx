@@ -8,7 +8,6 @@ import {
   TotalResponseSVG,
   TotalSurveySVG,
 } from "@/components/core/dashboard/dashboard/stat-card/svg";
-import React from "react";
 import Image from "next/image";
 import { CampaignCTA } from "@/components/core/dashboard/dashboard/campaign-card/campaign-cta";
 
