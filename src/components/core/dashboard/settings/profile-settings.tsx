@@ -10,10 +10,13 @@ import {
 } from "@/components/ui/table";
 import { useState } from "react";
 import ChangeLangDialog from "./change-lang";
+import EditPhoneNumberDialog from "./edit-phone-number";
 
 export function ProfileSettings() {
   const [openLangDialog, setOpenLangDialog] = useState(false);
   const [currentLanguage, setCurrentLanguage] = useState("en");
+  const [openPhoneDialog, setOpenPhoneDialog] = useState(false);
+  const [currentPhoneNumber, setCurrentPhoneNumber] = useState("+1 (555) 123-4567");
 
   return (
     <div className="space-y-6">
@@ -22,6 +25,14 @@ export function ProfileSettings() {
         onOpenChange={setOpenLangDialog}
         currentLanguage={currentLanguage}
         onSave={(lang) => setCurrentLanguage(lang)}
+      />
+      <EditPhoneNumberDialog
+        open={openPhoneDialog}
+        onOpenChange={setOpenPhoneDialog}
+        currentPhoneNumber={currentPhoneNumber}
+        onSave={(phoneNumber, countryCode) => {
+          setCurrentPhoneNumber(`${countryCode} ${phoneNumber}`);
+        }}
       />
       <div className="flex flex-col gap-1">
         <h2 className="text-xl font-bold text-foreground">My Profile</h2>
@@ -162,7 +173,7 @@ export function ProfileSettings() {
             <TableCell className="py-6">
               <div className="flex flex-col">
                 <span className="text-sm font-bold text-foreground">
-                  +1 (555) 123-4567
+                  {currentPhoneNumber}
                 </span>
                 <span className="text-xs text-muted-foreground mt-0.5">
                   For account security and notifications
@@ -173,6 +184,7 @@ export function ProfileSettings() {
               <Button
                 variant="outline"
                 size="sm"
+                onClick={() => setOpenPhoneDialog(true)}
                 className="h-8 px-4 text-xs font-medium bg-white border-border hover:bg-muted text-foreground"
               >
                 Edit
