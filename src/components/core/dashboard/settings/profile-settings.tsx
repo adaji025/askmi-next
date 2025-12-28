@@ -1,75 +1,297 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { SettingsItem } from "./settings-item";
-import { PreferencesSettings } from "./preference-settings";
+import { Switch } from "@/components/ui/switch";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableRow,
+} from "@/components/ui/table";
 
 export function ProfileSettings() {
   return (
     <div className="space-y-6">
       <div className="flex flex-col gap-1">
-        <h2 className="text-xl font-bold">My Profile</h2>
+        <h2 className="text-xl font-bold text-foreground">My Profile</h2>
       </div>
 
-      <div className="space-y-1">
-        {/* Photo Section */}
-        <div className="flex items-center justify-between py-6 border-b border-border">
-          <div className="flex items-center gap-4">
-            <span className="text-sm font-medium text-muted-foreground w-24">
-              Photo
-            </span>
-            <div className="flex items-center gap-3">
-              <Avatar className="h-10 w-10">
-                <AvatarImage src="/placeholder-user.jpg" alt="DR" />
-                <AvatarFallback className="bg-purple-600 text-white text-xs">
-                  DR
-                </AvatarFallback>
-              </Avatar>
-              <span className="text-xs text-muted-foreground">
-                Shown on your brand profile
+      <Table>
+        <TableBody>
+          {/* Photo Section */}
+          <TableRow className="border-b border-[#E2E8F0]">
+            <TableCell className="py-6">
+              <span className="text-sm font-medium text-muted-foreground">
+                Photo
               </span>
-            </div>
-          </div>
-          <div className="flex gap-2">
-            <Button
-              variant="outline"
-              size="sm"
-              className="h-8 px-4 text-xs font-semibold bg-transparent"
-            >
-              Upload
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              className="h-8 px-4 text-xs font-semibold bg-transparent"
-            >
-              Delete
-            </Button>
-          </div>
+            </TableCell>
+            <TableCell className="py-6">
+              <div className="flex items-center gap-3">
+                <Avatar className="h-12 w-12 bg-linear-to-br from-purple-400 to-pink-400">
+                  <AvatarFallback className="text-white font-semibold text-sm">
+                    DR
+                  </AvatarFallback>
+                </Avatar>
+                <span className="text-xs text-muted-foreground">
+                  Shown on your brand profile
+                </span>
+              </div>
+            </TableCell>
+            <TableCell className="py-6 text-right">
+              <div className="flex gap-2 justify-end">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="h-8 px-4 text-xs font-medium bg-white border-border hover:bg-muted text-foreground"
+                >
+                  Upload
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="h-8 px-4 text-xs font-medium bg-white border-border hover:bg-muted text-foreground"
+                >
+                  Delete
+                </Button>
+              </div>
+            </TableCell>
+          </TableRow>
+
+          {/* Full name */}
+          <TableRow className="border-b border-[#E2E8F0]">
+            <TableCell className="py-6 w-1/3">
+              <span className="text-sm font-medium text-muted-foreground">
+                Full name
+              </span>
+            </TableCell>
+            <TableCell className="py-6 w-1/3">
+              <div className="flex flex-col">
+                <span className="text-sm font-bold text-foreground">
+                  Sarah Smith
+                </span>
+                <span className="text-xs text-muted-foreground mt-0.5">
+                  Your name as it appears to influencers
+                </span>
+              </div>
+            </TableCell>
+            <TableCell className="py-6 text-right w-1/3">
+              <Button
+                variant="outline"
+                size="sm"
+                className="h-8 px-4 text-xs font-medium bg-white border-border hover:bg-muted text-foreground"
+              >
+                Edit
+              </Button>
+            </TableCell>
+          </TableRow>
+
+          {/* Contact email */}
+          <TableRow className="border-b border-[#E2E8F0]">
+            <TableCell className="py-6">
+              <span className="text-sm font-medium text-muted-foreground">
+                Contact email
+              </span>
+            </TableCell>
+            <TableCell className="py-6">
+              <div className="flex flex-col">
+                <span className="text-sm font-bold text-foreground">
+                  Sarahsmith@example.com
+                </span>
+                <span className="text-xs text-muted-foreground mt-0.5">
+                  Primary email for platform communications
+                </span>
+              </div>
+            </TableCell>
+            <TableCell className="py-6 text-right">
+              <Button
+                variant="outline"
+                size="sm"
+                className="h-8 px-4 text-xs font-medium bg-white border-border hover:bg-muted text-foreground"
+              >
+                Edit
+              </Button>
+            </TableCell>
+          </TableRow>
+
+          {/* Company */}
+          <TableRow className="border-b border-[#E2E8F0]">
+            <TableCell className="py-6">
+              <span className="text-sm font-medium text-muted-foreground">
+                Company
+              </span>
+            </TableCell>
+            <TableCell className="py-6">
+              <div className="flex flex-col">
+                <span className="text-sm font-bold text-foreground">
+                  Acme Corporation
+                </span>
+                <span className="text-xs text-muted-foreground mt-0.5">
+                  Your brand or company name
+                </span>
+              </div>
+            </TableCell>
+            <TableCell className="py-6 text-right">
+              <Button
+                variant="outline"
+                size="sm"
+                className="h-8 px-4 text-xs font-medium bg-white border-border hover:bg-muted text-foreground"
+              >
+                Edit
+              </Button>
+            </TableCell>
+          </TableRow>
+
+          {/* Phone number */}
+          <TableRow className="border-b-0">
+            <TableCell className="py-6">
+              <span className="text-sm font-medium text-muted-foreground">
+                Phone number
+              </span>
+            </TableCell>
+            <TableCell className="py-6">
+              <div className="flex flex-col">
+                <span className="text-sm font-bold text-foreground">
+                  +1 (555) 123-4567
+                </span>
+                <span className="text-xs text-muted-foreground mt-0.5">
+                  For account security and notifications
+                </span>
+              </div>
+            </TableCell>
+            <TableCell className="py-6 text-right">
+              <Button
+                variant="outline"
+                size="sm"
+                className="h-8 px-4 text-xs font-medium bg-white border-border hover:bg-muted text-foreground"
+              >
+                Edit
+              </Button>
+            </TableCell>
+          </TableRow>
+        </TableBody>
+      </Table>
+
+      <div className="space-y-6 pt-8">
+        <div className="flex flex-col gap-1">
+          <h2 className="text-xl font-bold text-foreground">Preferences</h2>
         </div>
 
-        <SettingsItem
-          label="Full name"
-          value="Sarah Smith"
-          description="Your name as it appears to Influencers"
-        />
-        <SettingsItem
-          label="Contact email"
-          value="sarahsmith@example.com"
-          description="Primary email for platform communications"
-        />
-        <SettingsItem
-          label="Company"
-          value="Acme Corporation"
-          description="Your brand or company name"
-        />
-        <SettingsItem
-          label="Phone number"
-          value="+1 (555) 123-4567"
-          description="For account security and notifications"
-        />
-      </div>
+        <Table>
+          <TableBody>
+            {/* Language */}
+            <TableRow className="border-b border-[#E2E8F0]">
+              <TableCell className="py-6 w-1/3">
+                <span className="text-sm font-medium text-muted-foreground">
+                  Language
+                </span>
+              </TableCell>
+              <TableCell className="py-6 w-1/3">
+                <div className="flex flex-col">
+                  <span className="text-sm font-bold text-foreground">
+                    English
+                  </span>
+                  <span className="text-xs text-muted-foreground mt-0.5">
+                    Platform display language
+                  </span>
+                </div>
+              </TableCell>
+              <TableCell className="py-6 text-right w-1/3">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="h-8 px-4 text-xs font-medium bg-white border-border hover:bg-muted text-foreground"
+                >
+                  Change
+                </Button>
+              </TableCell>
+            </TableRow>
 
-      <PreferencesSettings />
+            {/* Timezone */}
+            <TableRow className="border-b border-[#E2E8F0]">
+              <TableCell className="py-6 w-1/3">
+                <span className="text-sm font-medium text-muted-foreground">
+                  Timezone
+                </span>
+              </TableCell>
+              <TableCell className="py-6 w-1/3">
+                <div className="flex flex-col">
+                  <span className="text-sm font-bold text-foreground">
+                    Pacific Time (PT)
+                  </span>
+                  <span className="text-xs text-muted-foreground mt-0.5">
+                    Used for campaign scheduling
+                  </span>
+                </div>
+              </TableCell>
+              <TableCell className="py-6 text-right w-1/3">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="h-8 px-4 text-xs font-medium bg-white border-border hover:bg-muted text-foreground"
+                >
+                  Change
+                </Button>
+              </TableCell>
+            </TableRow>
+
+            {/* Campaign updates */}
+            <TableRow className="border-b border-[#E2E8F0]">
+              <TableCell className="py-6 w-1/3">
+                <span className="text-sm font-medium text-muted-foreground">
+                  Campaign updates
+                </span>
+              </TableCell>
+              <TableCell className="py-6 w-1/3">
+                <span className="text-xs text-muted-foreground">
+                  Get notified about campaign milestones
+                </span>
+              </TableCell>
+              <TableCell className="py-6 text-right w-1/3">
+                <Switch
+                  defaultChecked
+                  className="data-[state=checked]:bg-[#2563EB]"
+                />
+              </TableCell>
+            </TableRow>
+
+            {/* Response alerts */}
+            <TableRow className="border-b border-[#E2E8F0]">
+              <TableCell className="py-6 w-1/3">
+                <span className="text-sm font-medium text-muted-foreground">
+                  Response alerts
+                </span>
+              </TableCell>
+              <TableCell className="py-6 w-1/3">
+                <span className="text-xs text-muted-foreground">
+                  Email when target responses are reached
+                </span>
+              </TableCell>
+              <TableCell className="py-6 text-right w-1/3">
+                <Switch
+                  defaultChecked
+                  className="data-[state=checked]:bg-[#2563EB]"
+                />
+              </TableCell>
+            </TableRow>
+
+            {/* Influencer activity */}
+            <TableRow className="border-b-0">
+              <TableCell className="py-6 w-1/3">
+                <span className="text-sm font-medium text-muted-foreground">
+                  Influencer activity
+                </span>
+              </TableCell>
+              <TableCell className="py-6 w-1/3">
+                <span className="text-xs text-muted-foreground">
+                  Updates when influencers join campaigns
+                </span>
+              </TableCell>
+              <TableCell className="py-6 text-right w-1/3">
+                <Switch className="data-[state=checked]:bg-[#2563EB]" />
+              </TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>
+      </div>
     </div>
   );
 }
