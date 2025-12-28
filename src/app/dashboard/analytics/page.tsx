@@ -1,3 +1,4 @@
+"use client";
 import { AgeDistribution } from "@/components/core/dashboard/analytics/age-distribution";
 import { VoteCollectionChart } from "@/components/core/dashboard/analytics/vote-collection-chart";
 import {
@@ -8,7 +9,16 @@ import {
 import { ActivityItem } from "@/components/core/dashboard/dashboard/recent-active-item";
 import { StatCard } from "@/components/core/dashboard/dashboard/stat-card";
 import { activities } from "@/components/core/dashboard/data";
-import { WadOfMoneySVG } from "@/components/core/dashboard/svg";
+import { ExportSVG, WadOfMoneySVG } from "@/components/core/dashboard/svg";
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import React from "react";
 
 interface ActivityProps {
   id: number;
@@ -45,9 +55,46 @@ const stats = [
 ] as const;
 
 const Analytics = () => {
+  const [time, setTime] = React.useState("All Time");
+  const timeItems = [
+    "All Time",
+    "Last Month",
+    "This Month",
+    "Last Year",
+    "This Year",
+  ];
   return (
     <div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="flex items-center justify-between">
+        <div className="">
+          Campaign performance and insight metrics all in all
+        </div>
+        <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2">
+            <div className="">All Time</div>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline">{time}</Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-56" align="start">
+                <DropdownMenuGroup>
+                  {timeItems.map((item, index) => (
+                    <DropdownMenuItem key={index}>{item}</DropdownMenuItem>
+                  ))}
+                </DropdownMenuGroup>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+          <Button
+            size="sm"
+            className="bg-[#2563EB] cursor-pointer rounded-md text-sm font-medium px-3 text-white hover:bg-blue-700 border-none shadow-none"
+          >
+            <ExportSVG />
+            Export
+          </Button>
+        </div>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-4">
         {stats.map((stat, index) => (
           <StatCard key={index} {...stat} />
         ))}
