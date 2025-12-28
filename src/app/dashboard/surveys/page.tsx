@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import SurveyCard from "@/components/core/dashboard/surveys/survey-card";
+import Link from "next/link";
 
 interface Survey {
   id: string;
@@ -45,10 +46,12 @@ export default function Surveys() {
             className="pl-9 h-11 bg-white rounded-md"
           />
         </div>
-        <Button className="h-11 px-6 bg-[#2563EB] hover:bg-[#2563EB]/90 text-white rounded-md">
-          <Plus className="h-5 w-5" />
-          New survey
-        </Button>
+        <Link href={"/create-survey"}>
+          <Button className="h-11 px-6 cursor-pointer bg-[#2563EB] hover:bg-[#2563EB]/90 text-white rounded-md">
+            <Plus className="h-5 w-5" />
+            New survey
+          </Button>
+        </Link>
       </div>
 
       {/* Survey Cards */}
