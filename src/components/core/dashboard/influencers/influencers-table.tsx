@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import { SurveysSVG } from "../dashboard/layout/svg";
+import AddInfluencerDialog from "./add-influencer";
 
 interface Influencer {
   id: number;
@@ -43,6 +44,8 @@ const InfluencersTable = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const totalPages = 100;
   const [jumpToPage, setJumpToPage] = useState("");
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [selectedInfluencer, setSelectedInfluencer] = useState<Influencer | null>(null);
 
   const handlePageChange = (page: number) => {
     if (page >= 1 && page <= totalPages) {
@@ -156,6 +159,10 @@ const InfluencersTable = () => {
                 <Button
                   variant="outline"
                   className="bg-white border-border hover:bg-muted text-foreground text-xs"
+                  onClick={() => {
+                    setSelectedInfluencer(influencer);
+                    setDialogOpen(true);
+                  }}
                 >
                   Add to campaign
                 </Button>
@@ -230,6 +237,12 @@ const InfluencersTable = () => {
           />
         </div>
       </div>
+
+      <AddInfluencerDialog
+        open={dialogOpen}
+        onOpenChange={setDialogOpen}
+        influencerName={selectedInfluencer?.name || ""}
+      />
     </div>
   );
 };
