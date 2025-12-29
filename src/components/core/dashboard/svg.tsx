@@ -86,3 +86,94 @@ export const ExportSVG = () => (
     />
   </svg>
 );
+
+export const MultiChoiceSVG = () => (
+  <svg
+    width="26"
+    height="26"
+    viewBox="0 0 26 26"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <circle cx="13" cy="13" r="12.25" stroke="#2563EB" stroke-width="1.5" />
+    <circle cx="13.0004" cy="12.9999" r="9.28559" fill="#2563EB" />
+  </svg>
+);
+
+export const YesNoSVG = () => (
+  <svg
+    width="26"
+    height="26"
+    viewBox="0 0 26 26"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <circle cx="13" cy="13" r="12.25" stroke="#2563EB" stroke-width="1.5" />
+    <path
+      d="M26 13C26 9.55219 24.6304 6.24558 22.1924 3.80761C19.7544 1.36964 16.4478 2.60303e-07 13 0C9.55219 -2.60303e-07 6.24559 1.36964 3.80761 3.80761C1.36964 6.24558 5.20606e-07 9.55218 0 13L13 13H26Z"
+      fill="#2563EB"
+    />
+  </svg>
+);
+
+export const RatingQSVG = () => (
+  <svg
+    width="26"
+    height="26"
+    viewBox="0 0 26 26"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M9.08984 20.0308V9.02412C9.08984 8.59079 9.21984 8.16829 9.45818 7.81079L12.4157 3.41245C12.8815 2.70829 14.0407 2.20995 15.0265 2.57829C16.0882 2.93579 16.7923 4.12745 16.5648 5.18912L16.0015 8.73162C15.9582 9.05662 16.0448 9.34912 16.229 9.57662C16.4132 9.78245 16.684 9.91245 16.9765 9.91245H21.429C22.2848 9.91245 23.0215 10.2591 23.4548 10.8658C23.8665 11.4508 23.9423 12.2091 23.6715 12.9783L21.0065 21.0925C20.6707 22.4358 19.2082 23.53 17.7565 23.53H13.5315C12.8057 23.53 11.7873 23.2808 11.3215 22.815L9.93484 21.7425C9.40401 21.3416 9.08984 20.7025 9.08984 20.0308Z"
+      fill="#2563EB"
+    />
+    <path
+      d="M5.64352 6.91162H4.52768C2.84852 6.91162 2.16602 7.56162 2.16602 9.16495V20.0633C2.16602 21.6666 2.84852 22.3166 4.52768 22.3166H5.64352C7.32268 22.3166 8.00518 21.6666 8.00518 20.0633V9.16495C8.00518 7.56162 7.32268 6.91162 5.64352 6.91162Z"
+      fill="#2563EB"
+    />
+  </svg>
+);
+
+export const ShortTextSVG = () => (
+  <svg
+    width="32"
+    height="4"
+    viewBox="0 0 32 4"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <rect width="32" height="4" rx="2" fill="#2563EB" />
+  </svg>
+);
+
+export const ChoiceSVG = () => (
+  <svg
+    width="10"
+    height="16"
+    viewBox="0 0 10 16"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <circle cx="2" cy="2" r="2" fill="#E2E8F0" />
+    <circle cx="8" cy="2" r="2" fill="#E2E8F0" />
+    <circle cx="2" cy="8" r="2" fill="#E2E8F0" />
+    <circle cx="8" cy="8" r="2" fill="#E2E8F0" />
+    <circle cx="2" cy="14" r="2" fill="#E2E8F0" />
+    <circle cx="8" cy="14" r="2" fill="#E2E8F0" />
+  </svg>
+);
+
+export const LongTextSVG = () => (
+  <svg
+    width="32"
+    height="16"
+    viewBox="0 0 32 16"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <rect y="6" width="32" height="4" rx="2" fill="#2563EB" />
+    <rect y="12" width="32" height="4" rx="2" fill="#2563EB" />
+    <rect width="12" height="4" rx="2" fill="#2563EB" />
+  </svg>
+);
