@@ -3,13 +3,15 @@
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { MultiChoiceSVG, SmallMultiChoiceSVG } from "../svg";
 
 interface MultiChoiceCardProps {
   questionNumber?: number;
 }
 
-const MultiChoiceCard = ({ questionNumber = 1 }: MultiChoiceCardProps) => {
+const MultiChoiceQuestionCard = ({
+  questionNumber = 1,
+}: MultiChoiceCardProps) => {
   const [question, setQuestion] = useState({
     title: "",
     options: [
@@ -35,10 +37,13 @@ const MultiChoiceCard = ({ questionNumber = 1 }: MultiChoiceCardProps) => {
   return (
     <div className="relative max-w-100 mx-auto mt-5">
       {/* Question Tab */}
-      <div className="absolute -top-7 left-6 z-10">
+      <div className="absolute -top-7 left-13.5 z-10">
         <div className="bg-[#8B5CF6] text-white px-4 py-1.5 rounded-t-xl text-xs font-medium">
           Question {questionNumber}
         </div>
+      </div>
+      <div className="absolute -top-6.5 left-3 z-10">
+        <SmallMultiChoiceSVG />
       </div>
       {/* Required Tab */}
       <div className="absolute -top-7 right-6 z-10">
@@ -85,7 +90,9 @@ const MultiChoiceCard = ({ questionNumber = 1 }: MultiChoiceCardProps) => {
                 <Input
                   type="text"
                   value={option.text}
-                  onChange={(e) => handleAnswerChange(option.id, e.target.value)}
+                  onChange={(e) =>
+                    handleAnswerChange(option.id, e.target.value)
+                  }
                   className="border-0 p-0 h-auto focus-visible:ring-0 focus-visible:ring-offset-0 shadow-none"
                   onClick={(e) => {
                     e.stopPropagation();
@@ -101,4 +108,4 @@ const MultiChoiceCard = ({ questionNumber = 1 }: MultiChoiceCardProps) => {
   );
 };
 
-export default MultiChoiceCard;
+export default MultiChoiceQuestionCard;

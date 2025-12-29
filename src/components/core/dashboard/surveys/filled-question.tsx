@@ -1,10 +1,9 @@
-import React from 'react'
-import MultiChoiceCard from './multi-choice-card'
+import MultiChoiceQuestionCard from './multi-choice-question-card'
 
 const FilledQuestion = () => {
   return (
     <div>
-      <MultiChoiceCard />
+      <MultiChoiceQuestionCard />
     </div>
   )
 }

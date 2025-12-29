@@ -177,3 +177,26 @@ export const LongTextSVG = () => (
     <rect width="12" height="4" rx="2" fill="#2563EB" />
   </svg>
 );
+
+export const SmallMultiChoiceSVG = () => (
+  <svg
+    width="35"
+    height="27"
+    viewBox="0 0 35 27"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M0 10C0 4.47715 4.47715 0 10 0H25C30.5228 0 35 4.47715 35 10V27H0V10Z"
+      fill="#2563EB"
+    />
+    <circle
+      cx="17.5"
+      cy="13.5"
+      r="7.09615"
+      stroke="white"
+      stroke-width="0.807692"
+    />
+    <circle cx="17.4997" cy="13.4989" r="5.35707" fill="white" />
+  </svg>
+);
