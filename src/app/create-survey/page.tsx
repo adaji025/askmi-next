@@ -24,6 +24,7 @@ import QuestionCard from "@/components/core/dashboard/surveys/question-card";
 import EmptyQuestions from "@/components/core/dashboard/surveys/empty-question";
 import EmptySettings from "@/components/core/dashboard/surveys/empty-settings";
 import FilledSettings from "@/components/core/dashboard/surveys/filled-settings";
+import FilledQuestion from "@/components/core/dashboard/surveys/filled-question";
 
 interface QuestionType {
   id: string;
@@ -146,7 +147,8 @@ export default function CreateSurvey() {
       {/* Center Canvas - Survey Builder */}
       <div className="flex-1 p-8 overflow-y-auto">
         <div className="max-w-2xl mx-auto">
-          <EmptyQuestions />
+          {/* <EmptyQuestions /> */}
+          <FilledQuestion />
         </div>
       </div>
 
