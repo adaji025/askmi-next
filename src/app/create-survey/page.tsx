@@ -21,7 +21,9 @@ import {
   YesNoSVG,
 } from "@/components/core/dashboard/svg";
 import QuestionCard from "@/components/core/dashboard/surveys/question-card";
-import Empty from "@/components/core/dashboard/surveys/empty";
+import EmptyQuestions from "@/components/core/dashboard/surveys/empty-question";
+import EmptySettings from "@/components/core/dashboard/surveys/empty-settings";
+import FilledSettings from "@/components/core/dashboard/surveys/filled-settings";
 
 interface QuestionType {
   id: string;
@@ -144,20 +146,14 @@ export default function CreateSurvey() {
       {/* Center Canvas - Survey Builder */}
       <div className="flex-1 p-8 overflow-y-auto">
         <div className="max-w-2xl mx-auto">
-          <Empty />
+          <EmptyQuestions />
         </div>
       </div>
 
       {/* Right Sidebar - Question Settings */}
       <div className="w-80 bg-white border-l border-[#E2E8F0] p-6 overflow-y-auto">
-        <div className="flex flex-col items-center justify-center h-full">
-          <div className="text-center">
-            <Settings className="h-12 w-12 text-[#8B5CF6] mx-auto mb-4" />
-            <p className="text-sm text-muted-foreground">
-              Select a question type to see its settings.
-            </p>
-          </div>
-        </div>
+        <FilledSettings />
+        {/* <EmptySettings /> */}
       </div>
     </div>
   );

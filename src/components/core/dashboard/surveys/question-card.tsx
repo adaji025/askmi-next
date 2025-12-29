@@ -18,7 +18,7 @@ const QuestionCard = ({ question, onSelect }: QuestionCardProps) => {
   
   return (
     <Card
-      className="p-2 cursor-pointer shadow-none hover:shadow-md transition-shadow border border-[#E2E8F0] rounded-md"
+      className="p-2 cursor-pointer shadow-none hover:border-[#2563EB] transition-all border border-[#E2E8F0] rounded-lg"
       onClick={() => onSelect(question.id)}
     >
       <div className="flex items-center justify-between">
