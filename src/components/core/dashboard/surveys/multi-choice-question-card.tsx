@@ -37,13 +37,12 @@ const MultiChoiceQuestionCard = ({
   return (
     <div className="relative max-w-100 mx-auto mt-5">
       {/* Question Tab */}
-      <div className="absolute -top-7 left-13.5 z-10">
+
+      <div className="absolute -top-7 left-4 z-10 flex gap-1 items-end">
+        <SmallMultiChoiceSVG />
         <div className="bg-[#8B5CF6] text-white px-4 py-1.5 rounded-t-xl text-xs font-medium">
           Question {questionNumber}
         </div>
-      </div>
-      <div className="absolute -top-6.5 left-3 z-10">
-        <SmallMultiChoiceSVG />
       </div>
       {/* Required Tab */}
       <div className="absolute -top-7 right-6 z-10">

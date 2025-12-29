@@ -1,9 +1,11 @@
 import MultiChoiceQuestionCard from './multi-choice-question-card'
+import RatingQuestionCard from './rating-question-card'
 
 const FilledQuestion = () => {
   return (
-    <div>
+    <div className='grid gap-8'>
       <MultiChoiceQuestionCard />
+      <RatingQuestionCard />
     </div>
   )
 }
