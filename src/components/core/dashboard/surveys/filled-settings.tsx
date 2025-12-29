@@ -1,5 +1,5 @@
 import { Settings } from "lucide-react";
-import MultiChoiceAnswerCard from "./multi-choice-answer-card";
+import MultiChoiceSettingsCard from "./multi-choice-settings-card";
 
 const FilledSettings = () => {
   return (
@@ -8,7 +8,7 @@ const FilledSettings = () => {
         <Settings className="h-6 w-6 text-[#8B5CF6]" />
         <div className="text-sm font-bold">Question Settings</div>
       </div>
-      <MultiChoiceAnswerCard />
+      <MultiChoiceSettingsCard />
     </div>
   );
 };
