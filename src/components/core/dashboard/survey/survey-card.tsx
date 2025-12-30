@@ -1,7 +1,10 @@
+"use client";
+
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Calendar, Trash2, Users } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 interface SurveyCardProps {
   title: string;
@@ -11,6 +14,8 @@ interface SurveyCardProps {
 }
 
 const SurveyCard = ({ title, status, daysAgo, questionsCount }: SurveyCardProps) => {
+  const t = useTranslations("survey.card");
+
   return (
     <Card className="bg-white rounded-md border p-0 border-[#E2E8F0] shadow-none">
       <CardContent className="p-4">
@@ -23,7 +28,7 @@ const SurveyCard = ({ title, status, daysAgo, questionsCount }: SurveyCardProps)
                 : "bg-[#F3F4F6] text-[#6B7280] border-[#8E8E8E26]"
             }`}
           >
-            {status === "published" ? "Published" : "Draft"}
+            {status === "published" ? t("published") : t("draft")}
           </Badge>
 
           {/* Title */}
@@ -34,16 +39,14 @@ const SurveyCard = ({ title, status, daysAgo, questionsCount }: SurveyCardProps)
             <div className="flex items-center  gap-1.5">
               <Calendar className="h-3 w-3" />
               <span>
-                Created{" "}
                 <strong className="text-foreground">
-                  {daysAgo} days
-                </strong>{" "}
-                ago
+                  {t("createdDaysAgo", { days: daysAgo })}
+                </strong>
               </span>
             </div>
             <div className="flex items-center gap-1.5">
               <Users className="h-3 w-3" />
-              <span>{questionsCount} questions</span>
+              <span>{t("questions", { count: questionsCount })}</span>
             </div>
           </div>
         </div>
@@ -55,7 +58,7 @@ const SurveyCard = ({ title, status, daysAgo, questionsCount }: SurveyCardProps)
           size="sm"
           className="h-8 bg-white text-sm border rounded border-[#EBEBEB] hover:bg-muted text-foreground"
         >
-          Edit
+          {t("edit")}
         </Button>
         <Button
           variant="outline"

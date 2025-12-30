@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import SurveyCard from "@/components/core/dashboard/survey/survey-card";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 
 interface Survey {
   id: string;
@@ -33,6 +34,8 @@ const mockSurveys: Survey[] = [
 ];
 
 export default function Surveys() {
+  const t = useTranslations("survey.page");
+
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -41,14 +44,14 @@ export default function Surveys() {
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
             type="search"
-            placeholder="Search survey..."
+            placeholder={t("searchPlaceholder")}
             className="pl-9 h-11 bg-white rounded-md"
           />
         </div>
         <Link href={"/create-survey"}>
           <Button className="h-11 px-6 cursor-pointer bg-[#2563EB] hover:bg-[#2563EB]/90 text-white rounded-md">
             <Plus className="h-5 w-5" />
-            New survey
+            {t("newSurvey")}
           </Button>
         </Link>
       </div>

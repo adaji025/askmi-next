@@ -10,6 +10,17 @@
   "addOption": "Add Option",
   "removeOption": "Remove Option",
   "questionTitle": "Question Title",
-  "questionTitlePlaceholder": "Enter your question here"
+  "questionTitlePlaceholder": "Enter your question here",
+  "page": {
+    "searchPlaceholder": "Search survey...",
+    "newSurvey": "New survey"
+  },
+  "card": {
+    "published": "Published",
+    "draft": "Draft",
+    "createdDaysAgo": "Created {days} days ago",
+    "questions": "{count} questions",
+    "edit": "Edit"
+  }
 }
 
