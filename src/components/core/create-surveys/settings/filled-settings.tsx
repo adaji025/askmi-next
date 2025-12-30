@@ -1,5 +1,5 @@
 import { Settings } from "lucide-react";
-import MultiChoiceSettingsCard from "./multi-choice-settings-card";
+import MultiChoiceSettingsCard from "../multi-choice-settings-card";
 
 const FilledSettings = () => {
   return (
