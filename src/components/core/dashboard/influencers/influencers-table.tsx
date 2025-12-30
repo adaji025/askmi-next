@@ -17,6 +17,7 @@ import {
 import { cn } from "@/lib/utils";
 import { SurveysSVG } from "../dashboard/layout/svg";
 import AddInfluencerDialog from "./add-influencer";
+import { useTranslations } from "next-intl";
 
 interface Influencer {
   id: number;
@@ -41,6 +42,7 @@ const mockInfluencers: Influencer[] = Array(10).fill({
 });
 
 const InfluencersTable = () => {
+  const t = useTranslations("influencers.table");
   const [currentPage, setCurrentPage] = useState(1);
   const totalPages = 100;
   const [jumpToPage, setJumpToPage] = useState("");
@@ -94,19 +96,19 @@ const InfluencersTable = () => {
         <TableHeader className="bg-[#FAFAFA] border-b border-[#E2E8F0]">
           <TableRow className="hover:bg-transparent">
             <TableHead className="py-4 px-6 text-xs font-semibold text-muted-foreground">
-              INFLUENCER
+              {t("headers.influencer")}
             </TableHead>
             <TableHead className="py-4 px-6 text-xs font-semibold text-muted-foreground">
-              AVG VOTES/SURVEY
+              {t("headers.avgVotesPerSurvey")}
             </TableHead>
             <TableHead className="py-4 px-6 text-xs font-semibold text-muted-foreground">
-              PERFORMANCE SCORE
+              {t("headers.performanceScore")}
             </TableHead>
             <TableHead className="py-4 px-6 text-xs font-semibold text-muted-foreground">
-              COMPLETED SURVEYS
+              {t("headers.completedSurveys")}
             </TableHead>
             <TableHead className="py-4 px-6 text-xs font-semibold text-muted-foreground">
-              LAST UPDATED
+              {t("headers.lastUpdated")}
             </TableHead>
             <TableHead className="py-4 px-6 text-xs font-semibold text-muted-foreground">
               {/* Action column */}
@@ -164,7 +166,7 @@ const InfluencersTable = () => {
                     setDialogOpen(true);
                   }}
                 >
-                  Add to campaign
+                  {t("addToCampaign")}
                 </Button>
               </TableCell>
             </TableRow>
@@ -175,7 +177,7 @@ const InfluencersTable = () => {
       {/* Pagination */}
       <div className="flex items-center justify-between py-4 px-6 border-t border-[#E2E8F0] bg-[#FAFAFA]">
         <div className="text-sm text-muted-foreground">
-          Page {currentPage} of {totalPages}
+          {t("pagination.pageOf", { current: currentPage, total: totalPages })}
         </div>
         <div className="flex items-center gap-2">
           <Button
@@ -219,10 +221,10 @@ const InfluencersTable = () => {
           </Button>
         </div>
         <div className="flex items-center gap-2">
-          <span className="text-sm text-muted-foreground">Jump to page</span>
+          <span className="text-sm text-muted-foreground">{t("pagination.jumpToPage")}</span>
           <Input
             type="number"
-            placeholder="#"
+            placeholder={t("pagination.pagePlaceholder")}
             value={jumpToPage}
             onChange={(e) => setJumpToPage(e.target.value)}
             onKeyDown={(e) => {

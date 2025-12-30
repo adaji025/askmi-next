@@ -1,0 +1,34 @@
+{
+  "page": {
+    "stats": {
+      "verifiedInfluencers": "Verified influencers",
+      "avgVotesPerSurvey": "Avg votes per survey",
+      "totalSurveys": "Total Surveys"
+    }
+  },
+  "table": {
+    "headers": {
+      "influencer": "INFLUENCER",
+      "avgVotesPerSurvey": "AVG VOTES/SURVEY",
+      "performanceScore": "PERFORMANCE SCORE",
+      "completedSurveys": "COMPLETED SURVEYS",
+      "lastUpdated": "LAST UPDATED"
+    },
+    "addToCampaign": "Add to campaign",
+    "pagination": {
+      "pageOf": "Page {current} of {total}",
+      "jumpToPage": "Jump to page",
+      "pagePlaceholder": "#"
+    }
+  },
+  "dialog": {
+    "selectCampaign": "Select Campaign",
+    "chooseCampaignToAdd": "Choose which campaign to add {name} to",
+    "activeCampaigns": "Active Campaigns",
+    "votes": "votes",
+    "influencers": "influencers",
+    "daysLeft": "days left",
+    "continue": "Continue"
+  }
+}
+

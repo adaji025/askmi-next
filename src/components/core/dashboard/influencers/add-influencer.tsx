@@ -12,6 +12,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { CampaignsSVG } from "../dashboard/layout/svg";
+import { useTranslations } from "next-intl";
 
 interface Campaign {
   id: number;
@@ -68,6 +69,7 @@ export function AddInfluencerDialog({
   onOpenChange,
   influencerName,
 }: AddInfluencerDialogProps) {
+  const t = useTranslations("influencers.dialog");
   const [selectedCampaign, setSelectedCampaign] = useState<number | null>(null);
 
   const handleContinue = () => {
@@ -83,18 +85,16 @@ export function AddInfluencerDialog({
       <DialogContent className="max-w-3xl max-h-130 overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="text-lg font-bold">
-            Select Campaign
+            {t("selectCampaign")}
           </DialogTitle>
           <DialogDescription className="text-sm text-foreground">
-            Choose which campaign to add{" "}
-            <span className="font-bold text-[#2563EB]">{influencerName}</span>{" "}
-            to
+            {t("chooseCampaignToAdd", { name: influencerName })}
           </DialogDescription>
         </DialogHeader>
 
         <div className="space-y-4 py-4">
           <div className="bg-white rounded-lg border border-[#E2E8F0] p-2 overflow-y-auto max-h-87.5">
-            <h3 className="font-bold mb-2 text-sm">Active Campaigns</h3>
+            <h3 className="font-bold mb-2 text-sm">{t("activeCampaigns")}</h3>
             <div className="space-y-3">
               {mockCampaigns.map((campaign) => (
                 <button
@@ -115,12 +115,12 @@ export function AddInfluencerDialog({
                     <div className="flex text-[10px] items-center gap-2 text-sm text-muted-foreground">
                       <span>
                         {campaign.currentVotes.toLocaleString()} /{" "}
-                        {campaign.totalVotes.toLocaleString()} votes
+                        {campaign.totalVotes.toLocaleString()} {t("votes")}
                       </span>
                       <span>•</span>
-                      <span>{campaign.influencers} influencers</span>
+                      <span>{campaign.influencers} {t("influencers")}</span>
                       <span>•</span>
-                      <span>{campaign.daysLeft} days left</span>
+                      <span>{campaign.daysLeft} {t("daysLeft")}</span>
                     </div>
                   </div>
                 </button>
@@ -135,7 +135,7 @@ export function AddInfluencerDialog({
             disabled={!selectedCampaign}
             className="px-8 h-12 w-full text-base font-semibold bg-[#2563EB] hover:bg-[#2563EB]/90 rounded-lg transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Continue
+            {t("continue")}
           </Button>
         </div>
       </DialogContent>

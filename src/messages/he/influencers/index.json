@@ -1,0 +1,34 @@
+{
+  "page": {
+    "stats": {
+      "verifiedInfluencers": "אינפלואנסרים מאומתים",
+      "avgVotesPerSurvey": "ממוצע הצבעות לסקר",
+      "totalSurveys": "סה\"כ סקרים"
+    }
+  },
+  "table": {
+    "headers": {
+      "influencer": "אינפלואנסר",
+      "avgVotesPerSurvey": "ממוצע הצבעות/סקר",
+      "performanceScore": "ציון ביצועים",
+      "completedSurveys": "סקרים שהושלמו",
+      "lastUpdated": "עודכן לאחרונה"
+    },
+    "addToCampaign": "הוסף לקמפיין",
+    "pagination": {
+      "pageOf": "עמוד {current} מתוך {total}",
+      "jumpToPage": "קפוץ לעמוד",
+      "pagePlaceholder": "#"
+    }
+  },
+  "dialog": {
+    "selectCampaign": "בחר קמפיין",
+    "chooseCampaignToAdd": "בחר לאיזה קמפיין להוסיף את {name}",
+    "activeCampaigns": "קמפיינים פעילים",
+    "votes": "הצבעות",
+    "influencers": "אינפלואנסרים",
+    "daysLeft": "ימים נותרים",
+    "continue": "המשך"
+  }
+}
+
