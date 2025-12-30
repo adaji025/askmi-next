@@ -1,16 +1,33 @@
 "use client";
 
-import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { YesNoSVG } from "../dashboard/svg";
+import { useQuestionStore } from "@/store/qustion-store";
+import { useMemo } from "react";
 
 interface YesNoQuestionCardProps {
+  questionId: string;
   questionNumber?: number;
 }
 
-const YesNoQuestionCard = ({ questionNumber = 3 }: YesNoQuestionCardProps) => {
-  const [question, setQuestion] = useState("");
+const YesNoQuestionCard = ({ questionId, questionNumber = 3 }: YesNoQuestionCardProps) => {
+  const { getQuestion, updateQuestion } = useQuestionStore();
+  const question = getQuestion(questionId);
+
+  const questionData = useMemo(() => {
+    if (!question) {
+      return { title: "", required: false };
+    }
+    return {
+      title: question.title || "",
+      required: question.required || false,
+    };
+  }, [question]);
+
+  const handleTitleChange = (title: string) => {
+    updateQuestion(questionId, { title });
+  };
 
   return (
     <div className="relative max-w-100 w-full mx-auto mt-5">
@@ -33,8 +50,8 @@ const YesNoQuestionCard = ({ questionNumber = 3 }: YesNoQuestionCardProps) => {
           <Input
             type="text"
             placeholder="Type your question"
-            value={question}
-            onChange={(e) => setQuestion(e.target.value)}
+            value={questionData.title}
+            onChange={(e) => handleTitleChange(e.target.value)}
             className="w-full h-12 text-base"
           />
         </div>

@@ -1,20 +1,37 @@
 "use client";
 
-import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { ThumbsUp } from "lucide-react";
+import { useQuestionStore } from "@/store/qustion-store";
+import { useMemo } from "react";
 
 interface RatingQuestionCardProps {
+  questionId: string;
   questionNumber?: number;
 }
 
 const RatingQuestionCard = ({
+  questionId,
   questionNumber = 2,
 }: RatingQuestionCardProps) => {
-  const [question, setQuestion] = useState("");
-  const [selectedRating, setSelectedRating] = useState<number | null>(null);
+  const { getQuestion, updateQuestion } = useQuestionStore();
+  const question = getQuestion(questionId);
+
+  const questionData = useMemo(() => {
+    if (!question) {
+      return { title: "", required: false };
+    }
+    return {
+      title: question.title || "",
+      required: question.required || false,
+    };
+  }, [question]);
+
+  const handleTitleChange = (title: string) => {
+    updateQuestion(questionId, { title });
+  };
 
   return (
     <div className="relative max-w-100 mx-auto mt-5">
@@ -37,8 +54,8 @@ const RatingQuestionCard = ({
           <Input
             type="text"
             placeholder="Type your question"
-            value={question}
-            onChange={(e) => setQuestion(e.target.value)}
+            value={questionData.title}
+            onChange={(e) => handleTitleChange(e.target.value)}
             className="w-full h-12 text-base"
           />
         </div>
@@ -49,12 +66,7 @@ const RatingQuestionCard = ({
             <Button
               key={number}
               variant="outline"
-              onClick={() => setSelectedRating(number)}
-              className={`h-7 w-7 p-0 rounded-md border text-xs ${
-                selectedRating === number
-                  ? "bg-[#2563EB] text-white border-[#2563EB]"
-                  : "bg-white text-foreground border-gray-300 hover:border-[#2563EB]"
-              }`}
+              className="h-7 w-7 p-0 rounded-md border text-xs bg-white text-foreground border-gray-300 hover:border-[#2563EB]"
             >
               {number}
             </Button>

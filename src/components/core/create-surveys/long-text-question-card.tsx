@@ -1,16 +1,33 @@
 "use client";
 
-import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { LongTextSVG } from "../dashboard/svg";
+import { useQuestionStore } from "@/store/qustion-store";
+import { useMemo } from "react";
 
 interface LongTextQuestionCardProps {
+  questionId: string;
   questionNumber?: number;
 }
 
-const LongTextQuestionCard = ({ questionNumber = 5 }: LongTextQuestionCardProps) => {
-  const [question, setQuestion] = useState("");
+const LongTextQuestionCard = ({ questionId, questionNumber = 5 }: LongTextQuestionCardProps) => {
+  const { getQuestion, updateQuestion } = useQuestionStore();
+  const question = getQuestion(questionId);
+
+  const questionData = useMemo(() => {
+    if (!question) {
+      return { title: "", required: false };
+    }
+    return {
+      title: question.title || "",
+      required: question.required || false,
+    };
+  }, [question]);
+
+  const handleTitleChange = (title: string) => {
+    updateQuestion(questionId, { title });
+  };
 
   return (
     <div className="relative max-w-100 w-full mx-auto mt-5">
@@ -33,8 +50,8 @@ const LongTextQuestionCard = ({ questionNumber = 5 }: LongTextQuestionCardProps)
           <Input
             type="text"
             placeholder="Type your question"
-            value={question}
-            onChange={(e) => setQuestion(e.target.value)}
+            value={questionData.title}
+            onChange={(e) => handleTitleChange(e.target.value)}
             className="w-full h-12 text-base"
           />
         </div>

@@ -1,7 +1,10 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { MoreVertical } from "lucide-react";
 import React from "react";
+import { useDraggable } from "@dnd-kit/core";
 
 interface QuestionCardProps {
   question: {
@@ -16,9 +19,37 @@ interface QuestionCardProps {
 const QuestionCard = ({ question, onSelect }: QuestionCardProps) => {
   const Icon = question.icon;
   
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    isDragging,
+  } = useDraggable({
+    id: `question-type-${question.id}`,
+    data: {
+      type: "question-type",
+      questionType: question.id,
+      title: question.title,
+      subtitle: question.subtitle,
+    },
+  });
+
+  const style = transform
+    ? {
+        transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
+        opacity: isDragging ? 0.4 : 1,
+        transition: isDragging ? "none" : "opacity 0.2s",
+      }
+    : undefined;
+  
   return (
     <Card
-      className="p-2 cursor-pointer shadow-none hover:border-[#2563EB] transition-all border border-[#E2E8F0] rounded-lg"
+      ref={setNodeRef}
+      style={style}
+      {...listeners}
+      {...attributes}
+      className="p-2 cursor-grab active:cursor-grabbing shadow-none hover:border-[#2563EB] transition-all border border-[#E2E8F0] rounded-lg"
       onClick={() => onSelect(question.id)}
     >
       <div className="flex items-center justify-between">
