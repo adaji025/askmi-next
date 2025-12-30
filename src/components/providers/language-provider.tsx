@@ -3,12 +3,36 @@
 import { useEffect, useState } from "react";
 import { useLanguageStore } from "@/store/language-store";
 import { NextIntlClientProvider } from "next-intl";
-import enMessages from "@/messages/en.json";
-import heMessages from "@/messages/he.json";
+import enCommon from "@/messages/en/common.json";
+import enAuth from "@/messages/en/auth/index.json";
+import enLanguage from "@/messages/en/language.json";
+import enProfile from "@/messages/en/profile.json";
+import enCampaign from "@/messages/en/campaign.json";
+import enSurvey from "@/messages/en/survey.json";
+import heCommon from "@/messages/he/common.json";
+import heAuth from "@/messages/he/auth/index.json";
+import heLanguage from "@/messages/he/language.json";
+import heProfile from "@/messages/he/profile.json";
+import heCampaign from "@/messages/he/campaign.json";
+import heSurvey from "@/messages/he/survey.json";
 
 const messagesMap = {
-  en: enMessages,
-  he: heMessages,
+  en: {
+    common: enCommon,
+    auth: enAuth,
+    language: enLanguage,
+    profile: enProfile,
+    campaign: enCampaign,
+    survey: enSurvey,
+  },
+  he: {
+    common: heCommon,
+    auth: heAuth,
+    language: heLanguage,
+    profile: heProfile,
+    campaign: heCampaign,
+    survey: heSurvey,
+  },
 };
 
 export function LanguageProvider({
