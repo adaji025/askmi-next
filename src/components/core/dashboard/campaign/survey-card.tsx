@@ -1,3 +1,5 @@
+"use client";
+
 import { Calendar, Users } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -10,6 +12,7 @@ import { Progress } from "@/components/ui/progress";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 
 interface SurveyCardProps {
   title: string;
@@ -34,6 +37,8 @@ export function SurveyCard({
   completionPercentage,
   daysLeft,
 }: SurveyCardProps) {
+  const t = useTranslations("campaign.surveyCard");
+
   return (
     <Link href="/dashboard/campaigns/1">
       <Card className="flex-1 cursor-pointer rounded-sm shadow-none border-[#E2E8F0] transition-all hover:shadow-md">
@@ -49,7 +54,7 @@ export function SurveyCard({
                   : "bg-orange-50 text-orange-600"
               )}
             >
-              {status.charAt(0).toUpperCase() + status.slice(1)}
+              {status === "active" ? t("active") : t("paused")}
             </Badge>
           </div>
           <p className="line-clamp-2 text-sm text-zinc-500 leading-relaxed">
@@ -61,13 +66,13 @@ export function SurveyCard({
             <div className="flex items-center gap-2 text-zinc-600">
               <Calendar className="h-4 w-4 text-zinc-400" />
               <span className="text-sm font-bold">
-                {daysAgo} days <span className="font-normal">ago</span>
+                {t("daysAgo", { days: daysAgo })}
               </span>
             </div>
             <div className="flex items-center gap-2 text-zinc-600">
               <Users className="h-4 w-4 text-zinc-400" />
               <span className="text-sm font-bold">
-                {influencers} <span className="font-normal">influencers</span>
+                {t("influencers", { count: influencers })}
               </span>
             </div>
           </div>
@@ -75,7 +80,7 @@ export function SurveyCard({
           <div className="space-y-2">
             <div className="flex justify-end">
               <span className="text-xs font-medium text-zinc-900">
-                {responsesCount} of {totalResponses} responses
+                {t("responsesOf", { responsesCount, totalResponses })}
               </span>
             </div>
             <Progress
@@ -91,7 +96,7 @@ export function SurveyCard({
               {completionPercentage}%
             </span>
             <span className="text-[10px] font-bold tracking-wider text-zinc-400 uppercase">
-              Complete
+              {t("complete")}
             </span>
           </div>
           <div className="relative flex flex-col items-center justify-center space-y-1">
@@ -103,7 +108,7 @@ export function SurveyCard({
               {daysLeft} days
             </span>
             <span className="text-[10px] font-bold tracking-wider text-zinc-400 uppercase">
-              Left
+              {t("left")}
             </span>
           </div>
         </CardFooter>

@@ -7,6 +7,7 @@ import enAuth from "@/messages/en/auth/index.json";
 import enLanguage from "@/messages/en/language.json";
 import enProfile from "@/messages/en/profile.json";
 import enCampaign from "@/messages/en/campaign.json";
+import enCampaignPages from "@/messages/en/campaign/index.json";
 import enSurvey from "@/messages/en/survey.json";
 import enDashboard from "@/messages/en/dashboard/index.json";
 import { routing } from "@/i18n/routing";
@@ -16,7 +17,7 @@ const enMessages = {
   auth: enAuth,
   language: enLanguage,
   profile: enProfile,
-  campaign: enCampaign,
+  campaign: { ...enCampaign, ...enCampaignPages },
   survey: enSurvey,
   dashboard: enDashboard,
 };

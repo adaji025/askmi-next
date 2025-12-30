@@ -1,0 +1,40 @@
+{
+  "page": {
+    "description": "עקוב, נהל ואופטמז את כל קמפייני הסקרים שלך במקום אחד"
+  },
+  "filters": {
+    "all": "הכל",
+    "active": "פעיל",
+    "completed": "הושלם"
+  },
+  "search": {
+    "placeholder": "חפש קמפיינים..."
+  },
+  "buttons": {
+    "newCampaign": "קמפיין חדש",
+    "backToCampaigns": "חזור לקמפיינים",
+    "pause": "השהה",
+    "export": "ייצא",
+    "campaignSettings": "הגדרות קמפיין"
+  },
+  "surveyCard": {
+    "active": "פעיל",
+    "paused": "מושהה",
+    "daysAgo": "לפני {days} ימים",
+    "influencers": "{count} אינפלואנסרים",
+    "responsesOf": "{responsesCount} מתוך {totalResponses} תגובות",
+    "complete": "הושלם",
+    "left": "נותר"
+  },
+  "detail": {
+    "activeCampaign": "קמפיין פעיל",
+    "responseProgress": "התקדמות תגובות",
+    "surveyQuestions": "שאלות הסקר",
+    "questionOf": "שאלה {current} מתוך {total}",
+    "complete": "הושלם",
+    "responses": "תגובות",
+    "influencers": "אינפלואנסרים",
+    "left": "נותר"
+  }
+}
+

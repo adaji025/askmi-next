@@ -5,9 +5,11 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Separator } from "@/components/ui/separator";
+import { useTranslations } from "next-intl";
 
 export function CampaignHeader() {
   const router = useRouter();
+  const t = useTranslations("campaign.buttons");
   return (
     <div className="flex items-center h-full flex-1 justify-between bg-background px-4 sm:px-6">
       <div className="flex items-center">
@@ -23,7 +25,7 @@ export function CampaignHeader() {
           className="gap-2 text-sm shadow-none rounded-md font-semibold bg-transparent py-3.5 border border-[#EBEBEB]"
         >
           <ArrowLeft className="h-4 w-4" />
-          <span className="hidden sm:inline">Back to campaigns</span>
+          <span className="hidden sm:inline">{t("backToCampaigns")}</span>
         </Button>
       </div>
       <div className="flex items-center gap-2">
@@ -33,20 +35,20 @@ export function CampaignHeader() {
           className="gap-2 text-sm shadow-none rounded-md font-semibold bg-transparent py-3.5 border border-[#EBEBEB]"
         >
           <Pause className="h-4 w-4 fill-current" />
-          Pause
+          {t("pause")}
         </Button>
         <Button
           variant="outline"
           size="sm"
           className="gap-2 text-sm shadow-none rounded-md font-semibold bg-transparent py-3.5 border border-[#EBEBEB]"
         >
-          Export
+          {t("export")}
         </Button>
         <Button
           size="sm"
           className="bg-[#2563EB] rounded-md text-sm font-medium text-white hover:bg-blue-700 border-none shadow-none"
         >
-          Campaign settings
+          {t("campaignSettings")}
         </Button>
       </div>
     </div>

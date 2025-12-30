@@ -8,6 +8,7 @@ import enAuth from "@/messages/en/auth/index.json";
 import enLanguage from "@/messages/en/language.json";
 import enProfile from "@/messages/en/profile.json";
 import enCampaign from "@/messages/en/campaign.json";
+import enCampaignPages from "@/messages/en/campaign/index.json";
 import enSurvey from "@/messages/en/survey.json";
 import enDashboard from "@/messages/en/dashboard/index.json";
 import heCommon from "@/messages/he/common.json";
@@ -15,6 +16,7 @@ import heAuth from "@/messages/he/auth/index.json";
 import heLanguage from "@/messages/he/language.json";
 import heProfile from "@/messages/he/profile.json";
 import heCampaign from "@/messages/he/campaign.json";
+import heCampaignPages from "@/messages/he/campaign/index.json";
 import heSurvey from "@/messages/he/survey.json";
 import heDashboard from "@/messages/he/dashboard/index.json";
 
@@ -24,7 +26,7 @@ const messagesMap = {
     auth: enAuth,
     language: enLanguage,
     profile: enProfile,
-    campaign: enCampaign,
+    campaign: { ...enCampaign, ...enCampaignPages },
     survey: enSurvey,
     dashboard: enDashboard,
   },
@@ -33,7 +35,7 @@ const messagesMap = {
     auth: heAuth,
     language: heLanguage,
     profile: heProfile,
-    campaign: heCampaign,
+    campaign: { ...heCampaign, ...heCampaignPages },
     survey: heSurvey,
     dashboard: heDashboard,
   },

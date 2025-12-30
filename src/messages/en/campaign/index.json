@@ -1,0 +1,40 @@
+{
+  "page": {
+    "description": "Track, manage, and optimize all your survey campaigns in one place"
+  },
+  "filters": {
+    "all": "All",
+    "active": "Active",
+    "completed": "Completed"
+  },
+  "search": {
+    "placeholder": "Search campaigns..."
+  },
+  "buttons": {
+    "newCampaign": "New campaign",
+    "backToCampaigns": "Back to campaigns",
+    "pause": "Pause",
+    "export": "Export",
+    "campaignSettings": "Campaign settings"
+  },
+  "surveyCard": {
+    "active": "Active",
+    "paused": "Paused",
+    "daysAgo": "{days} days ago",
+    "influencers": "{count} influencers",
+    "responsesOf": "{responsesCount} of {totalResponses} responses",
+    "complete": "Complete",
+    "left": "Left"
+  },
+  "detail": {
+    "activeCampaign": "Active Campaign",
+    "responseProgress": "Response Progress",
+    "surveyQuestions": "Survey Questions",
+    "questionOf": "Question {current} of {total}",
+    "complete": "Complete",
+    "responses": "Responses",
+    "influencers": "Influencers",
+    "left": "Left"
+  }
+}
+

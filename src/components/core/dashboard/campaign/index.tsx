@@ -3,8 +3,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { PlusCircle, Search } from "lucide-react";
 import React from "react";
+import { useTranslations } from "next-intl";
 
 const CampaignComp = () => {
+  const t = useTranslations("campaign");
   const [status, setStatus] = React.useState<"all" | "active" | "completed">(
     "all"
   );
@@ -14,9 +16,9 @@ const CampaignComp = () => {
     label: string;
     count: number;
   }> = [
-    { value: "all", label: "All", count: 12 },
-    { value: "active", label: "Active", count: 5 },
-    { value: "completed", label: "Completed", count: 7 },
+    { value: "all", label: t("filters.all"), count: 12 },
+    { value: "active", label: t("filters.active"), count: 5 },
+    { value: "completed", label: t("filters.completed"), count: 7 },
   ];
   return (
     <div>
@@ -47,13 +49,13 @@ const CampaignComp = () => {
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input
               type="search"
-              placeholder="Search campaigns..."
+              placeholder={t("search.placeholder")}
               className="pl-9 w-64 h-11.5"
             />
           </div>
           <Button className="mt-4 shrink-0 text-sm! rounded-md bg-[#2563eb] px-6 py-6 font-semibold hover:bg-[#1d4ed8] md:mt-0 md:self-end">
             <PlusCircle className="h-5 w-5" />
-            New campaign
+            {t("buttons.newCampaign")}
           </Button>
         </div>
       </div>

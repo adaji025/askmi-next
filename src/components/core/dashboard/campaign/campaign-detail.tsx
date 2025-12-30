@@ -1,10 +1,14 @@
+"use client";
+
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import ActiveInfluencerCard from "../influencers/active-influencer-card";
+import { useTranslations } from "next-intl";
 
 export default function CampaignDetail() {
+  const t = useTranslations("campaign.detail");
   return (
     <div className="max-w-5xl mx-auto p-6 space-y-12">
       {/* Header */}
@@ -13,7 +17,7 @@ export default function CampaignDetail() {
           variant="outline"
           className="bg-[#4AC3600D] rounded text-[#4AC360] border-[#4AC36026] font-medium px-2 py-1 uppercase text-[10px] tracking-wider"
         >
-          Active Campaign
+          {t("activeCampaign")}
         </Badge>
         <h1 className="text-2xl lg:text-4xl font-bold tracking-tight text-blck">
           Product Feedback Survey
@@ -31,7 +35,7 @@ export default function CampaignDetail() {
           <CardContent className="p-6">
             <div className="text-2xl font-bold text-emerald-950">78%</div>
             <div className="text-[10px] font-semibold text-emerald-800 uppercase tracking-widest mt-4">
-              Complete
+              {t("complete")}
             </div>
           </CardContent>
         </Card>
@@ -39,7 +43,7 @@ export default function CampaignDetail() {
           <CardContent className="p-6">
             <div className="text-2xl font-bold text-indigo-950">500</div>
             <div className="text-[10px] font-semibold text-indigo-800 uppercase tracking-widest mt-4">
-              Responses
+              {t("responses")}
             </div>
           </CardContent>
         </Card>
@@ -47,7 +51,7 @@ export default function CampaignDetail() {
           <CardContent className="p-6">
             <div className="text-2xl font-bold text-blue-950">4</div>
             <div className="text-[10px] font-semibold text-blue-800 uppercase tracking-widest mt-4">
-              Influencers
+              {t("influencers")}
             </div>
           </CardContent>
         </Card>
@@ -55,7 +59,7 @@ export default function CampaignDetail() {
           <CardContent className="p-6">
             <div className="text-2xl font-bold text-amber-950">7 days</div>
             <div className="text-[10px] font-semibold text-amber-800 uppercase tracking-widest mt-4">
-              Left
+              {t("left")}
             </div>
           </CardContent>
         </Card>
@@ -64,7 +68,7 @@ export default function CampaignDetail() {
       {/* Response Progress */}
       <div className="space-y-6">
         <div className="flex items-baseline justify-between">
-          <h2 className="text-lg font-bold text-black">Response Progress</h2>
+          <h2 className="text-lg font-bold text-black">{t("responseProgress")}</h2>
           <div className="text-3xl font-bold">
             500 <span className="text-gray-400 font-bold text-lg">/ 1,000</span>
           </div>
@@ -77,12 +81,12 @@ export default function CampaignDetail() {
 
       {/* Survey Questions */}
       <div className="space-y-10 bg-white p-4 lg:p-6 rounded-md">
-        <h2 className="text-lg font-bold text-black">Survey Questions</h2>
+        <h2 className="text-lg font-bold text-black">{t("surveyQuestions")}</h2>
 
         {/* Question 1 */}
         <div className="space-y-4">
           <div className="text-[10px] font-semibold text-indigo-400 uppercase tracking-wider">
-            Question 1 of 2
+            {t("questionOf", { current: 1, total: 2 })}
           </div>
           <h3 className="text-lg font-bold text-black">
             What is your age group?
@@ -102,7 +106,7 @@ export default function CampaignDetail() {
         {/* Question 2 */}
         <div className="space-y-4">
           <div className="text-[10px] font-semibold text-indigo-400 uppercase tracking-wider">
-            Question 2 of 2
+            {t("questionOf", { current: 2, total: 2 })}
           </div>
           <h3 className="text-lg font-bold text-black">
             How satisfied are you with our product?
