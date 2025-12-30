@@ -1,4 +1,12 @@
 {
+  "layout": {
+    "heading": "Monetize your Instagram audience",
+    "description": "Create surveys, launch campaigns, and get real-time data from Instagram influencers and their audiences.",
+    "customerSupport": "Customer support",
+    "customerSupport24": "24/7",
+    "freeTrial": "Free trial",
+    "freeTrialDescription": "7 days free trial"
+  },
   "signIn": {
     "title": "Sign In your account",
     "subtitle": "Welcome back! Please enter your details.",
