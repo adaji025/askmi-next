@@ -1,3 +1,5 @@
+"use client";
+
 import { activities, campaigns } from "@/components/core/dashboard/data";
 import { ActivityItem } from "@/components/core/dashboard/dashboard/recent-active-item";
 import { CampaignCard } from "@/components/core/dashboard/dashboard/campaign-card";
@@ -10,41 +12,45 @@ import {
 } from "@/components/core/dashboard/dashboard/stat-card/svg";
 import Image from "next/image";
 import { CampaignCTA } from "@/components/core/dashboard/dashboard/campaign-card/campaign-cta";
+import { useTranslations } from "next-intl";
 
-const stats = [
-  {
-    title: "Active Campaigns",
-    value: "20",
-    icon: ActiveCampaignSVG,
-    trend: "+4.2%",
-    trendType: "up",
-    bgColor: "bg-[#EAF5FF]", // Light Blue
-  },
-  {
-    title: "Total Responses",
-    value: "20",
-    icon: TotalResponseSVG,
-    trend: "+4.2%",
-    trendType: "up",
-    bgColor: "bg-[#F0F2FF]", // Light Lavender
-  },
-  {
-    title: "Total Surveys",
-    value: "20",
-    icon: TotalSurveySVG,
-    trend: "-0.03%",
-    trendType: "down",
-    bgColor: "bg-[#EAF5FF]", // Light Blue
-  },
-  {
-    title: "Completion Rate",
-    value: "20%",
-    icon: CompletionRateSVG,
-    trend: "+4.2%",
-    trendType: "up",
-    bgColor: "bg-[#F0F2FF]", // Light Lavender
-  },
-] as const;
+const Dashboard = () => {
+  const t = useTranslations("dashboard.stats");
+
+  const stats = [
+    {
+      title: t("activeCampaigns"),
+      value: "20",
+      icon: ActiveCampaignSVG,
+      trend: "+4.2%",
+      trendType: "up" as const,
+      bgColor: "bg-[#EAF5FF]", // Light Blue
+    },
+    {
+      title: t("totalResponses"),
+      value: "20",
+      icon: TotalResponseSVG,
+      trend: "+4.2%",
+      trendType: "up" as const,
+      bgColor: "bg-[#F0F2FF]", // Light Lavender
+    },
+    {
+      title: t("totalSurveys"),
+      value: "20",
+      icon: TotalSurveySVG,
+      trend: "-0.03%",
+      trendType: "down" as const,
+      bgColor: "bg-[#EAF5FF]", // Light Blue
+    },
+    {
+      title: t("completionRate"),
+      value: "20%",
+      icon: CompletionRateSVG,
+      trend: "+4.2%",
+      trendType: "up" as const,
+      bgColor: "bg-[#F0F2FF]", // Light Lavender
+    },
+  ];
 
 interface CampaignProps {
   id: number;
@@ -60,7 +66,9 @@ interface ActivityProps {
   metric: number;
   timeAgo: string;
 }
-const Dashboard = () => {
+  const tSections = useTranslations("dashboard.sections");
+  const tEmpty = useTranslations("dashboard.emptyStates");
+
   return (
     <div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -76,7 +84,7 @@ const Dashboard = () => {
       <div className="grid gap-4 lg:grid-cols-2 mt-4">
         {/* Active Campaigns Section */}
         <div className="space-y-4 bg-white p-2 sm:p-5 shadow-xs rounded">
-          <h2 className="text-base font-semibold">Active Campaigns</h2>
+          <h2 className="text-base font-semibold">{tSections("activeCampaigns")}</h2>
           <div className="space-y-4">
             {campaigns.length ? (
               campaigns?.map((campaign: CampaignProps) => (
@@ -96,7 +104,7 @@ const Dashboard = () => {
                   height={20}
                   alt="No Active Campaigns"
                 />
-                You have no active campaigns yet
+                {tEmpty("noActiveCampaigns")}
               </div>
             )}
           </div>
@@ -104,7 +112,7 @@ const Dashboard = () => {
 
         {/* Recent Activity Section */}
         <div className="space-y-4 bg-white p-2 sm:p-5 shadow-xs rounded">
-          <h2 className="text-base font-bold">Recent Activity</h2>
+          <h2 className="text-base font-bold">{tSections("recentActivity")}</h2>
           {activities.length ? (
             <div className="divide-y divide-border">
               {activities.map((activity: ActivityProps) => (
@@ -118,7 +126,7 @@ const Dashboard = () => {
             </div>
           ) : (
             <div className="min-h-50 text-sm text-[#8E8E8E] flex flex-col justify-center items-center">
-              No Recent Activity
+              {tEmpty("noRecentActivity")}
             </div>
           )}
         </div>

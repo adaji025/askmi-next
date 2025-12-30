@@ -9,12 +9,14 @@ import enLanguage from "@/messages/en/language.json";
 import enProfile from "@/messages/en/profile.json";
 import enCampaign from "@/messages/en/campaign.json";
 import enSurvey from "@/messages/en/survey.json";
+import enDashboard from "@/messages/en/dashboard/index.json";
 import heCommon from "@/messages/he/common.json";
 import heAuth from "@/messages/he/auth/index.json";
 import heLanguage from "@/messages/he/language.json";
 import heProfile from "@/messages/he/profile.json";
 import heCampaign from "@/messages/he/campaign.json";
 import heSurvey from "@/messages/he/survey.json";
+import heDashboard from "@/messages/he/dashboard/index.json";
 
 const messagesMap = {
   en: {
@@ -24,6 +26,7 @@ const messagesMap = {
     profile: enProfile,
     campaign: enCampaign,
     survey: enSurvey,
+    dashboard: enDashboard,
   },
   he: {
     common: heCommon,
@@ -32,6 +35,7 @@ const messagesMap = {
     profile: heProfile,
     campaign: heCampaign,
     survey: heSurvey,
+    dashboard: heDashboard,
   },
 };
 

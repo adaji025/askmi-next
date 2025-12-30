@@ -8,6 +8,7 @@ import enLanguage from "@/messages/en/language.json";
 import enProfile from "@/messages/en/profile.json";
 import enCampaign from "@/messages/en/campaign.json";
 import enSurvey from "@/messages/en/survey.json";
+import enDashboard from "@/messages/en/dashboard/index.json";
 import { routing } from "@/i18n/routing";
 
 const enMessages = {
@@ -17,6 +18,7 @@ const enMessages = {
   profile: enProfile,
   campaign: enCampaign,
   survey: enSurvey,
+  dashboard: enDashboard,
 };
 
 const inter = Inter({

@@ -1,0 +1,23 @@
+{
+  "stats": {
+    "activeCampaigns": "Active Campaigns",
+    "totalResponses": "Total Responses",
+    "totalSurveys": "Total Surveys",
+    "completionRate": "Completion Rate"
+  },
+  "sections": {
+    "activeCampaigns": "Active Campaigns",
+    "recentActivity": "Recent Activity"
+  },
+  "emptyStates": {
+    "noActiveCampaigns": "You have no active campaigns yet",
+    "noRecentActivity": "No Recent Activity"
+  },
+  "cta": {
+    "title": "Create Your First Campaign!",
+    "description1": "Start collecting precise audience insights through influencers.",
+    "description2": "Set up your survey, choose your target audience, and let our smart matching system find the perfect influencers for you.",
+    "button": "New campaign"
+  }
+}
+
