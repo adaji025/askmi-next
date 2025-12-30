@@ -15,8 +15,10 @@ const ShortTextQuestionCard = ({
   questionId,
   questionNumber = 4,
 }: ShortTextQuestionCardProps) => {
-  const { getQuestion, updateQuestion } = useQuestionStore();
-  const question = getQuestion(questionId);
+  const question = useQuestionStore((state) =>
+    state.questions.find((q) => q.id === questionId)
+  );
+  const updateQuestion = useQuestionStore((state) => state.updateQuestion);
 
   const questionData = useMemo(() => {
     if (!question) {
@@ -55,7 +57,7 @@ const ShortTextQuestionCard = ({
             placeholder="Type your question"
             value={questionData.title}
             onChange={(e) => handleTitleChange(e.target.value)}
-            className="w-full h-12 text-base"
+            className="w-full h-9 text-xs placeholder:text-xs"
           />
         </div>
       </Card>

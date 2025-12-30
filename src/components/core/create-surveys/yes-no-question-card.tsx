@@ -12,8 +12,10 @@ interface YesNoQuestionCardProps {
 }
 
 const YesNoQuestionCard = ({ questionId, questionNumber = 3 }: YesNoQuestionCardProps) => {
-  const { getQuestion, updateQuestion } = useQuestionStore();
-  const question = getQuestion(questionId);
+  const question = useQuestionStore((state) =>
+    state.questions.find((q) => q.id === questionId)
+  );
+  const updateQuestion = useQuestionStore((state) => state.updateQuestion);
 
   const questionData = useMemo(() => {
     if (!question) {

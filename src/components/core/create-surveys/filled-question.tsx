@@ -33,7 +33,7 @@ const FilledQuestion = () => {
   };
 
   return (
-    <div className="grid gap-12">
+    <div className="grid gap-8">
       {questions
         .sort((a, b) => a.order - b.order)
         .map((question) => renderQuestion(question))}

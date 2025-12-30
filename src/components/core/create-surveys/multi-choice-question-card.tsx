@@ -15,8 +15,10 @@ const MultiChoiceQuestionCard = ({
   questionId,
   questionNumber = 1,
 }: MultiChoiceCardProps) => {
-  const { getQuestion, updateQuestion } = useQuestionStore();
-  const question = getQuestion(questionId);
+  const question = useQuestionStore((state) =>
+    state.questions.find((q) => q.id === questionId)
+  );
+  const updateQuestion = useQuestionStore((state) => state.updateQuestion);
 
   const questionData = useMemo(() => {
     if (!question) {
@@ -55,7 +57,7 @@ const MultiChoiceQuestionCard = ({
   };
 
   return (
-    <div className="relative max-w-100 mx-auto mt-5">
+    <div className="relative max-w-100 w-full mx-auto mt-5">
       {/* Question Tab */}
 
       <div className="absolute -top-7 left-4 z-10 flex gap-1 items-end">
@@ -74,9 +76,9 @@ const MultiChoiceQuestionCard = ({
       )}
 
       {/* Main Card */}
-      <Card className="relative border-[#8B5CF6] border rounded-2xl shadow-sm bg-white p-6">
+      <Card className="relative border-[#8B5CF6] border rounded-2xl shadow-sm bg-white p-4">
         {/* Question Input */}
-        <div className="mb-2">
+        <div>
           <Input
             type="text"
             placeholder="Type your question"
@@ -87,7 +89,7 @@ const MultiChoiceQuestionCard = ({
         </div>
 
         {/* Answer Options Grid */}
-        <div className="grid grid-cols-2 gap-4">
+        {/* <div className="grid grid-cols-2 gap-4">
           {questionData.options.map((option) => (
             <div
               key={option.id}
@@ -117,7 +119,7 @@ const MultiChoiceQuestionCard = ({
               </label>
             </div>
           ))}
-        </div>
+        </div> */}
       </Card>
     </div>
   );

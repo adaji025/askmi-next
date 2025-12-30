@@ -12,8 +12,10 @@ interface LongTextQuestionCardProps {
 }
 
 const LongTextQuestionCard = ({ questionId, questionNumber = 5 }: LongTextQuestionCardProps) => {
-  const { getQuestion, updateQuestion } = useQuestionStore();
-  const question = getQuestion(questionId);
+  const question = useQuestionStore((state) =>
+    state.questions.find((q) => q.id === questionId)
+  );
+  const updateQuestion = useQuestionStore((state) => state.updateQuestion);
 
   const questionData = useMemo(() => {
     if (!question) {
@@ -52,7 +54,7 @@ const LongTextQuestionCard = ({ questionId, questionNumber = 5 }: LongTextQuesti
             placeholder="Type your question"
             value={questionData.title}
             onChange={(e) => handleTitleChange(e.target.value)}
-            className="w-full h-12 text-base"
+            className="w-full h-9 text-base"
           />
         </div>
       </Card>
