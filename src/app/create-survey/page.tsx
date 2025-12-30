@@ -18,7 +18,7 @@ function CanvasDropZone({ children }: { children: React.ReactNode }) {
   return (
     <div
       ref={setNodeRef}
-      className={`min-h-full transition-all duration-200 ${
+      className={`w-full min-h-full transition-all duration-200 ${
         isOver ? "bg-blue-50/50 ring-2 ring-blue-300 ring-offset-2 rounded-lg" : ""
       }`}
     >
@@ -47,7 +47,9 @@ export default function CreateSurvey() {
     const activeData = active.data.current;
     if (
       activeData?.type === "question-type" &&
-      (over.id === "canvas-drop-zone" || over.id === "empty-questions-drop-zone")
+      (over.id === "canvas-drop-zone" || 
+       over.id === "empty-questions-drop-zone" ||
+       over.id === "questions-bottom-drop-zone")
     ) {
       const questionType = activeData.questionType as string;
       
@@ -90,9 +92,9 @@ export default function CreateSurvey() {
         {/* Left Sidebar - Question Types */}
         <SideNav />
         {/* Center Canvas - Survey Builder */}
-        <div className="flex-1 p-8 overflow-y-auto">
+        <div className="flex-1 p-8 overflow-y-auto relative">
           <CanvasDropZone>
-            <div className="max-w-2xl mx-auto">
+            <div className="max-w-2xl mx-auto min-h-full">
               {questions.length === 0 ? <EmptyQuestions /> : <FilledQuestion />}
             </div>
           </CanvasDropZone>
