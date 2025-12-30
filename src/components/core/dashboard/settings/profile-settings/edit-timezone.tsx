@@ -18,6 +18,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useTranslations } from "next-intl";
 
 interface Timezone {
   value: string;
@@ -49,6 +50,9 @@ export function EditTimezoneDialog({
   currentTimezone = "Pacific Time (PT)",
   onSave,
 }: EditTimezoneDialogProps) {
+  const t = useTranslations("profile.dialogs.editTimezone");
+  const tCommon = useTranslations("common");
+  
   // Find the timezone value from the label
   const getTimezoneValue = (label: string) => {
     return timezones.find((tz) => tz.label === label)?.value || "America/Los_Angeles";
@@ -77,21 +81,21 @@ export function EditTimezoneDialog({
       <DialogContent className="max-w-md">
         <DialogHeader>
           <DialogTitle className="text-xl font-bold">
-            Edit Timezone
+            {t("title")}
           </DialogTitle>
           <DialogDescription className="text-base text-foreground">
-            Update your timezone
+            {t("description")}
           </DialogDescription>
         </DialogHeader>
 
         <div className="space-y-4 py-4">
           <div className="space-y-2">
             <Label htmlFor="timezone" className="text-sm text-muted-foreground">
-              Timezone
+              {t("label")}
             </Label>
             <Select value={selectedTimezone} onValueChange={setSelectedTimezone}>
               <SelectTrigger id="timezone" className="h-12 w-full">
-                <SelectValue placeholder="Select timezone" />
+                <SelectValue placeholder={t("selectPlaceholder")} />
               </SelectTrigger>
               <SelectContent>
                 {timezones.map((timezone) => (
@@ -110,13 +114,13 @@ export function EditTimezoneDialog({
             onClick={() => onOpenChange(false)}
             className="h-10 px-6"
           >
-            Cancel
+            {tCommon("cancel")}
           </Button>
           <Button
             onClick={handleSave}
             className="h-10 px-6 bg-[#2563EB] hover:bg-[#2563EB]/90 text-white"
           >
-            Save Changes
+            {tCommon("saveChanges")}
           </Button>
         </DialogFooter>
       </DialogContent>

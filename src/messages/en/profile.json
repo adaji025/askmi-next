@@ -20,6 +20,38 @@
   "responseAlerts": "Response alerts",
   "responseAlertsDescription": "Email when target responses are reached",
   "influencerActivity": "Influencer activity",
-  "influencerActivityDescription": "Updates when influencers join campaigns"
+  "influencerActivityDescription": "Updates when influencers join campaigns",
+  "dialogs": {
+    "editPhoneNumber": {
+      "title": "Edit phone number",
+      "description": "Update your contact number",
+      "label": "Phone number",
+      "placeholder": "123 - 456 - 789"
+    },
+    "editEmail": {
+      "title": "Edit Email Address",
+      "description": "Update your contact email",
+      "label": "Email Address",
+      "placeholder": "sarah@acme.com"
+    },
+    "editName": {
+      "title": "Edit Full Name",
+      "description": "Update your full name",
+      "label": "Full Name",
+      "placeholder": "Sarah Smith"
+    },
+    "editCompanyName": {
+      "title": "Edit Company Name",
+      "description": "Update your company name",
+      "label": "Company Name",
+      "placeholder": "Acme Corporation"
+    },
+    "editTimezone": {
+      "title": "Edit Timezone",
+      "description": "Update your timezone",
+      "label": "Timezone",
+      "selectPlaceholder": "Select timezone"
+    }
+  }
 }
 

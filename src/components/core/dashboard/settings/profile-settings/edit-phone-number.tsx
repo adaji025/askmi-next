@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import { PhoneInput } from "../../../auth/phone-number-input";
+import { useTranslations } from "next-intl";
 
 interface CountryCode {
   code: string;
@@ -57,6 +58,8 @@ export function EditPhoneNumberDialog({
   currentPhoneNumber = "+1 (555) 123-4567",
   onSave,
 }: EditPhoneNumberDialogProps) {
+  const t = useTranslations("profile.dialogs.editPhoneNumber");
+  const tCommon = useTranslations("common");
   const [countryCode, setCountryCode] = useState("+972");
   const [phoneNumber, setPhoneNumber] = useState("");
 
@@ -87,10 +90,10 @@ export function EditPhoneNumberDialog({
       <DialogContent className="max-w-md">
         <DialogHeader>
           <DialogTitle className="text-xl font-bold">
-            Edit phone number
+            {t("title")}
           </DialogTitle>
           <DialogDescription className="text-base text-foreground">
-            Update your contact number
+            {t("description")}
           </DialogDescription>
         </DialogHeader>
 
@@ -100,14 +103,14 @@ export function EditPhoneNumberDialog({
               htmlFor="phone-number"
               className="text-sm text-muted-foreground"
             >
-              Phone number
+              {t("label")}
             </Label>
             <PhoneInput
               value={phoneNumber}
               onChange={setPhoneNumber}
               countryCode={countryCode}
               onCountryCodeChange={setCountryCode}
-              placeholder="123 - 456 - 789"
+              placeholder={t("placeholder")}
             />
           </div>
         </div>
@@ -118,13 +121,13 @@ export function EditPhoneNumberDialog({
             onClick={() => onOpenChange(false)}
             className="h-10 px-6"
           >
-            Cancel
+            {tCommon("cancel")}
           </Button>
           <Button
             onClick={handleSave}
             className="h-10 px-6 bg-[#2563EB] hover:bg-[#2563EB]/90 text-white"
           >
-            Save Changes
+            {tCommon("saveChanges")}
           </Button>
         </DialogFooter>
       </DialogContent>

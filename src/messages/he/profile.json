@@ -20,6 +20,38 @@
   "responseAlerts": "התראות תגובה",
   "responseAlertsDescription": "אימייל כאשר מגיעים לתגובות יעד",
   "influencerActivity": "פעילות אינפלואנסר",
-  "influencerActivityDescription": "עדכונים כאשר אינפלואנסרים מצטרפים לקמפיינים"
+  "influencerActivityDescription": "עדכונים כאשר אינפלואנסרים מצטרפים לקמפיינים",
+  "dialogs": {
+    "editPhoneNumber": {
+      "title": "ערוך מספר טלפון",
+      "description": "עדכן את מספר יצירת הקשר שלך",
+      "label": "מספר טלפון",
+      "placeholder": "123 - 456 - 789"
+    },
+    "editEmail": {
+      "title": "ערוך כתובת אימייל",
+      "description": "עדכן את האימייל ליצירת קשר שלך",
+      "label": "כתובת אימייל",
+      "placeholder": "sarah@acme.com"
+    },
+    "editName": {
+      "title": "ערוך שם מלא",
+      "description": "עדכן את השם המלא שלך",
+      "label": "שם מלא",
+      "placeholder": "Sarah Smith"
+    },
+    "editCompanyName": {
+      "title": "ערוך שם חברה",
+      "description": "עדכן את שם החברה שלך",
+      "label": "שם חברה",
+      "placeholder": "Acme Corporation"
+    },
+    "editTimezone": {
+      "title": "ערוך אזור זמן",
+      "description": "עדכן את אזור הזמן שלך",
+      "label": "אזור זמן",
+      "selectPlaceholder": "בחר אזור זמן"
+    }
+  }
 }
 

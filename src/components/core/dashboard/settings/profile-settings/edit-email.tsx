@@ -12,6 +12,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useTranslations } from "next-intl";
 
 interface EditEmailDialogProps {
   open: boolean;
@@ -26,6 +27,8 @@ export function EditEmailDialog({
   currentEmail = "sarah@acme.com",
   onSave,
 }: EditEmailDialogProps) {
+  const t = useTranslations("profile.dialogs.editEmail");
+  const tCommon = useTranslations("common");
   const [email, setEmail] = useState("");
 
   // Set email when dialog opens
@@ -48,24 +51,24 @@ export function EditEmailDialog({
       <DialogContent className="max-w-md">
         <DialogHeader>
           <DialogTitle className="text-xl font-bold">
-            Edit Email Address
+            {t("title")}
           </DialogTitle>
           <DialogDescription className="text-base text-foreground">
-            Update your contact email
+            {t("description")}
           </DialogDescription>
         </DialogHeader>
 
         <div className="space-y-4 py-4">
           <div className="space-y-2">
             <Label htmlFor="email-address" className="text-sm text-muted-foreground">
-              Email Address
+              {t("label")}
             </Label>
             <Input
               id="email-address"
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="sarah@acme.com"
+              placeholder={t("placeholder")}
               className="h-10"
             />
           </div>
@@ -77,13 +80,13 @@ export function EditEmailDialog({
             onClick={() => onOpenChange(false)}
             className="h-10 px-6"
           >
-            Cancel
+            {tCommon("cancel")}
           </Button>
           <Button
             onClick={handleSave}
             className="h-10 px-6 bg-[#2563EB] hover:bg-[#2563EB]/90 text-white"
           >
-            Save Changes
+            {tCommon("saveChanges")}
           </Button>
         </DialogFooter>
       </DialogContent>
