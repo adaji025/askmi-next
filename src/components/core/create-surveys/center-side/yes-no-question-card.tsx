@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { YesNoSVG } from "../../dashboard/svg";
 import { useQuestionStore } from "@/store/qustion-store";
 import { useMemo } from "react";
+import { useTranslations } from "next-intl";
 
 interface YesNoQuestionCardProps {
   questionId: string;
@@ -12,6 +13,7 @@ interface YesNoQuestionCardProps {
 }
 
 const YesNoQuestionCard = ({ questionId, questionNumber = 3 }: YesNoQuestionCardProps) => {
+  const t = useTranslations("survey.create");
   const question = useQuestionStore((state) =>
     state.questions.find((q) => q.id === questionId)
   );
@@ -41,7 +43,7 @@ const YesNoQuestionCard = ({ questionId, questionNumber = 3 }: YesNoQuestionCard
         </div>
         {/* Purple Tab with Question Number */}
         <div className="bg-[#8B5CF6] text-white px-4 py-1.5 rounded-t-xl text-xs font-medium">
-          Question {questionNumber}
+          {t("questionCard.question", { number: questionNumber })}
         </div>
       </div>
 
@@ -51,7 +53,7 @@ const YesNoQuestionCard = ({ questionId, questionNumber = 3 }: YesNoQuestionCard
         <div className="">
           <Input
             type="text"
-            placeholder="Type your question"
+            placeholder={t("questionCard.typeYourQuestion")}
             value={questionData.title}
             onChange={(e) => handleTitleChange(e.target.value)}
             className="w-full h-12 text-base"

@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { MultiChoiceSVG, SmallMultiChoiceSVG } from "../../dashboard/svg";
 import { useQuestionStore } from "@/store/qustion-store";
 import { useMemo } from "react";
+import { useTranslations } from "next-intl";
 
 interface MultiChoiceCardProps {
   questionId: string;
@@ -15,6 +16,7 @@ const MultiChoiceQuestionCard = ({
   questionId,
   questionNumber = 1,
 }: MultiChoiceCardProps) => {
+  const t = useTranslations("survey.create");
   const question = useQuestionStore((state) =>
     state.questions.find((q) => q.id === questionId)
   );
@@ -63,14 +65,14 @@ const MultiChoiceQuestionCard = ({
       <div className="absolute -top-7 left-4 z-10 flex gap-1 items-end">
         <SmallMultiChoiceSVG />
         <div className="bg-[#8B5CF6] text-white px-4 py-1.5 rounded-t-xl text-xs font-medium">
-          Question {questionNumber}
+          {t("questionCard.question", { number: questionNumber })}
         </div>
       </div>
       {/* Required Tab */}
       {questionData.required && (
         <div className="absolute -top-7 right-6 z-10">
           <div className="text-[#8B5CF6] bg-[#2563EB26] border border-b-0 border-[#2563EB4D] px-4 py-1.5 rounded-xl text-xs font-medium">
-            Required
+            {t("required")}
           </div>
         </div>
       )}
@@ -81,7 +83,7 @@ const MultiChoiceQuestionCard = ({
         <div onClick={(e) => e.stopPropagation()}>
           <Input
             type="text"
-            placeholder="Type your question"
+            placeholder={t("questionCard.typeYourQuestion")}
             value={questionData.title}
             onChange={(e) => handleTitleChange(e.target.value)}
             className="w-full h-9 text-xs placeholder:text-xs"

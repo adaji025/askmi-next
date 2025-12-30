@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { LongTextSVG } from "../../dashboard/svg";
 import { useQuestionStore } from "@/store/qustion-store";
 import { useMemo } from "react";
+import { useTranslations } from "next-intl";
 
 interface LongTextQuestionCardProps {
   questionId: string;
@@ -12,6 +13,7 @@ interface LongTextQuestionCardProps {
 }
 
 const LongTextQuestionCard = ({ questionId, questionNumber = 5 }: LongTextQuestionCardProps) => {
+  const t = useTranslations("survey.create");
   const question = useQuestionStore((state) =>
     state.questions.find((q) => q.id === questionId)
   );
@@ -41,7 +43,7 @@ const LongTextQuestionCard = ({ questionId, questionNumber = 5 }: LongTextQuesti
         </div>
         {/* Purple Tab with Question Number */}
         <div className="bg-[#8B5CF6] text-white px-4 py-1.5 rounded-t-xl text-xs font-medium">
-          Question {questionNumber}
+          {t("questionCard.question", { number: questionNumber })}
         </div>
       </div>
 
@@ -51,7 +53,7 @@ const LongTextQuestionCard = ({ questionId, questionNumber = 5 }: LongTextQuesti
         <div className="">
           <Input
             type="text"
-            placeholder="Type your question"
+            placeholder={t("questionCard.typeYourQuestion")}
             value={questionData.title}
             onChange={(e) => handleTitleChange(e.target.value)}
             className="w-full h-9 text-base"

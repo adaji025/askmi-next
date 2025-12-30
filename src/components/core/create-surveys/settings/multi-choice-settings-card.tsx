@@ -6,12 +6,14 @@ import { Trash2, Plus } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { useQuestionStore } from "@/store/qustion-store";
 import { useMemo } from "react";
+import { useTranslations } from "next-intl";
 
 interface MultiChoiceSettingsCardProps {
   questionId: string;
 }
 
 const MultiChoiceSettingsCard = ({ questionId }: MultiChoiceSettingsCardProps) => {
+  const t = useTranslations("survey.create.settings");
   const question = useQuestionStore((state) =>
     state.questions.find((q) => q.id === questionId)
   );
@@ -68,7 +70,7 @@ const MultiChoiceSettingsCard = ({ questionId }: MultiChoiceSettingsCardProps) =
           <div key={setting.id} className="flex items-center gap-3">
             <Input
               type="text"
-              placeholder={`Settings ${index + 1}`}
+              placeholder={t("settingsPlaceholder", { number: index + 1 })}
               value={setting.text}
               onChange={(e) => handleSettingsChange(setting.id, e.target.value)}
               className="flex-1"
@@ -92,11 +94,11 @@ const MultiChoiceSettingsCard = ({ questionId }: MultiChoiceSettingsCardProps) =
         className="w-full border-dashed border-[#2563EB] text-[#2563EB] hover:bg-[#2563EB]/5 hover:text-[#2563EB]"
       >
         <Plus className="h-4 w-4 mr-2" />
-        Add settings
+        {t("addSettings")}
       </Button>
 
       <div className="flex items-center justify-between gap-2 text-sm">
-        <div>Required question</div>
+        <div>{t("requiredQuestion")}</div>
         <Switch
           checked={question?.required || false}
           onCheckedChange={handleRequiredToggle}

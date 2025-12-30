@@ -2,8 +2,10 @@
 
 import { Plus } from "lucide-react";
 import { useDroppable } from "@dnd-kit/core";
+import { useTranslations } from "next-intl";
 
 const EmptyQuestions = () => {
+  const t = useTranslations("survey.create.empty");
   const { setNodeRef, isOver } = useDroppable({
     id: "empty-questions-drop-zone",
   });
@@ -11,7 +13,7 @@ const EmptyQuestions = () => {
   return (
     <div className="text-center mt-12 mb-8">
       <p className="text-base text-muted-foreground mb-5">
-        Add or drag your first survey question here.
+        {t("addFirstQuestion")}
       </p>
       <div
         ref={setNodeRef}
@@ -25,7 +27,7 @@ const EmptyQuestions = () => {
           <div className="h-8 w-8 rounded-full bg-[#2563EB] flex items-center justify-center">
             <Plus className="h-4 w-4 text-white" />
           </div>
-          <p className="text-sm font-medium text-foreground">Drag here</p>
+          <p className="text-sm font-medium text-foreground">{t("dragHere")}</p>
         </div>
       </div>
     </div>

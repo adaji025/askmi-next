@@ -14,6 +14,7 @@ import { useDroppable } from "@dnd-kit/core";
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { SettingsPanel } from "@/components/core/create-surveys/settings/settings-panel";
+import { useTranslations } from "next-intl";
 
 
 
@@ -37,6 +38,7 @@ function CanvasDropZone({ children }: { children: React.ReactNode }) {
 }
 
 export default function CreateSurvey() {
+  const t = useTranslations("survey");
   const { questions, addQuestion } = useQuestionStore();
   const [activeId, setActiveId] = useState<string | null>(null);
   const [activeQuestionType, setActiveQuestionType] = useState<any>(null);
@@ -124,7 +126,7 @@ export default function CreateSurvey() {
               </div>
               <div>
                 <h4 className="text-xs font-semibold text-foreground mb-1">
-                  {activeQuestionType.title || "Question"}
+                  {activeQuestionType.title || t("question")}
                 </h4>
                 <p className="text-xs text-muted-foreground">
                   {activeQuestionType.subtitle || ""}

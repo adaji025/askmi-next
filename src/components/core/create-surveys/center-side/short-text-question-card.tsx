@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { ShortTextSVG } from "../../dashboard/svg";
 import { useQuestionStore } from "@/store/qustion-store";
 import { useMemo } from "react";
+import { useTranslations } from "next-intl";
 
 interface ShortTextQuestionCardProps {
   questionId: string;
@@ -15,6 +16,7 @@ const ShortTextQuestionCard = ({
   questionId,
   questionNumber = 4,
 }: ShortTextQuestionCardProps) => {
+  const t = useTranslations("survey.create");
   const question = useQuestionStore((state) =>
     state.questions.find((q) => q.id === questionId)
   );
@@ -44,7 +46,7 @@ const ShortTextQuestionCard = ({
         </div>
         {/* Purple Tab with Question Number */}
         <div className="bg-[#8B5CF6] text-white px-4 py-1.5 rounded-t-xl text-xs font-medium">
-          Question {questionNumber}
+          {t("questionCard.question", { number: questionNumber })}
         </div>
       </div>
 
@@ -54,7 +56,7 @@ const ShortTextQuestionCard = ({
         <div className="">
           <Input
             type="text"
-            placeholder="Type your question"
+            placeholder={t("questionCard.typeYourQuestion")}
             value={questionData.title}
             onChange={(e) => handleTitleChange(e.target.value)}
             className="w-full h-9 text-xs placeholder:text-xs"

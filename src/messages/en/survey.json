@@ -1,5 +1,6 @@
 {
   "createSurvey": "Create Survey",
+  "question": "Question",
   "questionTypes": "Question Types",
   "multipleChoice": "Multiple Choice",
   "yesNo": "Yes/No",
@@ -21,6 +22,57 @@
     "createdDaysAgo": "Created {days} days ago",
     "questions": "{count} questions",
     "edit": "Edit"
+  },
+  "create": {
+    "header": {
+      "backToSurvey": "Back to Survey",
+      "autosaveOn": "Autosave is on...",
+      "preview": "Preview",
+      "publishSurvey": "Publish Survey"
+    },
+    "sidebar": {
+      "choiceQuestions": "Choice Questions",
+      "ratingsQuestions": "Ratings Questions",
+      "textQuestions": "Text Questions",
+      "questionTypes": {
+        "multipleChoice": {
+          "title": "Multiple Choice",
+          "subtitle": "Single selection"
+        },
+        "yesNo": {
+          "title": "Yes or No",
+          "subtitle": "Binary choice"
+        },
+        "ratingScale": {
+          "title": "Rating Scale",
+          "subtitle": "1-10"
+        },
+        "shortText": {
+          "title": "Short Text",
+          "subtitle": "Single line response"
+        },
+        "longText": {
+          "title": "Long Text",
+          "subtitle": "Single line response"
+        }
+      }
+    },
+    "empty": {
+      "addFirstQuestion": "Add or drag your first survey question here.",
+      "dragHere": "Drag here"
+    },
+    "settings": {
+      "selectQuestion": "Select a question type to see its settings.",
+      "questionSettings": "Question Settings",
+      "question": "Question {number}",
+      "settingsPlaceholder": "Settings {number}",
+      "addSettings": "Add settings",
+      "requiredQuestion": "Required question"
+    },
+    "questionCard": {
+      "question": "Question {number}",
+      "typeYourQuestion": "Type your question"
+    }
   }
 }
 

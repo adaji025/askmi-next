@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import {
   LongTextSVG,
@@ -7,6 +9,7 @@ import {
   YesNoSVG,
 } from "../../dashboard/svg";
 import QuestionCard from "./question-card";
+import { useTranslations } from "next-intl";
 
 interface QuestionType {
   id: string;
@@ -53,6 +56,46 @@ const questionTypes: QuestionType[] = [
   },
 ];
 const SideNav = () => {
+  const t = useTranslations("survey.create.sidebar");
+  
+  const questionTypes: QuestionType[] = [
+    {
+      id: "multiple-choice",
+      title: t("questionTypes.multipleChoice.title"),
+      subtitle: t("questionTypes.multipleChoice.subtitle"),
+      icon: MultiChoiceSVG,
+      category: "choice",
+    },
+    {
+      id: "yes-no",
+      title: t("questionTypes.yesNo.title"),
+      subtitle: t("questionTypes.yesNo.subtitle"),
+      icon: YesNoSVG,
+      category: "choice",
+    },
+    {
+      id: "rating-scale",
+      title: t("questionTypes.ratingScale.title"),
+      subtitle: t("questionTypes.ratingScale.subtitle"),
+      icon: RatingQSVG,
+      category: "rating",
+    },
+    {
+      id: "short-text",
+      title: t("questionTypes.shortText.title"),
+      subtitle: t("questionTypes.shortText.subtitle"),
+      icon: ShortTextSVG,
+      category: "text",
+    },
+    {
+      id: "long-text",
+      title: t("questionTypes.longText.title"),
+      subtitle: t("questionTypes.longText.subtitle"),
+      icon: LongTextSVG,
+      category: "text",
+    },
+  ];
+
   const choiceQuestions = questionTypes.filter((q) => q.category === "choice");
   const ratingQuestions = questionTypes.filter((q) => q.category === "rating");
   const textQuestions = questionTypes.filter((q) => q.category === "text");
@@ -62,7 +105,7 @@ const SideNav = () => {
         {/* Choice Questions */}
         <div>
           <h3 className="text-xs font-bold text-muted-foreground uppercase mb-4">
-            Choice Questions
+            {t("choiceQuestions")}
           </h3>
           <div className="space-y-3">
             {choiceQuestions.map((question) => {
@@ -74,7 +117,7 @@ const SideNav = () => {
         {/* Ratings Questions */}
         <div>
           <h3 className="text-xs font-bold text-muted-foreground uppercase mb-4">
-            Ratings Questions
+            {t("ratingsQuestions")}
           </h3>
           <div className="space-y-3">
             {ratingQuestions.map((question) => {
@@ -87,7 +130,7 @@ const SideNav = () => {
         {/* Text Questions */}
         <div>
           <h3 className="text-xs font-bold text-muted-foreground uppercase mb-4">
-            Text Questions
+            {t("textQuestions")}
           </h3>
           <div className="space-y-3">
             {textQuestions.map((question) => {
