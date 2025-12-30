@@ -41,6 +41,7 @@ export default function CreateSurvey() {
   const [activeId, setActiveId] = useState<string | null>(null);
   const [activeQuestionType, setActiveQuestionType] = useState<any>(null);
 
+  console.log(questions)
   const handleDragStart = (event: DragStartEvent) => {
     setActiveId(event.active.id as string);
     setActiveQuestionType(event.active.data.current);

@@ -1,61 +1,66 @@
 "use client";
 
-import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Trash2, Plus } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
-
-interface SettingsOption {
-  id: number;
-  text: string;
-}
+import { useQuestionStore } from "@/store/qustion-store";
+import { useMemo } from "react";
 
 interface MultiChoiceSettingsCardProps {
-  settings?: SettingsOption[];
-  onSettingsChange?: (settings: SettingsOption[]) => void;
+  questionId: string;
 }
 
-const MultiChoiceSettingsCard = ({
-  settings: initialSettings,
-  onSettingsChange,
-}: MultiChoiceSettingsCardProps) => {
-  const [settings, setSettings] = useState<SettingsOption[]>(
-    initialSettings || [
-      { id: 1, text: "" },
-      { id: 2, text: "" },
-      { id: 3, text: "" },
-      { id: 4, text: "" },
-    ]
+const MultiChoiceSettingsCard = ({ questionId }: MultiChoiceSettingsCardProps) => {
+  const question = useQuestionStore((state) =>
+    state.questions.find((q) => q.id === questionId)
   );
+  const updateQuestion = useQuestionStore((state) => state.updateQuestion);
+
+  const settings = useMemo(() => {
+    if (!question || !question.options || question.options.length === 0) {
+      return [
+        { id: 1, text: "" },
+        { id: 2, text: "" },
+        { id: 3, text: "" },
+        { id: 4, text: "" },
+      ];
+    }
+    return question.options;
+  }, [question]);
 
   const handleSettingsChange = (id: number, text: string) => {
     const updatedSettings = settings.map((setting) =>
       setting.id === id ? { ...setting, text } : setting
     );
-    setSettings(updatedSettings);
-    onSettingsChange?.(updatedSettings);
+    updateQuestion(questionId, { options: updatedSettings });
   };
 
   const handleDeleteSettings = (id: number) => {
+    if (settings.length <= 2) {
+      // Keep at least 2 options
+      return;
+    }
     const updatedSettings = settings.filter((setting) => setting.id !== id);
-    setSettings(updatedSettings);
-    onSettingsChange?.(updatedSettings);
+    updateQuestion(questionId, { options: updatedSettings });
   };
 
   const handleAddSettings = () => {
     const newId = Math.max(...settings.map((a) => a.id), 0) + 1;
     const updatedSettings = [...settings, { id: newId, text: "" }];
-    setSettings(updatedSettings);
-    onSettingsChange?.(updatedSettings);
+    updateQuestion(questionId, { options: updatedSettings });
+  };
+
+  const handleRequiredToggle = (checked: boolean) => {
+    updateQuestion(questionId, { required: checked });
   };
 
   return (
     <div className="space-y-4">
       {/* Title */}
-      <h3 className="text-sm font-bold text-foreground uppercase">
+      {/* <h3 className="text-sm font-bold text-foreground uppercase">
         Settings Options
-      </h3>
+      </h3> */}
 
       {/* Settings Input Fields */}
       <div className="space-y-3">
@@ -92,7 +97,11 @@ const MultiChoiceSettingsCard = ({
 
       <div className="flex items-center justify-between gap-2 text-sm">
         <div>Required question</div>
-        <Switch defaultChecked className="data-[state=checked]:bg-[#2563EB]" />
+        <Switch
+          checked={question?.required || false}
+          onCheckedChange={handleRequiredToggle}
+          className="data-[state=checked]:bg-[#2563EB]"
+        />
       </div>
     </div>
   );

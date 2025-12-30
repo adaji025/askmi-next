@@ -16,23 +16,16 @@ export interface Question {
 
 interface QuestionStore {
   questions: Question[];
-  selectedQuestionId: string | null;
   addQuestion: (question: Omit<Question, "id" | "order">) => void;
   updateQuestion: (id: string, updates: Partial<Question>) => void;
   deleteQuestion: (id: string) => void;
   reorderQuestions: (questions: Question[]) => void;
-  setSelectedQuestion: (id: string | null) => void;
   getQuestion: (id: string) => Question | undefined;
   clearQuestions: () => void;
 }
 
 export const useQuestionStore = create<QuestionStore>((set, get) => ({
   questions: [],
-  selectedQuestionId: null,
-
-  setSelectedQuestion: (id) => {
-    set({ selectedQuestionId: id });
-  },
 
   addQuestion: (question) => {
     const currentQuestions = get().questions;

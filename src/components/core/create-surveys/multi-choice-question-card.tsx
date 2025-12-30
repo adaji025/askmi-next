@@ -18,11 +18,7 @@ const MultiChoiceQuestionCard = ({
   const question = useQuestionStore((state) =>
     state.questions.find((q) => q.id === questionId)
   );
-  const selectedQuestionId = useQuestionStore((state) => state.selectedQuestionId);
   const updateQuestion = useQuestionStore((state) => state.updateQuestion);
-  const setSelectedQuestion = useQuestionStore((state) => state.setSelectedQuestion);
-
-  const isSelected = selectedQuestionId === questionId;
 
   const questionData = useMemo(() => {
     if (!question) {
@@ -80,14 +76,7 @@ const MultiChoiceQuestionCard = ({
       )}
 
       {/* Main Card */}
-      <Card
-        className={`relative border rounded-2xl shadow-sm bg-white p-4 cursor-pointer transition-all ${
-          isSelected
-            ? "border-[#2563EB] ring-2 ring-[#2563EB] ring-offset-2"
-            : "border-[#8B5CF6] hover:border-[#2563EB]"
-        }`}
-        onClick={() => setSelectedQuestion(questionId)}
-      >
+      <Card className="relative border-[#8B5CF6] border rounded-2xl shadow-sm bg-white p-4">
         {/* Question Input */}
         <div onClick={(e) => e.stopPropagation()}>
           <Input
