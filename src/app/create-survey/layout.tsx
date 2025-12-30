@@ -1,4 +1,4 @@
-import CreateSurveyHeader from "@/components/core/dashboard/surveys/create-survey-header";
+import CreateSurveyHeader from "@/components/core/create-surveys/create-survey-header";
 import React from "react";
 
 const CreateSurverLayout = ({

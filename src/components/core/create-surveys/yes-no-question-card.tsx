@@ -3,15 +3,13 @@
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { ShortTextSVG } from "../svg";
+import { YesNoSVG } from "../dashboard/svg";
 
-interface ShortTextQuestionCardProps {
+interface YesNoQuestionCardProps {
   questionNumber?: number;
 }
 
-const ShortTextQuestionCard = ({
-  questionNumber = 4,
-}: ShortTextQuestionCardProps) => {
+const YesNoQuestionCard = ({ questionNumber = 3 }: YesNoQuestionCardProps) => {
   const [question, setQuestion] = useState("");
 
   return (
@@ -19,8 +17,8 @@ const ShortTextQuestionCard = ({
       {/* Question Type Indicator and Tab */}
       <div className="absolute -top-7 left-4 z-10 flex gap-1 items-end">
         {/* Blue Tab with Thumbs Up Icon */}
-        <div className="bg-[#2563EB]/20 text-white px-3 h-6 rounded-t-xl flex items-center justify-center">
-          <ShortTextSVG />
+        <div className="bg-[#2563EB]/20 text-white px-3 py-0.5 rounded-t-xl flex items-center justify-center">
+          <YesNoSVG />
         </div>
         {/* Purple Tab with Question Number */}
         <div className="bg-[#8B5CF6] text-white px-4 py-1.5 rounded-t-xl text-xs font-medium">
@@ -45,4 +43,4 @@ const ShortTextQuestionCard = ({
   );
 };
 
-export default ShortTextQuestionCard;
+export default YesNoQuestionCard;

@@ -20,11 +20,11 @@ import {
   ShortTextSVG,
   YesNoSVG,
 } from "@/components/core/dashboard/svg";
-import QuestionCard from "@/components/core/dashboard/surveys/question-card";
-import EmptyQuestions from "@/components/core/dashboard/surveys/empty-question";
-import EmptySettings from "@/components/core/dashboard/surveys/empty-settings";
-import FilledSettings from "@/components/core/dashboard/surveys/filled-settings";
-import FilledQuestion from "@/components/core/dashboard/surveys/filled-question";
+import QuestionCard from "@/components/core/create-surveys/question-card";
+import EmptyQuestions from "@/components/core/create-surveys/empty-question";
+import EmptySettings from "@/components/core/create-surveys/empty-settings";
+import FilledSettings from "@/components/core/create-surveys/filled-settings";
+import FilledQuestion from "@/components/core/create-surveys/filled-question";
 
 interface QuestionType {
   id: string;

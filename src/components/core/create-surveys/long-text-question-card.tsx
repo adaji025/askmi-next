@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { LongTextSVG } from "../svg";
+import { LongTextSVG } from "../dashboard/svg";
 
 interface LongTextQuestionCardProps {
   questionNumber?: number;

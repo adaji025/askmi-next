@@ -1,11 +1,10 @@
 "use client";
 
-import { Search, Plus, Calendar, Users, Edit, Trash2 } from "lucide-react";
+import { Search, Plus } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
-import SurveyCard from "@/components/core/dashboard/surveys/survey-card";
+import { Card, CardContent } from "@/components/ui/card";
+import SurveyCard from "@/components/core/dashboard/survey/survey-card";
 import Link from "next/link";
 
 interface Survey {

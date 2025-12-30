@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { MultiChoiceSVG, SmallMultiChoiceSVG } from "../svg";
+import { MultiChoiceSVG, SmallMultiChoiceSVG } from "../dashboard/svg";
 
 interface MultiChoiceCardProps {
   questionNumber?: number;
