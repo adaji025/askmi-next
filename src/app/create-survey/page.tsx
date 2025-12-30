@@ -1,9 +1,9 @@
 "use client";
 
-import FilledQuestion from "@/components/core/create-surveys/filled-question";
-import SideNav from "@/components/core/create-surveys/side-nav";
+import FilledQuestion from "@/components/core/create-surveys/center-side/filled-question";
+import SideNav from "@/components/core/create-surveys/left-side";
 import { useQuestionStore } from "@/store/qustion-store";
-import EmptyQuestions from "@/components/core/create-surveys/empty-question";
+import EmptyQuestions from "@/components/core/create-surveys/center-side/empty-question";
 import {
   DndContext,
   DragEndEvent,

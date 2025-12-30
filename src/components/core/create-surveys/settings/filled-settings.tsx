@@ -1,7 +1,7 @@
 "use client";
 
 import { Settings } from "lucide-react";
-import MultiChoiceSettingsCard from "../multi-choice-settings-card";
+import MultiChoiceSettingsCard from "./multi-choice-settings-card";
 import { useQuestionStore } from "@/store/qustion-store";
 
 const FilledSettings = () => {

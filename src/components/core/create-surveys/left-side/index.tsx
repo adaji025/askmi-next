@@ -5,7 +5,7 @@ import {
   RatingQSVG,
   ShortTextSVG,
   YesNoSVG,
-} from "../dashboard/svg";
+} from "../../dashboard/svg";
 import QuestionCard from "./question-card";
 
 interface QuestionType {
@@ -53,9 +53,6 @@ const questionTypes: QuestionType[] = [
   },
 ];
 const SideNav = () => {
-  const [selectedQuestionType, setSelectedQuestionType] = React.useState<
-    string | null
-  >(null);
   const choiceQuestions = questionTypes.filter((q) => q.category === "choice");
   const ratingQuestions = questionTypes.filter((q) => q.category === "rating");
   const textQuestions = questionTypes.filter((q) => q.category === "text");
@@ -69,13 +66,7 @@ const SideNav = () => {
           </h3>
           <div className="space-y-3">
             {choiceQuestions.map((question) => {
-              return (
-                <QuestionCard
-                  key={question.id}
-                  question={question}
-                  onSelect={setSelectedQuestionType}
-                />
-              );
+              return <QuestionCard key={question.id} question={question} />;
             })}
           </div>
         </div>
@@ -88,13 +79,7 @@ const SideNav = () => {
           <div className="space-y-3">
             {ratingQuestions.map((question) => {
               const Icon = question.icon;
-              return (
-                <QuestionCard
-                  key={question.id}
-                  question={question}
-                  onSelect={setSelectedQuestionType}
-                />
-              );
+              return <QuestionCard key={question.id} question={question} />;
             })}
           </div>
         </div>
@@ -107,13 +92,7 @@ const SideNav = () => {
           <div className="space-y-3">
             {textQuestions.map((question) => {
               const Icon = question.icon;
-              return (
-                <QuestionCard
-                  key={question.id}
-                  question={question}
-                  onSelect={setSelectedQuestionType}
-                />
-              );
+              return <QuestionCard key={question.id} question={question} />;
             })}
           </div>
         </div>

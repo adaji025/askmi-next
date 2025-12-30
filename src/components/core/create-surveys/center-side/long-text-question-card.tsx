@@ -2,19 +2,16 @@
 
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { ShortTextSVG } from "../dashboard/svg";
+import { LongTextSVG } from "../../dashboard/svg";
 import { useQuestionStore } from "@/store/qustion-store";
 import { useMemo } from "react";
 
-interface ShortTextQuestionCardProps {
+interface LongTextQuestionCardProps {
   questionId: string;
   questionNumber?: number;
 }
 
-const ShortTextQuestionCard = ({
-  questionId,
-  questionNumber = 4,
-}: ShortTextQuestionCardProps) => {
+const LongTextQuestionCard = ({ questionId, questionNumber = 5 }: LongTextQuestionCardProps) => {
   const question = useQuestionStore((state) =>
     state.questions.find((q) => q.id === questionId)
   );
@@ -40,7 +37,7 @@ const ShortTextQuestionCard = ({
       <div className="absolute -top-7 left-4 z-10 flex gap-1 items-end">
         {/* Blue Tab with Thumbs Up Icon */}
         <div className="bg-[#2563EB]/20 text-white px-3 h-6 rounded-t-xl flex items-center justify-center">
-          <ShortTextSVG />
+          <LongTextSVG />
         </div>
         {/* Purple Tab with Question Number */}
         <div className="bg-[#8B5CF6] text-white px-4 py-1.5 rounded-t-xl text-xs font-medium">
@@ -57,7 +54,7 @@ const ShortTextQuestionCard = ({
             placeholder="Type your question"
             value={questionData.title}
             onChange={(e) => handleTitleChange(e.target.value)}
-            className="w-full h-9 text-xs placeholder:text-xs"
+            className="w-full h-9 text-base"
           />
         </div>
       </Card>
@@ -65,4 +62,4 @@ const ShortTextQuestionCard = ({
   );
 };
 
-export default ShortTextQuestionCard;
+export default LongTextQuestionCard;

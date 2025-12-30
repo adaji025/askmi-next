@@ -2,7 +2,7 @@
 
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { MultiChoiceSVG, SmallMultiChoiceSVG } from "../dashboard/svg";
+import { MultiChoiceSVG, SmallMultiChoiceSVG } from "../../dashboard/svg";
 import { useQuestionStore } from "@/store/qustion-store";
 import { useMemo } from "react";
 

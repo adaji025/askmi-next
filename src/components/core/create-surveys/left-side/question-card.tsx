@@ -13,27 +13,21 @@ interface QuestionCardProps {
     subtitle: string;
     icon: React.ComponentType<{ className?: string }>;
   };
-  onSelect: (id: string) => void;
 }
 
-const QuestionCard = ({ question, onSelect }: QuestionCardProps) => {
+const QuestionCard = ({ question }: QuestionCardProps) => {
   const Icon = question.icon;
-  
-  const {
-    attributes,
-    listeners,
-    setNodeRef,
-    transform,
-    isDragging,
-  } = useDraggable({
-    id: `question-type-${question.id}`,
-    data: {
-      type: "question-type",
-      questionType: question.id,
-      title: question.title,
-      subtitle: question.subtitle,
-    },
-  });
+
+  const { attributes, listeners, setNodeRef, transform, isDragging } =
+    useDraggable({
+      id: `question-type-${question.id}`,
+      data: {
+        type: "question-type",
+        questionType: question.id,
+        title: question.title,
+        subtitle: question.subtitle,
+      },
+    });
 
   const style = transform
     ? {
@@ -42,7 +36,7 @@ const QuestionCard = ({ question, onSelect }: QuestionCardProps) => {
         transition: isDragging ? "none" : "opacity 0.2s",
       }
     : undefined;
-  
+
   return (
     <Card
       ref={setNodeRef}
@@ -50,7 +44,6 @@ const QuestionCard = ({ question, onSelect }: QuestionCardProps) => {
       {...listeners}
       {...attributes}
       className="p-2 cursor-grab active:cursor-grabbing shadow-none hover:border-[#2563EB] transition-all border border-[#E2E8F0] rounded-lg"
-      onClick={() => onSelect(question.id)}
     >
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3 flex-1">
@@ -61,9 +54,7 @@ const QuestionCard = ({ question, onSelect }: QuestionCardProps) => {
             <h4 className="text-xs font-semibold text-foreground mb-1">
               {question.title}
             </h4>
-            <p className="text-xs text-muted-foreground">
-              {question.subtitle}
-            </p>
+            <p className="text-xs text-muted-foreground">{question.subtitle}</p>
           </div>
         </div>
         <Button

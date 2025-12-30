@@ -2,16 +2,19 @@
 
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { LongTextSVG } from "../dashboard/svg";
+import { ShortTextSVG } from "../../dashboard/svg";
 import { useQuestionStore } from "@/store/qustion-store";
 import { useMemo } from "react";
 
-interface LongTextQuestionCardProps {
+interface ShortTextQuestionCardProps {
   questionId: string;
   questionNumber?: number;
 }
 
-const LongTextQuestionCard = ({ questionId, questionNumber = 5 }: LongTextQuestionCardProps) => {
+const ShortTextQuestionCard = ({
+  questionId,
+  questionNumber = 4,
+}: ShortTextQuestionCardProps) => {
   const question = useQuestionStore((state) =>
     state.questions.find((q) => q.id === questionId)
   );
@@ -37,7 +40,7 @@ const LongTextQuestionCard = ({ questionId, questionNumber = 5 }: LongTextQuesti
       <div className="absolute -top-7 left-4 z-10 flex gap-1 items-end">
         {/* Blue Tab with Thumbs Up Icon */}
         <div className="bg-[#2563EB]/20 text-white px-3 h-6 rounded-t-xl flex items-center justify-center">
-          <LongTextSVG />
+          <ShortTextSVG />
         </div>
         {/* Purple Tab with Question Number */}
         <div className="bg-[#8B5CF6] text-white px-4 py-1.5 rounded-t-xl text-xs font-medium">
@@ -54,7 +57,7 @@ const LongTextQuestionCard = ({ questionId, questionNumber = 5 }: LongTextQuesti
             placeholder="Type your question"
             value={questionData.title}
             onChange={(e) => handleTitleChange(e.target.value)}
-            className="w-full h-9 text-base"
+            className="w-full h-9 text-xs placeholder:text-xs"
           />
         </div>
       </Card>
@@ -62,4 +65,4 @@ const LongTextQuestionCard = ({ questionId, questionNumber = 5 }: LongTextQuesti
   );
 };
 
-export default LongTextQuestionCard;
+export default ShortTextQuestionCard;
