@@ -1,14 +1,21 @@
 "use client";
 
 import FilledQuestion from "@/components/core/create-surveys/filled-question";
-import FilledSettings from "@/components/core/create-surveys/settings/filled-settings";
 import SideNav from "@/components/core/create-surveys/side-nav";
 import { useQuestionStore } from "@/store/qustion-store";
 import EmptyQuestions from "@/components/core/create-surveys/empty-question";
-import { DndContext, DragEndEvent, DragOverlay, DragStartEvent } from "@dnd-kit/core";
+import {
+  DndContext,
+  DragEndEvent,
+  DragOverlay,
+  DragStartEvent,
+} from "@dnd-kit/core";
 import { useDroppable } from "@dnd-kit/core";
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
+import { SettingsPanel } from "@/components/core/create-surveys/settings/settings-panel";
+
+
 
 function CanvasDropZone({ children }: { children: React.ReactNode }) {
   const { setNodeRef, isOver } = useDroppable({
@@ -19,7 +26,9 @@ function CanvasDropZone({ children }: { children: React.ReactNode }) {
     <div
       ref={setNodeRef}
       className={`w-full min-h-full transition-all duration-200 ${
-        isOver ? "bg-blue-50/50 ring-2 ring-blue-300 ring-offset-2 rounded-lg" : ""
+        isOver
+          ? "bg-blue-50/50 ring-2 ring-blue-300 ring-offset-2 rounded-lg"
+          : ""
       }`}
     >
       {children}
@@ -47,12 +56,12 @@ export default function CreateSurvey() {
     const activeData = active.data.current;
     if (
       activeData?.type === "question-type" &&
-      (over.id === "canvas-drop-zone" || 
-       over.id === "empty-questions-drop-zone" ||
-       over.id === "questions-bottom-drop-zone")
+      (over.id === "canvas-drop-zone" ||
+        over.id === "empty-questions-drop-zone" ||
+        over.id === "questions-bottom-drop-zone")
     ) {
       const questionType = activeData.questionType as string;
-      
+
       // Create default question based on type
       const defaultQuestion = getDefaultQuestion(questionType);
       addQuestion(defaultQuestion);
@@ -102,8 +111,7 @@ export default function CreateSurvey() {
 
         {/* Right Sidebar - Question Settings */}
         <div className="w-80 bg-white border-l border-[#E2E8F0] p-6 overflow-y-auto">
-          <FilledSettings />
-          {/* <EmptySettings /> */}
+          <SettingsPanel />
         </div>
       </div>
       <DragOverlay>
