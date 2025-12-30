@@ -1,5 +1,8 @@
+"use client";
+
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { FileText } from "lucide-react"
+import { useTranslations } from "next-intl"
 
 interface ActivityItemProps {
   title: string
@@ -8,6 +11,8 @@ interface ActivityItemProps {
 }
 
 export function ActivityItem({ title, metric, timeAgo }: ActivityItemProps) {
+  const t = useTranslations("dashboard.activityItem");
+
   return (
     <div className="flex items-start gap-3 py-3">
       <Avatar className="h-10 w-10 rounded-md bg-muted border border-border">
@@ -18,7 +23,7 @@ export function ActivityItem({ title, metric, timeAgo }: ActivityItemProps) {
       <div className="flex-1 space-y-1">
         <p className="text-sm leading-relaxed">
           <span className="font-bold">{title}</span>{" "}
-          <span className="font-normal">reached {metric.toLocaleString()} responses</span>
+          <span className="font-normal">{t("reachedResponses", { metric: metric.toLocaleString() })}</span>
         </p>
         <p className="text-xs text-muted-foreground">{timeAgo}</p>
       </div>

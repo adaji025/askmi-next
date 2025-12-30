@@ -18,6 +18,14 @@
     "description1": "Start collecting precise audience insights through influencers.",
     "description2": "Set up your survey, choose your target audience, and let our smart matching system find the perfect influencers for you.",
     "button": "New campaign"
+  },
+  "campaignCard": {
+    "active": "Active",
+    "inactive": "Inactive",
+    "responsesOf": "{responses} of {totalResponses} responses"
+  },
+  "activityItem": {
+    "reachedResponses": "reached {metric} responses"
   }
 }
 

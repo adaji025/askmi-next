@@ -18,6 +18,14 @@
     "description1": "התחל לאסוף תובנות מדויקות על הקהל דרך אינפלואנסרים.",
     "description2": "הגדר את הסקר שלך, בחר את הקהל היעד שלך, ותן למערכת ההתאמה החכמה שלנו למצוא את האינפלואנסרים המושלמים עבורך.",
     "button": "קמפיין חדש"
+  },
+  "campaignCard": {
+    "active": "פעיל",
+    "inactive": "לא פעיל",
+    "responsesOf": "{responses} מתוך {totalResponses} תגובות"
+  },
+  "activityItem": {
+    "reachedResponses": "הגיע ל-{metric} תגובות"
   }
 }
 
