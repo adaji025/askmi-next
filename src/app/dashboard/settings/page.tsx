@@ -1,4 +1,4 @@
-import { SettingsComp } from "@/components/core/dashboard/settings";
+import { SettingsComp } from "@/components/core/dashboard/settings/security/index";
 import React from "react";
 
 const Settings = () => {

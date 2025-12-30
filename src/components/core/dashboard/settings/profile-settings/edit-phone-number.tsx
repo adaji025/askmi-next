@@ -19,7 +19,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
-import { PhoneInput } from "../../auth/phone-number-input";
+import { PhoneInput } from "../../../auth/phone-number-input";
 
 interface CountryCode {
   code: string;

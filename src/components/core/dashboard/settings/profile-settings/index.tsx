@@ -9,12 +9,12 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { useState } from "react";
-import ChangeLangDialog from "./change-lang";
 import EditPhoneNumberDialog from "./edit-phone-number";
 import EditEmailDialog from "./edit-email";
 import EditNameDialog from "./edit-name";
 import EditCompanyNameDialog from "./edit-company-name";
 import EditTimezoneDialog from "./edit-timezone";
+import ChangeLangDialog from "./change-lang";
 
 export function ProfileSettings() {
   const [openLangDialog, setOpenLangDialog] = useState(false);

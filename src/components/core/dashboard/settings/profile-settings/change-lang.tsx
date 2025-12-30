@@ -64,7 +64,9 @@ export function ChangeLangDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-md">
         <DialogHeader>
-          <DialogTitle className="text-xl font-bold">Change Language</DialogTitle>
+          <DialogTitle className="text-xl font-bold">
+            Change Language
+          </DialogTitle>
           <DialogDescription className="text-base text-foreground">
             Select your preferred language
           </DialogDescription>

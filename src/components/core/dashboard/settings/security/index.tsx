@@ -1,8 +1,8 @@
 "use client";
 import React from "react";
-import Campaign from "./campaign";
-import Security from "./security";
-import { ProfileSettings } from "./profile-settings";
+import Campaign from "../campaign";
+import Security from "../security";
+import { ProfileSettings } from "../profile-settings";
 
 export const SettingsComp = () => {
   const [settingsType, setSettingsType] = React.useState<
