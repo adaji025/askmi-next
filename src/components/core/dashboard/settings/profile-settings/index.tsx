@@ -15,10 +15,15 @@ import EditNameDialog from "./edit-name";
 import EditCompanyNameDialog from "./edit-company-name";
 import EditTimezoneDialog from "./edit-timezone";
 import ChangeLangDialog from "./change-lang";
+import { useTranslations } from "next-intl";
+import { useLanguageStore } from "@/store/language-store";
 
 export function ProfileSettings() {
+  const t = useTranslations("profile");
+  const tCommon = useTranslations("common");
+  const tLang = useTranslations("language");
+  const { language } = useLanguageStore();
   const [openLangDialog, setOpenLangDialog] = useState(false);
-  const [currentLanguage, setCurrentLanguage] = useState("en");
   const [openPhoneDialog, setOpenPhoneDialog] = useState(false);
   const [currentPhoneNumber, setCurrentPhoneNumber] = useState("+1 (555) 123-4567");
   const [openEmailDialog, setOpenEmailDialog] = useState(false);
@@ -35,8 +40,6 @@ export function ProfileSettings() {
       <ChangeLangDialog
         open={openLangDialog}
         onOpenChange={setOpenLangDialog}
-        currentLanguage={currentLanguage}
-        onSave={(lang) => setCurrentLanguage(lang)}
       />
       <EditPhoneNumberDialog
         open={openPhoneDialog}
@@ -79,7 +82,7 @@ export function ProfileSettings() {
         }}
       />
       <div className="flex flex-col gap-1">
-        <h2 className="text-xl font-bold text-foreground">My Profile</h2>
+        <h2 className="text-xl font-bold text-foreground">{t("myProfile")}</h2>
       </div>
 
       <Table>
@@ -88,7 +91,7 @@ export function ProfileSettings() {
           <TableRow className="border-b border-[#E2E8F0]">
             <TableCell className="py-6">
               <span className="text-sm font-medium text-muted-foreground">
-                Photo
+                {t("photo")}
               </span>
             </TableCell>
             <TableCell className="py-6">
@@ -99,7 +102,7 @@ export function ProfileSettings() {
                   </AvatarFallback>
                 </Avatar>
                 <span className="text-xs text-muted-foreground">
-                  Shown on your brand profile
+                  {t("photoDescription")}
                 </span>
               </div>
             </TableCell>
@@ -110,14 +113,14 @@ export function ProfileSettings() {
                   size="sm"
                   className="h-8 px-4 text-xs font-medium bg-white border-border hover:bg-muted text-foreground"
                 >
-                  Upload
+                  {tCommon("upload")}
                 </Button>
                 <Button
                   variant="outline"
                   size="sm"
                   className="h-8 px-4 text-xs font-medium bg-white border-border hover:bg-muted text-foreground"
                 >
-                  Delete
+                  {tCommon("delete")}
                 </Button>
               </div>
             </TableCell>
@@ -127,7 +130,7 @@ export function ProfileSettings() {
           <TableRow className="border-b border-[#E2E8F0]">
             <TableCell className="py-6 w-1/3">
               <span className="text-sm font-medium text-muted-foreground">
-                Full name
+                {t("fullName")}
               </span>
             </TableCell>
             <TableCell className="py-6 w-1/3">
@@ -136,7 +139,7 @@ export function ProfileSettings() {
                   {currentName}
                 </span>
                 <span className="text-xs text-muted-foreground mt-0.5">
-                  Your name as it appears to influencers
+                  {t("fullNameDescription")}
                 </span>
               </div>
             </TableCell>
@@ -147,7 +150,7 @@ export function ProfileSettings() {
                 onClick={() => setOpenNameDialog(true)}
                 className="h-8 px-4 text-xs font-medium bg-white border-border hover:bg-muted text-foreground"
               >
-                Edit
+                {tCommon("edit")}
               </Button>
             </TableCell>
           </TableRow>
@@ -156,7 +159,7 @@ export function ProfileSettings() {
           <TableRow className="border-b border-[#E2E8F0]">
             <TableCell className="py-6">
               <span className="text-sm font-medium text-muted-foreground">
-                Contact email
+                {t("contactEmail")}
               </span>
             </TableCell>
             <TableCell className="py-6">
@@ -165,7 +168,7 @@ export function ProfileSettings() {
                   {currentEmail}
                 </span>
                 <span className="text-xs text-muted-foreground mt-0.5">
-                  Primary email for platform communications
+                  {t("contactEmailDescription")}
                 </span>
               </div>
             </TableCell>
@@ -176,7 +179,7 @@ export function ProfileSettings() {
                 onClick={() => setOpenEmailDialog(true)}
                 className="h-8 px-4 text-xs font-medium bg-white border-border hover:bg-muted text-foreground"
               >
-                Edit
+                {tCommon("edit")}
               </Button>
             </TableCell>
           </TableRow>
@@ -185,7 +188,7 @@ export function ProfileSettings() {
           <TableRow className="border-b border-[#E2E8F0]">
             <TableCell className="py-6">
               <span className="text-sm font-medium text-muted-foreground">
-                Company
+                {t("company")}
               </span>
             </TableCell>
             <TableCell className="py-6">
@@ -194,7 +197,7 @@ export function ProfileSettings() {
                   {currentCompanyName}
                 </span>
                 <span className="text-xs text-muted-foreground mt-0.5">
-                  Your brand or company name
+                  {t("companyDescription")}
                 </span>
               </div>
             </TableCell>
@@ -205,7 +208,7 @@ export function ProfileSettings() {
                 onClick={() => setOpenCompanyDialog(true)}
                 className="h-8 px-4 text-xs font-medium bg-white border-border hover:bg-muted text-foreground"
               >
-                Edit
+                {tCommon("edit")}
               </Button>
             </TableCell>
           </TableRow>
@@ -214,7 +217,7 @@ export function ProfileSettings() {
           <TableRow className="border-b-0">
             <TableCell className="py-6">
               <span className="text-sm font-medium text-muted-foreground">
-                Phone number
+                {t("phoneNumber")}
               </span>
             </TableCell>
             <TableCell className="py-6">
@@ -223,7 +226,7 @@ export function ProfileSettings() {
                   {currentPhoneNumber}
                 </span>
                 <span className="text-xs text-muted-foreground mt-0.5">
-                  For account security and notifications
+                  {t("phoneNumberDescription")}
                 </span>
               </div>
             </TableCell>
@@ -234,7 +237,7 @@ export function ProfileSettings() {
                 onClick={() => setOpenPhoneDialog(true)}
                 className="h-8 px-4 text-xs font-medium bg-white border-border hover:bg-muted text-foreground"
               >
-                Edit
+                {tCommon("edit")}
               </Button>
             </TableCell>
           </TableRow>
@@ -243,7 +246,7 @@ export function ProfileSettings() {
 
       <div className="space-y-6 pt-8">
         <div className="flex flex-col gap-1">
-          <h2 className="text-xl font-bold text-foreground">Preferences</h2>
+          <h2 className="text-xl font-bold text-foreground">{t("preferences")}</h2>
         </div>
 
         <Table>
@@ -252,16 +255,16 @@ export function ProfileSettings() {
             <TableRow className="border-b border-[#E2E8F0]">
               <TableCell className="py-6 w-1/3">
                 <span className="text-sm font-medium text-muted-foreground">
-                  Language
+                  {t("language")}
                 </span>
               </TableCell>
               <TableCell className="py-6 w-1/3">
                 <div className="flex flex-col">
                   <span className="text-sm font-bold text-foreground">
-                    {currentLanguage === "en" ? "English" : "עברית"}
+                    {language === "en" ? tLang("english") : tLang("hebrew")}
                   </span>
                   <span className="text-xs text-muted-foreground mt-0.5">
-                    Platform display language
+                    {t("languageDescription")}
                   </span>
                 </div>
               </TableCell>
@@ -272,7 +275,7 @@ export function ProfileSettings() {
                   onClick={() => setOpenLangDialog(true)}
                   className="h-8 px-4 text-xs font-medium bg-white border-border hover:bg-muted text-foreground"
                 >
-                  Change
+                  {tCommon("change")}
                 </Button>
               </TableCell>
             </TableRow>
@@ -281,7 +284,7 @@ export function ProfileSettings() {
             <TableRow className="border-b border-[#E2E8F0]">
               <TableCell className="py-6 w-1/3">
                 <span className="text-sm font-medium text-muted-foreground">
-                  Timezone
+                  {t("timezone")}
                 </span>
               </TableCell>
               <TableCell className="py-6 w-1/3">
@@ -290,7 +293,7 @@ export function ProfileSettings() {
                     {currentTimezone}
                   </span>
                   <span className="text-xs text-muted-foreground mt-0.5">
-                    Used for campaign scheduling
+                    {t("timezoneDescription")}
                   </span>
                 </div>
               </TableCell>
@@ -301,7 +304,7 @@ export function ProfileSettings() {
                   onClick={() => setOpenTimezoneDialog(true)}
                   className="h-8 px-4 text-xs font-medium bg-white border-border hover:bg-muted text-foreground"
                 >
-                  Change
+                  {tCommon("change")}
                 </Button>
               </TableCell>
             </TableRow>
@@ -310,12 +313,12 @@ export function ProfileSettings() {
             <TableRow className="border-b border-[#E2E8F0]">
               <TableCell className="py-6 w-1/3">
                 <span className="text-sm font-medium text-muted-foreground">
-                  Campaign updates
+                  {t("campaignUpdates")}
                 </span>
               </TableCell>
               <TableCell className="py-6 w-1/3">
                 <span className="text-xs text-muted-foreground">
-                  Get notified about campaign milestones
+                  {t("campaignUpdatesDescription")}
                 </span>
               </TableCell>
               <TableCell className="py-6 text-right w-1/3">
@@ -330,12 +333,12 @@ export function ProfileSettings() {
             <TableRow className="border-b border-[#E2E8F0]">
               <TableCell className="py-6 w-1/3">
                 <span className="text-sm font-medium text-muted-foreground">
-                  Response alerts
+                  {t("responseAlerts")}
                 </span>
               </TableCell>
               <TableCell className="py-6 w-1/3">
                 <span className="text-xs text-muted-foreground">
-                  Email when target responses are reached
+                  {t("responseAlertsDescription")}
                 </span>
               </TableCell>
               <TableCell className="py-6 text-right w-1/3">
@@ -350,12 +353,12 @@ export function ProfileSettings() {
             <TableRow className="border-b-0">
               <TableCell className="py-6 w-1/3">
                 <span className="text-sm font-medium text-muted-foreground">
-                  Influencer activity
+                  {t("influencerActivity")}
                 </span>
               </TableCell>
               <TableCell className="py-6 w-1/3">
                 <span className="text-xs text-muted-foreground">
-                  Updates when influencers join campaigns
+                  {t("influencerActivityDescription")}
                 </span>
               </TableCell>
               <TableCell className="py-6 text-right w-1/3">

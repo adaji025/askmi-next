@@ -10,8 +10,10 @@ import { Label } from "@/components/ui/label";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import LanguageDropdown from "../dashboard/dashboard/layout/lang-dropdown";
+import { useTranslations } from "next-intl";
 
 export function LoginForm() {
+  const t = useTranslations("auth.signIn");
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -26,21 +28,21 @@ export function LoginForm() {
 
   const validateEmail = (email: string): string => {
     if (!email.trim()) {
-      return "Email is required";
+      return t("emailRequired");
     }
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      return "Please enter a valid email address";
+      return t("emailInvalid");
     }
     return "";
   };
 
   const validatePassword = (password: string): string => {
     if (!password) {
-      return "Password is required";
+      return t("passwordRequired");
     }
     if (password.length < 6) {
-      return "Password must be at least 6 characters";
+      return t("passwordMinLength");
     }
     return "";
   };
@@ -72,7 +74,7 @@ export function LoginForm() {
       console.log(formData.email, formData.password);
       router.push("/dashboard");
     } catch (err) {
-      setError("Invalid email or password");
+      setError(t("invalidCredentials"));
     } finally {
       setIsLoading(false);
     }
@@ -102,10 +104,10 @@ export function LoginForm() {
       <div className="w-full max-w-md mx-auto">
         <div className="text-center mb-8">
           <h1 className="text-[32px] font-bold mb-2 text-blck">
-            Sign In your account
+            {t("title")}
           </h1>
           <p className="text-sm text-center text-[#5D6A6B]">
-            Welcome back! Please enter your details.
+            {t("subtitle")}
           </p>
         </div>
 
@@ -119,12 +121,12 @@ export function LoginForm() {
 
           <div className="space-y-2">
             <Label htmlFor="email" className="text-sm font-bold text-[#8E8E8E]">
-              Email
+              {t("email")}
             </Label>
             <Input
               id="email"
               type="email"
-              placeholder="youremail@example.com"
+              placeholder={t("emailPlaceholder")}
               value={formData.email}
               onChange={handleEmailChange}
               className={`h-11 bg-white rounded-[6px] ${errors.email
@@ -143,12 +145,12 @@ export function LoginForm() {
               htmlFor="password"
               className="text-sm font-bold text-[#8E8E8E]"
             >
-              Password
+              {t("password")}
             </Label>
             <Input
               id="password"
               type="password"
-              placeholder="Enter your password"
+              placeholder={t("passwordPlaceholder")}
               value={formData.password}
               onChange={handlePasswordChange}
               className={`h-11 bg-white rounded-[6px] ${errors.password
@@ -167,17 +169,17 @@ export function LoginForm() {
             className="mt-12 rounded-[6px] w-full h-12 text-base font-medium bg-[#2563EB] hover:bg-[#2563EB]/90"
             disabled={isLoading}
           >
-            {isLoading ? "Signing in..." : "Sign In"}
+            {isLoading ? t("signingIn") : t("signInButton")}
           </Button>
         </form>
 
         <p className="text-center mt-6 text-sm text-muted-foreground">
-          Don't have an account?{" "}
+          {t("noAccount")}{" "}
           <Link
             href={"/auth/sign-up"}
             className="text-[#8B5CF6] font-medium cursor-pointer hover:underline"
           >
-            Sign up.
+            {t("signUp")}
           </Link>
         </p>
       </div>

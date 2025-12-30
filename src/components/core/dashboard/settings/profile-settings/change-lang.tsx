@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { CheckIcon } from "lucide-react";
 import {
   Dialog,
@@ -12,6 +12,9 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { useLanguageStore } from "@/store/language-store";
+import { useTranslations } from "next-intl";
+import { useRouter } from "next/navigation";
 
 interface Language {
   code: string;
@@ -48,16 +51,31 @@ interface ChangeLangDialogProps {
 export function ChangeLangDialog({
   open,
   onOpenChange,
-  currentLanguage = "en",
+  currentLanguage,
   onSave,
 }: ChangeLangDialogProps) {
-  const [selectedLanguage, setSelectedLanguage] = useState(currentLanguage);
+  const { language, setLanguage } = useLanguageStore();
+  const t = useTranslations();
+  const router = useRouter();
+  const [selectedLanguage, setSelectedLanguage] = useState(
+    currentLanguage || language
+  );
+
+  useEffect(() => {
+    if (currentLanguage) {
+      setSelectedLanguage(currentLanguage);
+    } else {
+      setSelectedLanguage(language);
+    }
+  }, [currentLanguage, language]);
 
   const handleSave = () => {
+    setLanguage(selectedLanguage as "en" | "he");
     if (onSave) {
       onSave(selectedLanguage);
     }
     onOpenChange(false);
+    router.refresh();
   };
 
   return (
@@ -65,35 +83,37 @@ export function ChangeLangDialog({
       <DialogContent className="max-w-md">
         <DialogHeader>
           <DialogTitle className="text-xl font-bold">
-            Change Language
+            {t("language.changeLanguage")}
           </DialogTitle>
           <DialogDescription className="text-base text-foreground">
-            Select your preferred language
+            {t("language.selectLanguage")}
           </DialogDescription>
         </DialogHeader>
 
         <div className="space-y-3 py-4">
-          {languages.map((language) => (
+          {languages.map((lang) => (
             <button
-              key={language.code}
-              onClick={() => setSelectedLanguage(language.code)}
+              key={lang.code}
+              onClick={() => setSelectedLanguage(lang.code)}
               className={cn(
-                "w-full flex items-center gap-3 p-4 rounded-lg border text-left transition-all",
-                selectedLanguage === language.code
+                "w-full flex items-center gap-3 p-4 rounded-lg border text-left transition-all rtl:text-right",
+                selectedLanguage === lang.code
                   ? "border-[#2563EB] bg-[#2563EB]/5"
                   : "border-[#E2E8F0] bg-white hover:border-[#2563EB]/50"
               )}
             >
-              <span className="text-2xl shrink-0">{language.flag}</span>
+              <span className="text-2xl shrink-0">{lang.flag}</span>
               <div className="flex-1 min-w-0">
                 <div className="font-bold text-foreground mb-1">
-                  {language.nativeName}
+                  {lang.nativeName}
                 </div>
                 <div className="text-xs text-muted-foreground">
-                  {language.description}
+                  {lang.code === "en"
+                    ? t("language.platformInEnglish")
+                    : t("language.platformInHebrew")}
                 </div>
               </div>
-              {selectedLanguage === language.code && (
+              {selectedLanguage === lang.code && (
                 <div className="h-5 w-5 rounded-full bg-[#2563EB] flex items-center justify-center shrink-0">
                   <CheckIcon className="h-3 w-3 text-white" />
                 </div>
@@ -108,13 +128,13 @@ export function ChangeLangDialog({
             onClick={() => onOpenChange(false)}
             className="h-10 px-6"
           >
-            Cancel
+            {t("common.cancel")}
           </Button>
           <Button
             onClick={handleSave}
             className="h-10 px-6 bg-[#2563EB] hover:bg-[#2563EB]/90 text-white"
           >
-            Save Changes
+            {t("language.saveChanges")}
           </Button>
         </DialogFooter>
       </DialogContent>

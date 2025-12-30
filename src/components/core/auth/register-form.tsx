@@ -18,12 +18,14 @@ import { useRouter } from "next/navigation";
 import LanguageDropdown from "../dashboard/dashboard/layout/lang-dropdown";
 import InfluenceDirections from "./influencer-directions";
 import { PhoneInput } from "./phone-number-input";
+import { useTranslations } from "next-intl";
 
 
 
 
 
 export function RegisterForm() {
+  const t = useTranslations("auth.signUp");
   const [accountType, setAccountType] = useState<"brand" | "influencer">(
     "brand"
   );
@@ -50,31 +52,31 @@ export function RegisterForm() {
 
   const validateFullName = (fullName: string): string => {
     if (!fullName.trim()) {
-      return "Full name is required";
+      return t("fullNameRequired");
     }
     if (fullName.trim().length < 2) {
-      return "Full name must be at least 2 characters";
+      return t("fullNameMinLength");
     }
     return "";
   };
 
   const validateEmail = (email: string): string => {
     if (!email.trim()) {
-      return "Email is required";
+      return t("emailRequired");
     }
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      return "Please enter a valid email address";
+      return t("emailInvalid");
     }
     return "";
   };
 
   const validatePassword = (password: string): string => {
     if (!password) {
-      return "Password is required";
+      return t("passwordRequired");
     }
     if (password.length < 8) {
-      return "Password must be at least 8 characters";
+      return t("passwordMinLength");
     }
     return "";
   };
@@ -84,26 +86,26 @@ export function RegisterForm() {
     password: string
   ): string => {
     if (!confirmPassword) {
-      return "Please confirm your password";
+      return t("confirmPasswordRequired");
     }
     if (confirmPassword !== password) {
-      return "Passwords do not match";
+      return t("passwordsMismatch");
     }
     return "";
   };
 
   const validatePhoneNumber = (phoneNumber: string): string => {
     if (!phoneNumber.trim()) {
-      return "Phone number is required";
+      return t("phoneRequired");
     }
     // Basic validation - at least 7 digits
     const phoneRegex = /^[\d\s\-\(\)]+$/;
     if (!phoneRegex.test(phoneNumber)) {
-      return "Please enter a valid phone number";
+      return t("phoneInvalid");
     }
     const digitsOnly = phoneNumber.replace(/\D/g, "");
     if (digitsOnly.length < 7) {
-      return "Phone number must be at least 7 digits";
+      return t("phoneMinLength");
     }
     return "";
   };
@@ -112,7 +114,7 @@ export function RegisterForm() {
     const fullNameError = validateFullName(formData.fullName);
     const companyError = formData.company.trim()
       ? ""
-      : "Company name is required";
+      : t("companyRequired");
     const emailError = validateEmail(formData.email);
     const phoneNumberError = validatePhoneNumber(formData.phoneNumber);
     const passwordError = validatePassword(formData.password);
@@ -158,7 +160,7 @@ export function RegisterForm() {
       router.push("/dashboard");
       // Navigate to login or dashboard after successful registration
     } catch (err) {
-      setError("Registration failed. Please try again.");
+      setError(t("registrationFailed"));
     } finally {
       setIsLoading(false);
     }
@@ -184,10 +186,10 @@ export function RegisterForm() {
       <div className="w-full ">
         <div className="text-center mb-8 max-w-md mx-auto">
           <h1 className="text-[32px] text-center font-bold mb-2 text-blck">
-            Create your account
+            {t("title")}
           </h1>
           <p className="text-base text-center text-[#5D6A6B]">
-            Start your journey with us today
+            {t("subtitle")}
           </p>
         </div>
 
@@ -202,7 +204,7 @@ export function RegisterForm() {
                   : "text-muted-foreground hover:text-foreground"
               }`}
             >
-              As a brand
+              {t("asBrand")}
             </button>
             <button
               onClick={() => setAccountType("influencer")}
@@ -212,7 +214,7 @@ export function RegisterForm() {
                   : "text-muted-foreground hover:text-foreground"
               }`}
             >
-              As an influencer
+              {t("asInfluencer")}
             </button>
           </div>
         </div>
@@ -232,12 +234,12 @@ export function RegisterForm() {
                   htmlFor="fullName"
                   className="text-sm font-bold text-[#8E8E8E]"
                 >
-                  Enter your full name
+                  {t("fullName")}
                 </Label>
                 <Input
                   id="fullName"
                   type="text"
-                  placeholder="e.g John Doe Gabriel"
+                  placeholder={t("fullNamePlaceholder")}
                   value={formData.fullName}
                   onChange={(e) =>
                     handleFieldChange("fullName", e.target.value)
@@ -261,12 +263,12 @@ export function RegisterForm() {
                   htmlFor="company"
                   className="text-sm font-bold text-[#8E8E8E]"
                 >
-                  Company
+                  {t("company")}
                 </Label>
                 <Input
                   id="company"
                   type="text"
-                  placeholder="Enter company name"
+                  placeholder={t("companyPlaceholder")}
                   value={formData.company}
                   onChange={(e) => handleFieldChange("company", e.target.value)}
                   className={`h-11 bg-white rounded-[6px] ${
@@ -288,12 +290,12 @@ export function RegisterForm() {
                   htmlFor="email"
                   className="text-sm font-bold text-[#8E8E8E]"
                 >
-                  Work Email
+                  {t("workEmail")}
                 </Label>
                 <Input
                   id="email"
                   type="email"
-                  placeholder="youremail@example.com"
+                  placeholder={t("emailPlaceholder")}
                   value={formData.email}
                   onChange={(e) => handleFieldChange("email", e.target.value)}
                   className={`h-11 bg-white rounded-[6px] ${
@@ -315,7 +317,7 @@ export function RegisterForm() {
                   htmlFor="phone"
                   className="text-sm font-bold text-[#8E8E8E]"
                 >
-                  Phone Number
+                  {t("phoneNumber")}
                 </Label>
                 <PhoneInput
                   value={formData.phoneNumber}
@@ -324,7 +326,7 @@ export function RegisterForm() {
                   onCountryCodeChange={(code) =>
                     setFormData({ ...formData, countryCode: code })
                   }
-                  placeholder="123 - 456 - 789"
+                  placeholder={t("phonePlaceholder")}
                   className={`h-11 bg-white rounded-[6px] ${
                     errors.phoneNumber
                       ? "border-destructive focus-within:ring-destructive"
@@ -343,12 +345,12 @@ export function RegisterForm() {
                   htmlFor="password"
                   className="text-sm font-bold text-[#8E8E8E]"
                 >
-                  Password
+                  {t("password")}
                 </Label>
                 <Input
                   id="password"
                   type="password"
-                  placeholder="Create strong password"
+                  placeholder={t("passwordPlaceholder")}
                   value={formData.password}
                   onChange={(e) =>
                     handleFieldChange("password", e.target.value)
@@ -372,12 +374,12 @@ export function RegisterForm() {
                   htmlFor="confirmPassword"
                   className="text-sm font-bold text-[#8E8E8E]"
                 >
-                  Confirm Password
+                  {t("confirmPassword")}
                 </Label>
                 <Input
                   id="confirmPassword"
                   type="password"
-                  placeholder="Confirm your password"
+                  placeholder={t("confirmPasswordPlaceholder")}
                   value={formData.confirmPassword}
                   onChange={(e) =>
                     handleFieldChange("confirmPassword", e.target.value)
@@ -401,17 +403,17 @@ export function RegisterForm() {
                 className="mt-12 rounded-[6px] w-full h-12 text-base font-medium bg-[#2563EB] hover:bg-[#2563EB]/90"
                 disabled={isLoading}
               >
-                {isLoading ? "Creating account..." : "Create account"}
+                {isLoading ? t("creatingAccount") : t("createAccount")}
               </Button>
             </form>
 
             <p className="text-center mt-6 text-sm text-muted-foreground">
-              Already have an account?{" "}
+              {t("hasAccount")}{" "}
               <Link
                 href={"/auth/sign-in"}
                 className="text-[#8B5CF6] font-medium cursor-pointer hover:underline"
               >
-                Sign in.
+                {t("signIn")}
               </Link>
             </p>
           </div>
