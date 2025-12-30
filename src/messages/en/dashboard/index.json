@@ -26,6 +26,21 @@
   },
   "activityItem": {
     "reachedResponses": "reached {metric} responses"
+  },
+  "menu": {
+    "dashboard": "Dashboard",
+    "campaign": "Campaign",
+    "campaigns": "Campaigns",
+    "surveys": "Surveys",
+    "analytics": "Analytics",
+    "influencers": "Influencers",
+    "billings": "Billings",
+    "settings": "Settings"
+  },
+  "navigation": {
+    "main": "MAIN",
+    "manage": "MANAGE",
+    "controlCenter": "CONTROL CENTER"
   }
 }
 

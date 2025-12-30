@@ -22,53 +22,56 @@ import {
 } from "./svg";
 import { NavMain } from "./nav-main";
 import { NavUser } from "./nav-user";
-
-const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
-  navMain: [
-    {
-      title: "Dashboard",
-      url: "/dashboard",
-      icon: DashboardSVG,
-    },
-    {
-      title: "Campaign",
-      url: "/dashboard/campaigns",
-      icon: CampaignsSVG,
-    },
-    {
-      title: "Surveys",
-      url: "/dashboard/surveys",
-      icon: SurveysSVG,
-    },
-    {
-      title: "Analytics",
-      url: "/dashboard/analytics",
-      icon: AnalyticsSVG,
-    },
-    {
-      title: "Influencers",
-      url: "/dashboard/influencers",
-      icon: InfluencersSVG,
-    },
-    {
-      title: "Billings",
-      url: "/dashboard/billings",
-      icon: BillingsSVG,
-    },
-    {
-      title: "Settings",
-      url: "/dashboard/settings",
-      icon: SurveysSVG,
-    },
-  ],
-};
+import { useTranslations } from "next-intl";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const t = useTranslations("dashboard");
+
+  const data = {
+    user: {
+      name: "shadcn",
+      email: "m@example.com",
+      avatar: "/avatars/shadcn.jpg",
+    },
+    navMain: [
+      {
+        title: t("menu.dashboard"),
+        url: "/dashboard",
+        icon: DashboardSVG,
+      },
+      {
+        title: t("menu.campaign"),
+        url: "/dashboard/campaigns",
+        icon: CampaignsSVG,
+      },
+      {
+        title: t("menu.surveys"),
+        url: "/dashboard/surveys",
+        icon: SurveysSVG,
+      },
+      {
+        title: t("menu.analytics"),
+        url: "/dashboard/analytics",
+        icon: AnalyticsSVG,
+      },
+      {
+        title: t("menu.influencers"),
+        url: "/dashboard/influencers",
+        icon: InfluencersSVG,
+      },
+      {
+        title: t("menu.billings"),
+        url: "/dashboard/billings",
+        icon: BillingsSVG,
+      },
+      {
+        title: t("menu.settings"),
+        url: "/dashboard/settings",
+        icon: SurveysSVG,
+      },
+    ],
+  };
+
   return (
     <Sidebar collapsible="offcanvas" {...props}>
       <SidebarHeader>
@@ -90,7 +93,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           </SidebarMenuItem>
         </SidebarMenu>
         <div className="text-center bg-[#302D54] p-1.5 rounded-sm text-[#8B5CF6] text-xs font-bold">
-          CONTROL CENTER
+          {t("navigation.controlCenter")}
         </div>
       </SidebarHeader>
       <SidebarContent className="mt-6">

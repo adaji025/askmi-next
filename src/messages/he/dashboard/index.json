@@ -26,6 +26,21 @@
   },
   "activityItem": {
     "reachedResponses": "הגיע ל-{metric} תגובות"
+  },
+  "menu": {
+    "dashboard": "לוח בקרה",
+    "campaign": "קמפיין",
+    "campaigns": "קמפיינים",
+    "surveys": "סקרים",
+    "analytics": "אנליטיקה",
+    "influencers": "אינפלואנסרים",
+    "billings": "חיובים",
+    "settings": "הגדרות"
+  },
+  "navigation": {
+    "main": "עיקרי",
+    "manage": "ניהול",
+    "controlCenter": "מרכז בקרה"
   }
 }
 

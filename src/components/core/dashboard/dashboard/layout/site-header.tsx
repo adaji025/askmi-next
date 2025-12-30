@@ -10,21 +10,24 @@ import { LogoutSVG } from "./svg";
 import { CampaignHeader } from "../../campaign/campaign-header";
 import { useLanguageStore } from "@/store/language-store";
 import { cn } from "@/lib/utils";
-
-const pageNames: Record<string, string> = {
-  "/dashboard": "Dashboard",
-  "/dashboard/campaigns": "Campaigns",
-  "/dashboard/surveys": "Surveys",
-  "/dashboard/analytics": "Analytics",
-  "/dashboard/influencers": "Influencers",
-  "/dashboard/billings": "Billings",
-  "/dashboard/settings": "Settings",
-};
+import { useTranslations } from "next-intl";
 
 export function SiteHeader() {
   const pathname = usePathname();
-  const pageName = pageNames[pathname] || "Dashboard";
+  const t = useTranslations("dashboard.menu");
   const { isRTL } = useLanguageStore();
+
+  const pageNames: Record<string, string> = {
+    "/dashboard": t("dashboard"),
+    "/dashboard/campaigns": t("campaigns"),
+    "/dashboard/surveys": t("surveys"),
+    "/dashboard/analytics": t("analytics"),
+    "/dashboard/influencers": t("influencers"),
+    "/dashboard/billings": t("billings"),
+    "/dashboard/settings": t("settings"),
+  };
+
+  const pageName = pageNames[pathname] || t("dashboard");
 
   // Check if we're on a campaign detail page (/dashboard/campaigns/[id])
   const isCampaignDetailPage =
