@@ -34,7 +34,15 @@
     "complete": "הושלם",
     "responses": "תגובות",
     "influencers": "אינפלואנסרים",
-    "left": "נותר"
+    "left": "נותר",
+    "productFeedbackSurvey": "סקר משוב על מוצר",
+    "collectingInsights": "איסוף תובנות ערך לקוחות על תכונות מוצר, שימושיות ורמות שביעות רצון בקרב הדמוגרפיה היעד שלנו דרך Instagram Stories.",
+    "ageGroupQuestion": "מה קבוצת הגיל שלך?",
+    "satisfactionQuestion": "כמה אתה מרוצה מהמוצר שלנו?",
+    "activeInfluencers": "אינפלואנסרים פעילים",
+    "yourInfluencer": "האינפלואנסר שלך",
+    "sent": "נשלח",
+    "completed": "הושלם"
   }
 }
 

@@ -34,7 +34,15 @@
     "complete": "Complete",
     "responses": "Responses",
     "influencers": "Influencers",
-    "left": "Left"
+    "left": "Left",
+    "productFeedbackSurvey": "Product Feedback Survey",
+    "collectingInsights": "Collecting valuable customer insights about product features, usability, and satisfaction levels across our target demographic through Instagram Stories.",
+    "ageGroupQuestion": "What is your age group?",
+    "satisfactionQuestion": "How satisfied are you with our product?",
+    "activeInfluencers": "Active Influencers",
+    "yourInfluencer": "Your Influencer",
+    "sent": "Sent",
+    "completed": "Completed"
   }
 }
 

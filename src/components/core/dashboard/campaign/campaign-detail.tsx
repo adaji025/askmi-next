@@ -20,12 +20,10 @@ export default function CampaignDetail() {
           {t("activeCampaign")}
         </Badge>
         <h1 className="text-2xl lg:text-4xl font-bold tracking-tight text-blck">
-          Product Feedback Survey
+          {t("productFeedbackSurvey")}
         </h1>
         <p className="text-[#8A97A0] max-w-3xl leading-relaxed">
-          Collecting valuable customer insights about product features,
-          usability, and satisfaction levels across our target demographic
-          through Instagram Stories.
+          {t("collectingInsights")}
         </p>
       </div>
 
@@ -89,7 +87,7 @@ export default function CampaignDetail() {
             {t("questionOf", { current: 1, total: 2 })}
           </div>
           <h3 className="text-lg font-bold text-black">
-            What is your age group?
+            {t("ageGroupQuestion")}
           </h3>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             {["18-24", "25-34", "35-44", "45+"].map((age) => (
@@ -109,7 +107,7 @@ export default function CampaignDetail() {
             {t("questionOf", { current: 2, total: 2 })}
           </div>
           <h3 className="text-lg font-bold text-black">
-            How satisfied are you with our product?
+            {t("satisfactionQuestion")}
           </h3>
           <div className="grid grid-cols-5 sm:grid-cols-10 gap-2">
             {Array.from({ length: 10 }, (_, i) => i + 1).map((num) => (

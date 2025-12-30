@@ -1,11 +1,16 @@
+"use client";
+
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent } from "@/components/ui/card";
 import React from "react";
+import { useTranslations } from "next-intl";
 
 const ActiveInfluencerCard = () => {
+  const t = useTranslations("campaign.detail");
+
   return (
     <div className="space-y-6 bg-white lg:p-6 rounded-md">
-      <h2 className="text-lg font-bold text-black">Active Influencers</h2>
+      <h2 className="text-lg font-bold text-black">{t("activeInfluencers")}</h2>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {[1, 2, 3].map((i) => (
           <Card key={i} className="border-[#E2E8F0] rounded-md shadow-none ">
@@ -16,7 +21,7 @@ const ActiveInfluencerCard = () => {
                   <AvatarFallback>YI</AvatarFallback>
                 </Avatar>
                 <div className="space-y-0.5">
-                  <div className="font-bold text-sm">Your Influencer</div>
+                  <div className="font-bold text-sm">{t("yourInfluencer")}</div>
                   <div className="text-[10px] text-gray-400 font-medium">
                     @41.2k
                   </div>
@@ -28,7 +33,7 @@ const ActiveInfluencerCard = () => {
                     140
                   </div>
                   <div className="text-[10px] text-gray-400 font-semibold uppercase tracking-wider mt-1">
-                    Sent
+                    {t("sent")}
                   </div>
                 </div>
                 <div className="w-px h-8 bg-gray-100" />
@@ -37,7 +42,7 @@ const ActiveInfluencerCard = () => {
                     78%
                   </div>
                   <div className="text-[10px] text-gray-400 font-semibold uppercase tracking-wider mt-1">
-                    Completed
+                    {t("completed")}
                   </div>
                 </div>
               </div>
