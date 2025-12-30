@@ -1,6 +1,9 @@
+"use client";
+
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Badge } from "@/components/ui/badge"
 import { cn } from "@/lib/utils"
+import { useTranslations } from "next-intl"
 
 interface Transaction {
   id: string
@@ -70,30 +73,32 @@ const transactions: Transaction[] = [
 ]
 
 export function TransactionHistory() {
+  const t = useTranslations("billing.transactionHistory");
+
   return (
     <div className="w-full space-y-4 bg-white rounded-md">
-      <h2 className="font-bold text-foreground">Transaction History</h2>
+      <h2 className="font-bold text-foreground">{t("title")}</h2>
       <div className="rounded-xl border border-border bg-card overflow-hidden">
         <Table>
           <TableHeader className="bg-muted/30 border-none">
             <TableRow className="hover:bg-transparent border-none">
               <TableHead className="py-4 px-6 text-[11px] font-bold uppercase tracking-wider text-muted-foreground">
-                Campaign
+                {t("headers.campaign")}
               </TableHead>
               <TableHead className="py-4 px-6 text-[11px] font-bold uppercase tracking-wider text-muted-foreground">
-                Expected Votes
+                {t("headers.expectedVotes")}
               </TableHead>
               <TableHead className="py-4 px-6 text-[11px] font-bold uppercase tracking-wider text-muted-foreground">
-                Votes Gotten
+                {t("headers.votesGotten")}
               </TableHead>
               <TableHead className="py-4 px-6 text-[11px] font-bold uppercase tracking-wider text-muted-foreground">
-                Amount
+                {t("headers.amount")}
               </TableHead>
               <TableHead className="py-4 px-6 text-[11px] font-bold uppercase tracking-wider text-muted-foreground">
-                Status
+                {t("headers.status")}
               </TableHead>
               <TableHead className="py-4 px-6 text-[11px] font-bold uppercase tracking-wider text-muted-foreground">
-                Date
+                {t("headers.date")}
               </TableHead>
             </TableRow>
           </TableHeader>
@@ -116,7 +121,7 @@ export function TransactionHistory() {
                         : "bg-orange-50 text-orange-400 border-orange-100 hover:bg-orange-50",
                     )}
                   >
-                    {transaction.status}
+                    {transaction.status === "Paid" ? t("status.paid") : t("status.pending")}
                   </Badge>
                 </TableCell>
                 <TableCell className="py-5 px-6 text-muted-foreground text-right">{transaction.date}</TableCell>

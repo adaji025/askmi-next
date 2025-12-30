@@ -1,6 +1,9 @@
+"use client";
+
 import { Trash2 } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import { useTranslations } from "next-intl"
 
 interface PaymentCardProps {
   brand: "mastercard" | "visa"
@@ -10,6 +13,7 @@ interface PaymentCardProps {
 }
 
 export function PaymentCard({ brand, last4, expiry, isDefault }: PaymentCardProps) {
+  const t = useTranslations("billing.settings");
   return (
     <div className="flex items-center justify-between p-4 border rounded-lg bg-card border-[#E2E8F0]">
       <div className="flex items-center gap-4">
@@ -40,7 +44,7 @@ export function PaymentCard({ brand, last4, expiry, isDefault }: PaymentCardProp
                 variant="secondary"
                 className="bg-blue-50 text-blue-600 hover:bg-blue-50 font-medium text-[10px] px-1.5 h-5 border-none"
               >
-                Default
+                {t("default")}
               </Badge>
             )}
           </div>

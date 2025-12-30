@@ -1,0 +1,38 @@
+{
+  "page": {
+    "description": "חיוב דינמי בהתבסס על הצבעות בפועל שנמסרו",
+    "downloadReport": "הורד דוח",
+    "stats": {
+      "totalSpend": "סה\"כ הוצאה",
+      "currentMonth": "חודש נוכחי",
+      "avgCostPerVote": "עלות ממוצעת להצבעה",
+      "pending": "ממתין"
+    }
+  },
+  "settings": {
+    "paymentMethods": "אמצעי תשלום",
+    "addNewPaymentMethod": "הוסף אמצעי תשלום חדש",
+    "billingInformation": "פרטי חיוב",
+    "email": "אימייל",
+    "address": "כתובת",
+    "postalCode": "מיקוד",
+    "editInformation": "ערוך פרטים",
+    "default": "ברירת מחדל"
+  },
+  "transactionHistory": {
+    "title": "היסטוריית עסקאות",
+    "headers": {
+      "campaign": "קמפיין",
+      "expectedVotes": "הצבעות צפויות",
+      "votesGotten": "הצבעות שהתקבלו",
+      "amount": "סכום",
+      "status": "סטטוס",
+      "date": "תאריך"
+    },
+    "status": {
+      "paid": "שולם",
+      "pending": "ממתין"
+    }
+  }
+}
+

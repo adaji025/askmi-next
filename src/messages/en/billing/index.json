@@ -1,0 +1,38 @@
+{
+  "page": {
+    "description": "Dynamic billing based on actual votes delivered",
+    "downloadReport": "Download Report",
+    "stats": {
+      "totalSpend": "Total Spend",
+      "currentMonth": "Current Month",
+      "avgCostPerVote": "Avg Cost Per Vote",
+      "pending": "Pending"
+    }
+  },
+  "settings": {
+    "paymentMethods": "Payment Methods",
+    "addNewPaymentMethod": "Add new payment method",
+    "billingInformation": "Billing Information",
+    "email": "Email",
+    "address": "Address",
+    "postalCode": "Postal code",
+    "editInformation": "Edit information",
+    "default": "Default"
+  },
+  "transactionHistory": {
+    "title": "Transaction History",
+    "headers": {
+      "campaign": "Campaign",
+      "expectedVotes": "Expected Votes",
+      "votesGotten": "Votes Gotten",
+      "amount": "Amount",
+      "status": "Status",
+      "date": "Date"
+    },
+    "status": {
+      "paid": "Paid",
+      "pending": "Pending"
+    }
+  }
+}
+

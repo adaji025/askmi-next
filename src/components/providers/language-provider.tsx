@@ -13,6 +13,7 @@ import enSurvey from "@/messages/en/survey.json";
 import enDashboard from "@/messages/en/dashboard/index.json";
 import enAnalytics from "@/messages/en/analytics/index.json";
 import enInfluencers from "@/messages/en/influencers/index.json";
+import enBilling from "@/messages/en/billing/index.json";
 import heCommon from "@/messages/he/common.json";
 import heAuth from "@/messages/he/auth/index.json";
 import heLanguage from "@/messages/he/language.json";
@@ -23,6 +24,7 @@ import heSurvey from "@/messages/he/survey.json";
 import heDashboard from "@/messages/he/dashboard/index.json";
 import heAnalytics from "@/messages/he/analytics/index.json";
 import heInfluencers from "@/messages/he/influencers/index.json";
+import heBilling from "@/messages/he/billing/index.json";
 
 const messagesMap = {
   en: {
@@ -35,6 +37,7 @@ const messagesMap = {
     dashboard: enDashboard,
     analytics: enAnalytics,
     influencers: enInfluencers,
+    billing: enBilling,
   },
   he: {
     common: heCommon,
@@ -46,6 +49,7 @@ const messagesMap = {
     dashboard: heDashboard,
     analytics: heAnalytics,
     influencers: heInfluencers,
+    billing: heBilling,
   },
 };
 
