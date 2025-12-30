@@ -1,0 +1,24 @@
+{
+  "page": {
+    "title": "Campaign performance and insight metrics all in all",
+    "allTime": "All Time",
+    "lastMonth": "Last Month",
+    "thisMonth": "This Month",
+    "lastYear": "Last Year",
+    "thisYear": "This Year",
+    "exportReport": "Export Report"
+  },
+  "stats": {
+    "totalVotes": "Total Votes",
+    "activeCampaigns": "Active Campaigns",
+    "avgResponseRate": "Avg Response Rate",
+    "totalSpend": "Total Spend"
+  },
+  "charts": {
+    "voteCollectionOverTime": "Vote Collection Over Time",
+    "votes": "Votes",
+    "ageDistribution": "Age Distribution",
+    "ageRange45AndAbove": "45 and above"
+  }
+}
+

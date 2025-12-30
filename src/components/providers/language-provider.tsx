@@ -11,6 +11,7 @@ import enCampaign from "@/messages/en/campaign.json";
 import enCampaignPages from "@/messages/en/campaign/index.json";
 import enSurvey from "@/messages/en/survey.json";
 import enDashboard from "@/messages/en/dashboard/index.json";
+import enAnalytics from "@/messages/en/analytics/index.json";
 import heCommon from "@/messages/he/common.json";
 import heAuth from "@/messages/he/auth/index.json";
 import heLanguage from "@/messages/he/language.json";
@@ -19,6 +20,7 @@ import heCampaign from "@/messages/he/campaign.json";
 import heCampaignPages from "@/messages/he/campaign/index.json";
 import heSurvey from "@/messages/he/survey.json";
 import heDashboard from "@/messages/he/dashboard/index.json";
+import heAnalytics from "@/messages/he/analytics/index.json";
 
 const messagesMap = {
   en: {
@@ -29,6 +31,7 @@ const messagesMap = {
     campaign: { ...enCampaign, ...enCampaignPages },
     survey: enSurvey,
     dashboard: enDashboard,
+    analytics: enAnalytics,
   },
   he: {
     common: heCommon,
@@ -38,6 +41,7 @@ const messagesMap = {
     campaign: { ...heCampaign, ...heCampaignPages },
     survey: heSurvey,
     dashboard: heDashboard,
+    analytics: heAnalytics,
   },
 };
 

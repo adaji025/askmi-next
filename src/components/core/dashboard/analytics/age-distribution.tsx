@@ -1,16 +1,21 @@
-import { Progress } from "@/components/ui/progress";
+"use client";
 
-const ageData = [
-  { range: "18 - 24", percentage: 42 },
-  { range: "25 - 34", percentage: 35 },
-  { range: "35 - 44", percentage: 15 },
-  { range: "45 and above", percentage: 8 },
-];
+import { Progress } from "@/components/ui/progress";
+import { useTranslations } from "next-intl";
 
 export function AgeDistribution() {
+  const t = useTranslations("analytics.charts");
+
+  const ageData = [
+    { range: "18 - 24", percentage: 42 },
+    { range: "25 - 34", percentage: 35 },
+    { range: "35 - 44", percentage: 15 },
+    { range: t("ageRange45AndAbove"), percentage: 8 },
+  ];
+
   return (
     <div className="space-y-4 bg-white p-2 sm:p-5 shadow-xs rounded">
-      <h3 className="text-lg font-bold">Age Distribution</h3>
+      <h3 className="text-lg font-bold">{t("ageDistribution")}</h3>
       <div className="space-y-4">
         {ageData.map((item) => (
           <div key={item.range} className="space-y-2">

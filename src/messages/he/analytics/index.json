@@ -1,0 +1,24 @@
+{
+  "page": {
+    "title": "ביצועי קמפיין ומדדי תובנות הכל במקום אחד",
+    "allTime": "כל הזמן",
+    "lastMonth": "חודש שעבר",
+    "thisMonth": "החודש",
+    "lastYear": "שנה שעברה",
+    "thisYear": "השנה",
+    "exportReport": "ייצא דוח"
+  },
+  "stats": {
+    "totalVotes": "סה\"כ הצבעות",
+    "activeCampaigns": "קמפיינים פעילים",
+    "avgResponseRate": "שיעור תגובה ממוצע",
+    "totalSpend": "סה\"כ הוצאה"
+  },
+  "charts": {
+    "voteCollectionOverTime": "איסוף הצבעות לאורך זמן",
+    "votes": "הצבעות",
+    "ageDistribution": "התפלגות גילאים",
+    "ageRange45AndAbove": "45 ומעלה"
+  }
+}
+
