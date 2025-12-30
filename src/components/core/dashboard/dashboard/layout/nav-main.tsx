@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/sidebar";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { useLanguageStore } from "@/store/language-store";
 
 export function NavMain({
   items,
@@ -24,6 +25,7 @@ export function NavMain({
   }[];
 }) {
   const pathname = usePathname();
+  const { isRTL } = useLanguageStore();
 
   const isActive = (url: string) => {
     if (url === "/dashboard") {
@@ -40,8 +42,8 @@ export function NavMain({
     <>
       <SidebarGroup>
         <SidebarGroupContent className="flex flex-col gap-2">
-          <SidebarGroupLabel className="md:pl-4">MAIN</SidebarGroupLabel>
-          <SidebarMenu className="md:ml-2">
+          <SidebarGroupLabel className={cn("md:pl-4 rtl:md:pr-4 rtl:md:pl-0")}>MAIN</SidebarGroupLabel>
+          <SidebarMenu className={cn("md:ml-2 rtl:md:mr-2 rtl:md:ml-0")}>
             {items.slice(0, 4).map((item) => {
               const active = isActive(item.url);
               return (
@@ -50,9 +52,14 @@ export function NavMain({
                     <SidebarMenuButton
                       tooltip={item.title}
                       className={cn(
-                        "hover:bg-[#2563EB1A] hover:border hover:border-[#17274D] hover:border-r-4 hover:border-r-[#2563EB] hover:text-white",
-                        active &&
-                          "bg-[#2563EB1A] border border-[#17274D] border-r-4 border-r-[#2563EB] text-white"
+                        "hover:bg-[#2563EB1A] hover:border hover:border-[#17274D] hover:text-white",
+                        isRTL 
+                          ? "hover:border-l-4 hover:border-l-[#2563EB] rtl:hover:border-r-0"
+                          : "hover:border-r-4 hover:border-r-[#2563EB]",
+                        active && "bg-[#2563EB1A] border border-[#17274D] text-white",
+                        isRTL && active
+                          ? "border-l-4 border-l-[#2563EB] rtl:border-r-0"
+                          : active && "border-r-4 border-r-[#2563EB]"
                       )}
                     >
                       {item.icon && <item.icon />}
@@ -68,8 +75,8 @@ export function NavMain({
 
       <SidebarGroup>
         <SidebarGroupContent className="flex flex-col gap-2">
-          <SidebarGroupLabel className="-mb-2 pl-4">MANAGE</SidebarGroupLabel>
-          <SidebarMenu className="md:ml-2">
+          <SidebarGroupLabel className={cn("-mb-2 pl-4 rtl:pr-4 rtl:pl-0")}>MANAGE</SidebarGroupLabel>
+          <SidebarMenu className={cn("md:ml-2 rtl:md:mr-2 rtl:md:ml-0")}>
             {items.slice(4).map((item) => {
               const active = isActive(item.url);
               return (
@@ -78,9 +85,14 @@ export function NavMain({
                     <SidebarMenuButton
                       tooltip={item.title}
                       className={cn(
-                        "pl-3 hover:bg-[#2563EB1A] hover:border hover:border-[#17274D] hover:border-r-4 hover:border-r-[#2563EB] hover:text-white",
-                        active &&
-                          "bg-[#2563EB1A] border border-[#17274D] border-r-4 border-r-[#2563EB] text-white"
+                        "pl-3 hover:bg-[#2563EB1A] hover:border hover:border-[#17274D] hover:text-white",
+                        isRTL 
+                          ? "rtl:pl-0 rtl:pr-3 hover:border-l-4 hover:border-l-[#2563EB] rtl:hover:border-r-0"
+                          : "hover:border-r-4 hover:border-r-[#2563EB]",
+                        active && "bg-[#2563EB1A] border border-[#17274D] text-white",
+                        isRTL && active
+                          ? "rtl:pl-0 rtl:pr-3 border-l-4 border-l-[#2563EB] rtl:border-r-0"
+                          : active && "border-r-4 border-r-[#2563EB]"
                       )}
                     >
                       {item.icon && <item.icon />}
