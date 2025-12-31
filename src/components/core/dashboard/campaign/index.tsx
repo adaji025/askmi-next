@@ -50,12 +50,12 @@ const CampaignComp = () => {
             <Input
               type="search"
               placeholder={t("search.placeholder")}
-              className="pl-9 w-64 h-11.5"
+              className="pl-9 w-64 h-11"
             />
           </div>
-          <Button className="mt-4 shrink-0 text-sm! rounded-md bg-[#2563eb] px-6 py-6 font-semibold hover:bg-[#1d4ed8] md:mt-0 md:self-end">
+          <Button className="shrink-0 text-sm! rounded-full md:rounded-md h-10 w-10 md:w-[unset] md:h-4 bg-[#2563eb] md:px-6 md:py-5.5 font-semibold hover:bg-[#1d4ed8] md:mt-0 md:self-end">
             <PlusCircle className="h-5 w-5" />
-            {t("buttons.newCampaign")}
+            <span className="hidden md:inline">{t("buttons.newCampaign")}</span>
           </Button>
         </div>
       </div>

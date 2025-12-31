@@ -10,6 +10,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  useSidebar,
 } from "@/components/ui/sidebar";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
@@ -28,6 +29,13 @@ export function NavMain({
   const pathname = usePathname();
   const { isRTL } = useLanguageStore();
   const t = useTranslations("dashboard.navigation");
+  const { setOpenMobile, isMobile } = useSidebar();
+
+  const handleLinkClick = () => {
+    if (isMobile) {
+      setOpenMobile(false);
+    }
+  };
 
   const isActive = (url: string) => {
     if (url === "/dashboard") {
@@ -49,7 +57,7 @@ export function NavMain({
             {items.slice(0, 4).map((item) => {
               const active = isActive(item.url);
               return (
-                <Link href={item.url} key={item.title}>
+                <Link href={item.url} key={item.title} onClick={handleLinkClick}>
                   <SidebarMenuItem>
                     <SidebarMenuButton
                       tooltip={item.title}
@@ -82,7 +90,7 @@ export function NavMain({
             {items.slice(4).map((item) => {
               const active = isActive(item.url);
               return (
-                <Link href={item.url} key={item.title}>
+                <Link href={item.url} key={item.title} onClick={handleLinkClick}>
                   <SidebarMenuItem>
                     <SidebarMenuButton
                       tooltip={item.title}
