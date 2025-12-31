@@ -78,7 +78,7 @@ export function TransactionHistory() {
   return (
     <div className="w-full space-y-4 bg-white rounded-md">
       <h2 className="font-bold text-foreground">{t("title")}</h2>
-      <div className="rounded-xl border border-border bg-card overflow-hidden">
+      <div className="rounded-xl border border-border bg-card overflow-auto">
         <Table>
           <TableHeader className="bg-muted/30 border-none">
             <TableRow className="hover:bg-transparent border-none">

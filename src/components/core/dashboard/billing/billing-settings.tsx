@@ -9,9 +9,9 @@ export function BillingSettings() {
   const t = useTranslations("billing.settings");
 
   return (
-    <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-4 p-2 sm:p-4">
+    <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-4">
       {/* Payment Methods Section */}
-      <section className="space-y-6 bg-white rounded-md">
+      <section className="space-y-6 p-4 bg-white rounded-md">
         <h2 className="text-xl font-bold tracking-tight">{t("paymentMethods")}</h2>
         <div className="space-y-4">
           <PaymentCard brand="mastercard" last4="4242" expiry="12/26" isDefault />

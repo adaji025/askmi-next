@@ -69,14 +69,14 @@ const Analytics = () => {
   ];
   return (
     <div>
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col md:flex-row md:items-center justify-between">
         <h2>{t("page.title")}</h2>
-        <div className="flex items-center gap-2">
+        <div className="flex justify-between items-center gap-2">
           <div className="flex items-center gap-2">
             <div className="">{t("page.allTime")}</div>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="outline">{time}</Button>
+                <Button variant="outline" className="border border-[#E2E8F0]">{time}</Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="w-56" align="start">
                 <DropdownMenuGroup>

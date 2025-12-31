@@ -90,7 +90,7 @@ const InfluencersTable = () => {
   };
 
   return (
-    <div className="w-full mt-10 max-w-[calc(100vw-300px)] 2xl:max-w-[calc(100vw-280px)] min-w-0 bg-white rounded-lg border border-[#E2E8F0]">
+    <div className="w-full mt-10 sm:max-w-[calc(100vw-300px)] 2xl:max-w-[calc(100vw-280px)] min-w-0 bg-white rounded-lg border border-[#E2E8F0] overflow-auto">
       {/* Table */}
       <Table>
         <TableHeader className="bg-[#FAFAFA] border-b border-[#E2E8F0]">

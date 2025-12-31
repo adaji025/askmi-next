@@ -35,7 +35,7 @@ const Billings = () => {
 
   return (
     <div>
-      <div className="flex items-center justify-between px-2">
+      <div className="flex items-center justify-between">
         <div className="">{t("description")}</div>
         <Button
           size="sm"
