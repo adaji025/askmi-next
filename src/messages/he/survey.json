@@ -61,7 +61,7 @@
       "questionSettings": "הגדרות שאלה",
       "question": "שאלה {number}",
       "settingsPlaceholder": "הגדרה {number}",
-      "addSettings": "הוסף הגדרות",
+      "addInputField": "הוסף שדה קלט",
       "requiredQuestion": "שאלה נדרשת"
     },
     "questionCard": {

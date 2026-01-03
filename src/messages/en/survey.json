@@ -61,7 +61,7 @@
       "questionSettings": "Question Settings",
       "question": "Question {number}",
       "settingsPlaceholder": "Settings {number}",
-      "addSettings": "Add settings",
+      "addInputField": "Add Input Field",
       "requiredQuestion": "Required question"
     },
     "questionCard": {

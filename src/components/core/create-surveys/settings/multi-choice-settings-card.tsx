@@ -3,7 +3,6 @@
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Trash2, Plus } from "lucide-react";
-import { Switch } from "@/components/ui/switch";
 import { useQuestionStore } from "@/store/qustion-store";
 import { useMemo } from "react";
 import { useTranslations } from "next-intl";
@@ -24,8 +23,6 @@ const MultiChoiceSettingsCard = ({ questionId }: MultiChoiceSettingsCardProps) =
       return [
         { id: 1, text: "" },
         { id: 2, text: "" },
-        { id: 3, text: "" },
-        { id: 4, text: "" },
       ];
     }
     return question.options;
@@ -48,13 +45,13 @@ const MultiChoiceSettingsCard = ({ questionId }: MultiChoiceSettingsCardProps) =
   };
 
   const handleAddSettings = () => {
+    if (settings.length >= 4) {
+      // Maximum 4 options
+      return;
+    }
     const newId = Math.max(...settings.map((a) => a.id), 0) + 1;
     const updatedSettings = [...settings, { id: newId, text: "" }];
     updateQuestion(questionId, { options: updatedSettings });
-  };
-
-  const handleRequiredToggle = (checked: boolean) => {
-    updateQuestion(questionId, { required: checked });
   };
 
   return (
@@ -88,23 +85,16 @@ const MultiChoiceSettingsCard = ({ questionId }: MultiChoiceSettingsCardProps) =
       </div>
 
       {/* Add Settings Button */}
-      <Button
-        variant="outline"
-        onClick={handleAddSettings}
-        className="w-full border-dashed border-[#2563EB] text-[#2563EB] hover:bg-[#2563EB]/5 hover:text-[#2563EB]"
-      >
-        <Plus className="h-4 w-4 mr-2" />
-        {t("addSettings")}
-      </Button>
-
-      <div className="flex items-center justify-between gap-2 text-sm">
-        <div>{t("requiredQuestion")}</div>
-        <Switch
-          checked={question?.required || false}
-          onCheckedChange={handleRequiredToggle}
-          className="data-[state=checked]:bg-[#2563EB]"
-        />
-      </div>
+      {settings.length < 4 && (
+        <Button
+          variant="outline"
+          onClick={handleAddSettings}
+          className="w-full border-dashed border-[#2563EB] text-[#2563EB] hover:bg-[#2563EB]/5 hover:text-[#2563EB]"
+        >
+          <Plus className="h-4 w-4 mr-2" />
+          {t("addInputField")}
+        </Button>
+      )}
     </div>
   );
 };

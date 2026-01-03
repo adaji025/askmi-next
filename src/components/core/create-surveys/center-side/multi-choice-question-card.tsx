@@ -30,8 +30,6 @@ const MultiChoiceQuestionCard = ({
         options: [
           { id: 1, text: "" },
           { id: 2, text: "" },
-          { id: 3, text: "" },
-          { id: 4, text: "" },
         ],
         required: false,
       };
@@ -41,8 +39,6 @@ const MultiChoiceQuestionCard = ({
       options: question.options || [
         { id: 1, text: "" },
         { id: 2, text: "" },
-        { id: 3, text: "" },
-        { id: 4, text: "" },
       ],
       required: question.required || false,
     };
