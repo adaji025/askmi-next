@@ -2,7 +2,6 @@
 
 import React from "react";
 import {
-  LongTextSVG,
   MultiChoiceSVG,
   RatingQSVG,
   ShortTextSVG,
@@ -18,43 +17,7 @@ interface QuestionType {
   icon: React.ComponentType<{ className?: string }>;
   category: "choice" | "rating" | "text";
 }
-const questionTypes: QuestionType[] = [
-  {
-    id: "multiple-choice",
-    title: "Multiple Choice",
-    subtitle: "Single selection",
-    icon: MultiChoiceSVG,
-    category: "choice",
-  },
-  {
-    id: "yes-no",
-    title: "Yes or No",
-    subtitle: "Binary choice",
-    icon: YesNoSVG,
-    category: "choice",
-  },
-  {
-    id: "rating-scale",
-    title: "Rating Scale",
-    subtitle: "1-10",
-    icon: RatingQSVG,
-    category: "rating",
-  },
-  {
-    id: "short-text",
-    title: "Short Text",
-    subtitle: "Single line response",
-    icon: ShortTextSVG,
-    category: "text",
-  },
-  {
-    id: "long-text",
-    title: "Long Text",
-    subtitle: "Single line response",
-    icon: LongTextSVG,
-    category: "text",
-  },
-];
+
 const SideNav = () => {
   const t = useTranslations("survey.create.sidebar");
   
@@ -81,17 +44,10 @@ const SideNav = () => {
       category: "rating",
     },
     {
-      id: "short-text",
-      title: t("questionTypes.shortText.title"),
-      subtitle: t("questionTypes.shortText.subtitle"),
+      id: "text",
+      title: t("questionTypes.text.title"),
+      subtitle: t("questionTypes.text.subtitle"),
       icon: ShortTextSVG,
-      category: "text",
-    },
-    {
-      id: "long-text",
-      title: t("questionTypes.longText.title"),
-      subtitle: t("questionTypes.longText.subtitle"),
-      icon: LongTextSVG,
       category: "text",
     },
   ];

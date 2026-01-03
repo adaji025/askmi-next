@@ -91,8 +91,7 @@ export default function CreateSurvey() {
         };
       case "yes-no":
       case "rating-scale":
-      case "short-text":
-      case "long-text":
+      case "text":
       default:
         return baseQuestion;
     }

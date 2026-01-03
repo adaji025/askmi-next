@@ -7,7 +7,7 @@ export interface QuestionOption {
 
 export interface Question {
   id: string;
-  type: "multiple-choice" | "yes-no" | "rating-scale" | "short-text" | "long-text";
+  type: "multiple-choice" | "yes-no" | "rating-scale" | "text";
   title: string;
   required: boolean;
   options?: QuestionOption[];

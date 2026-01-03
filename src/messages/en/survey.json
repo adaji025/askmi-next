@@ -5,8 +5,7 @@
   "multipleChoice": "Multiple Choice",
   "yesNo": "Yes/No",
   "ratingScale": "Rating Scale",
-  "shortText": "Short Text",
-  "longText": "Long Text",
+  "text": "Text",
   "required": "Required",
   "addOption": "Add Option",
   "removeOption": "Remove Option",
@@ -47,13 +46,9 @@
           "title": "Rating Scale",
           "subtitle": "1-10"
         },
-        "shortText": {
-          "title": "Short Text",
-          "subtitle": "Single line response"
-        },
-        "longText": {
-          "title": "Long Text",
-          "subtitle": "Single line response"
+        "text": {
+          "title": "Text",
+          "subtitle": "Text response"
         }
       }
     },

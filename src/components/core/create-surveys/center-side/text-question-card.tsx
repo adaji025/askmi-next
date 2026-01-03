@@ -6,17 +6,20 @@ import { ShortTextSVG } from "../../dashboard/svg";
 import { useQuestionStore } from "@/store/qustion-store";
 import { useMemo } from "react";
 import { useTranslations } from "next-intl";
+import { useLanguageStore } from "@/store/language-store";
+import { cn } from "@/lib/utils";
 
-interface ShortTextQuestionCardProps {
+interface TextQuestionCardProps {
   questionId: string;
   questionNumber?: number;
 }
 
-const ShortTextQuestionCard = ({
+const TextQuestionCard = ({
   questionId,
-  questionNumber = 4,
-}: ShortTextQuestionCardProps) => {
-  const t = useTranslations("survey.create");
+  questionNumber = 1,
+}: TextQuestionCardProps) => {
+  const t = useTranslations("survey.create.questionCard");
+  const { isRTL } = useLanguageStore();
   const question = useQuestionStore((state) =>
     state.questions.find((q) => q.id === questionId)
   );
@@ -38,25 +41,27 @@ const ShortTextQuestionCard = ({
 
   return (
     <div className="relative max-w-100 w-full mx-auto mt-5">
-      {/* Question Type Indicator and Tab */}
-      <div className="absolute -top-7 left-4 z-10 flex gap-1 items-end">
-        {/* Blue Tab with Thumbs Up Icon */}
+      <div className={cn("absolute -top-7 left-4 z-10 flex gap-1 items-end", isRTL && "rtl:right-4 rtl:left-auto rtl:flex-row-reverse")}>
         <div className="bg-[#2563EB]/20 text-white px-3 h-6 rounded-t-xl flex items-center justify-center">
           <ShortTextSVG />
         </div>
-        {/* Purple Tab with Question Number */}
         <div className="bg-[#8B5CF6] text-white px-4 py-1.5 rounded-t-xl text-xs font-medium">
-          {t("questionCard.question", { number: questionNumber })}
+          {t("question", { number: questionNumber })}
         </div>
       </div>
+      {questionData.required && (
+        <div className={cn("absolute -top-7 right-6 z-10", isRTL && "rtl:left-6 rtl:right-auto")}>
+          <div className="text-[#8B5CF6] bg-[#2563EB26] border border-b-0 border-[#2563EB4D] px-4 py-1.5 rounded-xl text-xs font-medium">
+            {t("required")}
+          </div>
+        </div>
+      )}
 
-      {/* Main Card */}
       <Card className="relative border-[#8B5CF6] border rounded-2xl shadow-sm bg-white p-4">
-        {/* Question Input */}
-        <div className="">
+        <div onClick={(e) => e.stopPropagation()}>
           <Input
             type="text"
-            placeholder={t("questionCard.typeYourQuestion")}
+            placeholder={t("typeYourQuestion")}
             value={questionData.title}
             onChange={(e) => handleTitleChange(e.target.value)}
             className="w-full h-9 text-xs placeholder:text-xs"
@@ -67,4 +72,5 @@ const ShortTextQuestionCard = ({
   );
 };
 
-export default ShortTextQuestionCard;
+export default TextQuestionCard;
+

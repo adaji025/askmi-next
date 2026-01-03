@@ -1,9 +1,8 @@
 "use client";
 
-import LongTextQuestionCard from "./long-text-question-card";
+import TextQuestionCard from "./text-question-card";
 import MultiChoiceQuestionCard from "./multi-choice-question-card";
 import RatingQuestionCard from "./rating-question-card";
-import ShortTextQuestionCard from "./short-text-question-card";
 import YesNoQuestionCard from "./yes-no-question-card";
 import { useQuestionStore } from "@/store/qustion-store";
 import { useDroppable } from "@dnd-kit/core";
@@ -27,10 +26,8 @@ const FilledQuestion = () => {
         return <YesNoQuestionCard key={question.id} {...props} />;
       case "rating-scale":
         return <RatingQuestionCard key={question.id} {...props} />;
-      case "short-text":
-        return <ShortTextQuestionCard key={question.id} {...props} />;
-      case "long-text":
-        return <LongTextQuestionCard key={question.id} {...props} />;
+      case "text":
+        return <TextQuestionCard key={question.id} {...props} />;
       default:
         return null;
     }

@@ -5,8 +5,7 @@
   "multipleChoice": "בחירה מרובה",
   "yesNo": "כן/לא",
   "ratingScale": "סולם דירוג",
-  "shortText": "טקסט קצר",
-  "longText": "טקסט ארוך",
+  "text": "טקסט",
   "required": "נדרש",
   "addOption": "הוסף אפשרות",
   "removeOption": "הסר אפשרות",
@@ -47,13 +46,9 @@
           "title": "סולם דירוג",
           "subtitle": "1-10"
         },
-        "shortText": {
-          "title": "טקסט קצר",
-          "subtitle": "תגובה בשורה אחת"
-        },
-        "longText": {
-          "title": "טקסט ארוך",
-          "subtitle": "תגובה בשורה אחת"
+        "text": {
+          "title": "טקסט",
+          "subtitle": "תגובת טקסט"
         }
       }
     },
