@@ -12,8 +12,12 @@ interface YesNoQuestionCardProps {
   questionNumber?: number;
 }
 
-const YesNoQuestionCard = ({ questionId, questionNumber = 3 }: YesNoQuestionCardProps) => {
+const YesNoQuestionCard = ({
+  questionId,
+  questionNumber = 3,
+}: YesNoQuestionCardProps) => {
   const t = useTranslations("survey.create");
+  const tSidebar = useTranslations("survey.create.sidebar.questionTypes");
   const question = useQuestionStore((state) =>
     state.questions.find((q) => q.id === questionId)
   );
@@ -37,13 +41,8 @@ const YesNoQuestionCard = ({ questionId, questionNumber = 3 }: YesNoQuestionCard
     <div className="relative max-w-100 w-full mx-auto mt-5">
       {/* Question Type Indicator and Tab */}
       <div className="absolute -top-7 left-4 z-10 flex gap-1 items-end">
-        {/* Blue Tab with Thumbs Up Icon */}
-        <div className="bg-[#2563EB]/20 text-white px-3 py-0.5 rounded-t-xl flex items-center justify-center">
-          <YesNoSVG />
-        </div>
-        {/* Purple Tab with Question Number */}
         <div className="bg-[#8B5CF6] text-white px-4 py-1.5 rounded-t-xl text-xs font-medium">
-          {t("questionCard.question", { number: questionNumber })}
+          {t("questionCard.questionLabel", { number: questionNumber })}. {tSidebar("yesNo.title")}
         </div>
       </div>
 

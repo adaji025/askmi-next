@@ -17,6 +17,7 @@ const MultiChoiceQuestionCard = ({
   questionNumber = 1,
 }: MultiChoiceCardProps) => {
   const t = useTranslations("survey.create");
+  const tSidebar = useTranslations("survey.create.sidebar.questionTypes");
   const question = useQuestionStore((state) =>
     state.questions.find((q) => q.id === questionId)
   );
@@ -63,9 +64,8 @@ const MultiChoiceQuestionCard = ({
       {/* Question Tab */}
 
       <div className="absolute -top-7 left-4 z-10 flex gap-1 items-end">
-        <SmallMultiChoiceSVG />
         <div className="bg-[#8B5CF6] text-white px-4 py-1.5 rounded-t-xl text-xs font-medium">
-          {t("questionCard.question", { number: questionNumber })}
+          {t("questionCard.questionLabel", { number: questionNumber })}. {tSidebar("multipleChoice.title")}
         </div>
       </div>
       {/* Required Tab */}

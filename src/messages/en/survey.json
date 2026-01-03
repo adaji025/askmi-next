@@ -65,7 +65,7 @@
       "requiredQuestion": "Required question"
     },
     "questionCard": {
-      "question": "Question {number}",
+      "questionLabel": "Q{number}",
       "typeYourQuestion": "Type your question"
     }
   }

@@ -65,7 +65,7 @@
       "requiredQuestion": "שאלה נדרשת"
     },
     "questionCard": {
-      "question": "שאלה {number}",
+      "questionLabel": "Q{number}",
       "typeYourQuestion": "הקלד את השאלה שלך"
     }
   }
