@@ -25,6 +25,7 @@ import heDashboard from "@/messages/he/dashboard/index.json";
 import heAnalytics from "@/messages/he/analytics/index.json";
 import heInfluencers from "@/messages/he/influencers/index.json";
 import heBilling from "@/messages/he/billing/index.json";
+import NextTopLoader from "nextjs-toploader";
 
 const messagesMap = {
   en: {
@@ -75,7 +76,8 @@ export function LanguageProvider({
 
   useEffect(() => {
     // Update messages and locale when language changes
-    const newMessages = messagesMap[language as keyof typeof messagesMap] || messages;
+    const newMessages =
+      messagesMap[language as keyof typeof messagesMap] || messages;
     setCurrentMessages(newMessages);
     setCurrentLocale(language);
   }, [language, messages]);
@@ -90,8 +92,8 @@ export function LanguageProvider({
 
   return (
     <NextIntlClientProvider locale={currentLocale} messages={currentMessages}>
+      <NextTopLoader color="#0F172A" />
       {children}
     </NextIntlClientProvider>
   );
 }
-

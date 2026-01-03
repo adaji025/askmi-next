@@ -2,7 +2,6 @@
 
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { ShortTextSVG } from "../../dashboard/svg";
 import { useQuestionStore } from "@/store/qustion-store";
 import { useMemo } from "react";
 import { useTranslations } from "next-intl";
@@ -72,6 +71,7 @@ const TextQuestionCard = ({
             placeholder={t("typeYourQuestion")}
             value={questionData.title}
             onChange={(e) => handleTitleChange(e.target.value)}
+            maxLength={102}
             className="w-full h-9 text-xs placeholder:text-xs"
           />
         </div>
