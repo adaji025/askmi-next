@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { PlusCircle, Search } from "lucide-react";
 import React from "react";
 import { useTranslations } from "next-intl";
+import Link from "next/link";
 
 const CampaignComp = () => {
   const t = useTranslations("campaign");
@@ -53,10 +54,14 @@ const CampaignComp = () => {
               className="pl-9 w-64 h-11"
             />
           </div>
-          <Button className="shrink-0 text-sm! rounded-full md:rounded-md h-10 w-10 md:w-[unset] md:h-4 bg-[#2563eb] md:px-6 md:py-5.5 font-semibold hover:bg-[#1d4ed8] md:mt-0 md:self-end">
-            <PlusCircle className="h-5 w-5" />
-            <span className="hidden md:inline">{t("buttons.newCampaign")}</span>
-          </Button>
+          <Link href={`/dashboard/create-campaign`}>
+            <Button className="shrink-0 text-sm! rounded-full md:rounded-md h-10 w-10 md:w-[unset] md:h-4 bg-[#2563eb] md:px-6 md:py-5.5 font-semibold hover:bg-[#1d4ed8] md:mt-0 md:self-end">
+              <PlusCircle className="h-5 w-5" />
+              <span className="hidden md:inline">
+                {t("buttons.newCampaign")}
+              </span>
+            </Button>
+          </Link>
         </div>
       </div>
     </div>

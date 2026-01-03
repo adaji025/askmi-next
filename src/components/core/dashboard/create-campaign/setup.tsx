@@ -169,7 +169,7 @@ export function CampaignSetup({ handleNext }: IProps) {
             </div>
           </div>
 
-          <div className="space-y-2">
+          {/* <div className="space-y-2">
             <div className="flex items-center gap-2">
               <Label className="text-sm font-semibold text-muted-foreground">
                 Deviation range
@@ -186,7 +186,7 @@ export function CampaignSetup({ handleNext }: IProps) {
                 <SelectItem value="flexible">±30% (Flexible)</SelectItem>
               </SelectContent>
             </Select>
-          </div>
+          </div> */}
         </div>
       </section>
 

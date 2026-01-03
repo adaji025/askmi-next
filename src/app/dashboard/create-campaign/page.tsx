@@ -61,7 +61,7 @@ const CreateCampaign = () => {
         {active === "Budget & Timeline" && (
           <BudgetAndTimeline handleNext={handleNext} />
         )}
-        {active === "Review" && <Review />}
+        {active === "Review" && <Review handleNext={handleNext} />}
       </div>
     </div>
   );

@@ -5,7 +5,11 @@ import { Calendar as CalendarIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
@@ -18,7 +22,9 @@ interface IProps {
 }
 
 const BudgetAndTimeline = ({ handleNext }: IProps) => {
-  const [startDate, setStartDate] = useState<Date | undefined>(new Date("2025-11-01"));
+  const [startDate, setStartDate] = useState<Date | undefined>(
+    new Date("2025-11-01")
+  );
   const [costPerVote, setCostPerVote] = useState("0.2");
   const [matchingType, setMatchingType] = useState<"automatic" | "manual">();
 
@@ -29,7 +35,10 @@ const BudgetAndTimeline = ({ handleNext }: IProps) => {
         <h2 className="text-xl font-bold tracking-tight">Budget & Timeline</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="space-y-2">
-            <Label htmlFor="start-date" className="text-sm font-semibold text-muted-foreground">
+            <Label
+              htmlFor="start-date"
+              className="text-sm font-semibold text-muted-foreground"
+            >
               Start date
             </Label>
             <Popover>
@@ -56,7 +65,10 @@ const BudgetAndTimeline = ({ handleNext }: IProps) => {
             </Popover>
           </div>
           <div className="space-y-2">
-            <Label htmlFor="cost-per-vote" className="text-sm font-semibold text-muted-foreground">
+            {/* <Label
+              htmlFor="cost-per-vote"
+              className="text-sm font-semibold text-muted-foreground"
+            >
               Cost per vote
             </Label>
             <div className="relative">
@@ -71,14 +83,16 @@ const BudgetAndTimeline = ({ handleNext }: IProps) => {
                 className="h-12 pl-7 bg-white"
                 placeholder="0.2"
               />
-            </div>
+            </div> */}
           </div>
         </div>
       </section>
 
       {/* Influencer Matching Section */}
       <section className="space-y-6">
-        <h2 className="text-xl font-bold tracking-tight">Influencer Matching</h2>
+        <h2 className="text-xl font-bold tracking-tight">
+          Influencer Matching
+        </h2>
         <button
           onClick={() => setMatchingType("automatic")}
           className={cn(
@@ -106,7 +120,14 @@ const BudgetAndTimeline = ({ handleNext }: IProps) => {
       </section>
 
       {/* Action Footer */}
-      <div className="flex justify-end pt-4">
+      <div className="flex justify-between pt-4">
+        <Button
+          variant={"outline"}
+          onClick={() => handleNext("Campaign Setup")}
+          className="px-10 h-12 text-base font-semibold text-[#2563EB] border-[#2563EB] hover:bg-[#2563EB]/10 rounded-lg transition-all active:scale-95"
+        >
+          Back
+        </Button>
         <Button
           onClick={() => handleNext("Review")}
           className="px-10 h-12 text-base font-semibold bg-[#2563EB] hover:bg-[#2563EB]/90 rounded-lg transition-all active:scale-95"

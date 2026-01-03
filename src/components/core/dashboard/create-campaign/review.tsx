@@ -7,7 +7,13 @@ import { MapPin, User, Users } from "lucide-react";
 import { format } from "date-fns";
 import React from "react";
 
-const Review = () => {
+interface IProps {
+  handleNext: (
+    value: "Campaign Setup" | "Budget & Timeline" | "Review"
+  ) => void;
+}
+
+const Review = ({ handleNext }: IProps) => {
   // Mock data - in a real app, this would come from props or context
   const surveyTitle = "Product Feedback Survey";
   const targetAudience = [
@@ -29,7 +35,9 @@ const Review = () => {
   }) => (
     <>
       <div className="flex items-center justify-between py-4">
-        <span className="text-sm font-medium text-muted-foreground">{label}</span>
+        <span className="text-sm font-medium text-muted-foreground">
+          {label}
+        </span>
         <div className="text-sm font-bold">{value}</div>
       </div>
       <Separator />
@@ -40,7 +48,9 @@ const Review = () => {
     <div className="p-4 sm:p-6 lg:px-8 bg-white space-y-4 rounded-lg border border-[#E2E8F0]! shadow-none!">
       {/* Header Section */}
       <div className="flex items-center justify-between pb-2">
-        <span className="text-sm font-medium text-muted-foreground">Survey</span>
+        <span className="text-sm font-medium text-muted-foreground">
+          Survey
+        </span>
         <h2 className="text-xl font-bold tracking-tight">{surveyTitle}</h2>
       </div>
 
@@ -78,11 +88,19 @@ const Review = () => {
       </div>
 
       {/* Action Footer */}
-      <div className="flex justify-end pt-4">
+      <div className="flex justify-between pt-4">
         <Button
+          variant={"outline"}
+          onClick={() => handleNext("Budget & Timeline")}
+          className="px-10 h-12 text-base font-semibold text-[#2563EB] border-[#2563EB] hover:bg-[#2563EB]/10 rounded-lg transition-all active:scale-95"
+        >
+          Back
+        </Button>
+        <Button
+          onClick={() => handleNext("Review")}
           className="px-10 h-12 text-base font-semibold bg-[#2563EB] hover:bg-[#2563EB]/90 rounded-lg transition-all active:scale-95"
         >
-          Launch Campaign
+          Submit
         </Button>
       </div>
     </div>
