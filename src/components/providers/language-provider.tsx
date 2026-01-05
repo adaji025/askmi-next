@@ -91,7 +91,11 @@ export function LanguageProvider({
   }, [language, isRTL]);
 
   return (
-    <NextIntlClientProvider locale={currentLocale} messages={currentMessages}>
+    <NextIntlClientProvider 
+      locale={currentLocale} 
+      messages={currentMessages}
+      timeZone="UTC"
+    >
       <NextTopLoader color="#0F172A" />
       {children}
     </NextIntlClientProvider>

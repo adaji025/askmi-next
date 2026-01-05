@@ -2,9 +2,10 @@
 
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { MoreVertical } from "lucide-react";
+import { MoreVertical, Plus } from "lucide-react";
 import React from "react";
 import { useDraggable } from "@dnd-kit/core";
+import { useQuestionStore } from "@/store/qustion-store";
 
 interface QuestionCardProps {
   question: {
@@ -17,6 +18,7 @@ interface QuestionCardProps {
 
 const QuestionCard = ({ question }: QuestionCardProps) => {
   const Icon = question.icon;
+  const addQuestion = useQuestionStore((state) => state.addQuestion);
 
   const { attributes, listeners, setNodeRef, transform, isDragging } =
     useDraggable({
@@ -28,6 +30,35 @@ const QuestionCard = ({ question }: QuestionCardProps) => {
         subtitle: question.subtitle,
       },
     });
+
+  const getDefaultQuestion = (type: string) => {
+    const baseQuestion = {
+      type: type as any,
+      title: "",
+      required: false,
+    };
+
+    switch (type) {
+      case "multiple-choice":
+        return {
+          ...baseQuestion,
+          options: [
+            { id: 1, text: "" },
+            { id: 2, text: "" },
+          ],
+        };
+      case "yes-no":
+      case "rating-scale":
+      case "text":
+      default:
+        return baseQuestion;
+    }
+  };
+
+  const handleAddQuestion = () => {
+    const defaultQuestion = getDefaultQuestion(question.id);
+    addQuestion(defaultQuestion);
+  };
 
   const style = transform
     ? {
@@ -57,16 +88,29 @@ const QuestionCard = ({ question }: QuestionCardProps) => {
             <p className="text-xs text-muted-foreground">{question.subtitle}</p>
           </div>
         </div>
-        <Button
-          variant="ghost"
-          size="sm"
-          className="h-6 w-6 p-0 hover:bg-muted"
+        <div
+          onPointerDown={(e) => {
+            e.stopPropagation();
+          }}
+          onMouseDown={(e) => {
+            e.stopPropagation();
+          }}
           onClick={(e) => {
             e.stopPropagation();
           }}
         >
-          <MoreVertical className="h-4 w-4 text-muted-foreground" />
-        </Button>
+          <Button
+            variant="ghost"
+            size="sm"
+            className="h-6 w-6 p-0 hover:bg-muted"
+            onClick={(e) => {
+              e.stopPropagation();
+              handleAddQuestion();
+            }}
+          >
+            <Plus className="h-4 w-4 text-muted-foreground" />
+          </Button>
+        </div>
       </div>
     </Card>
   );
