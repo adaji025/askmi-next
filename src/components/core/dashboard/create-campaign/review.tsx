@@ -24,7 +24,7 @@ const Review = ({ handleNext }: IProps) => {
   const totalVotes = "25,000 votes";
   const deviationRange = "±20%";
   const startDate = new Date("2025-01-11");
-  const costPerVote = "$0.2";
+  const costPerVote = "$500";
 
   const ReviewRow = ({
     label,
@@ -84,7 +84,7 @@ const Review = ({ handleNext }: IProps) => {
           label="Start date"
           value={format(startDate, "MMMM dd, yyyy")}
         />
-        <ReviewRow label="Cost per vote" value={costPerVote} />
+        <ReviewRow label="Estimated Price" value={costPerVote} />
       </div>
 
       {/* Action Footer */}

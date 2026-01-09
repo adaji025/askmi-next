@@ -9,6 +9,9 @@
   "contactEmailDescription": "אימייל ראשי לתקשורת בפלטפורמה",
   "company": "חברה",
   "companyDescription": "שם המותג או החברה שלך",
+  "companyCac": "מספר CAC של החברה",
+  "companyCacDescription": "מספר ועדת ענייני תאגידים של החברה שלך",
+  "notSet": "לא הוגדר",
   "phoneNumber": "מספר טלפון",
   "phoneNumberDescription": "לביטחון החשבון והתראות",
   "language": "שפה",
@@ -45,6 +48,12 @@
       "description": "עדכן את שם החברה שלך",
       "label": "שם חברה",
       "placeholder": "Acme Corporation"
+    },
+    "editCompanyCac": {
+      "title": "ערוך מספר CAC של החברה",
+      "description": "עדכן את מספר ועדת ענייני תאגידים של החברה שלך",
+      "label": "מספר CAC",
+      "placeholder": "הזן מספר CAC"
     },
     "editTimezone": {
       "title": "ערוך אזור זמן",

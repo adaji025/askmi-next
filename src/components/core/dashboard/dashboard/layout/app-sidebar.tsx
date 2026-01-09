@@ -54,11 +54,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         url: "/dashboard/analytics",
         icon: AnalyticsSVG,
       },
-      {
-        title: t("menu.influencers"),
-        url: "/dashboard/influencers",
-        icon: InfluencersSVG,
-      },
+      // {
+      //   title: t("menu.influencers"),
+      //   url: "/dashboard/influencers",
+      //   icon: InfluencersSVG,
+      // },
       {
         title: t("menu.billings"),
         url: "/dashboard/billings",

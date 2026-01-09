@@ -1,6 +1,5 @@
 "use client";
 import React from "react";
-import Campaign from "../campaign";
 import Security from "../security";
 import { ProfileSettings } from "../profile-settings";
 
@@ -8,11 +7,8 @@ export const SettingsComp = () => {
   const [settingsType, setSettingsType] = React.useState<
     "My Profile" | "Security" | "Campaigns Settings"
   >("My Profile");
-  const settingsOptions: ("My Profile" | "Security" | "Campaigns Settings")[] = [
-    "My Profile",
-    "Security",
-    "Campaigns Settings",
-  ];
+  const settingsOptions: ("My Profile" | "Security" | "Campaigns Settings")[] =
+    ["My Profile", "Security"];
   return (
     <div>
       <div className="flex gap-2 mb-8  border rounded-lg p-0.5 ">
@@ -33,7 +29,6 @@ export const SettingsComp = () => {
       <div className="mt-4">
         {settingsType === "My Profile" && <ProfileSettings />}
         {settingsType === "Security" && <Security />}
-        {settingsType === "Campaigns Settings" && <Campaign />}
       </div>
     </div>
   );

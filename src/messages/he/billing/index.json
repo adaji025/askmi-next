@@ -27,8 +27,10 @@
       "votesGotten": "הצבעות שהתקבלו",
       "amount": "סכום",
       "status": "סטטוס",
-      "date": "תאריך"
+      "date": "תאריך",
+      "invoice": "חשבונית"
     },
+    "downloadInvoice": "הורד חשבונית",
     "status": {
       "paid": "שולם",
       "pending": "ממתין"

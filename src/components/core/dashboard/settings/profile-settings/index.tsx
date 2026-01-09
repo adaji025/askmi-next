@@ -13,6 +13,7 @@ import EditPhoneNumberDialog from "./edit-phone-number";
 import EditEmailDialog from "./edit-email";
 import EditNameDialog from "./edit-name";
 import EditCompanyNameDialog from "./edit-company-name";
+import EditCompanyCacDialog from "./edit-company-cac";
 import EditTimezoneDialog from "./edit-timezone";
 import ChangeLangDialog from "./change-lang";
 import { useTranslations } from "next-intl";
@@ -32,6 +33,8 @@ export function ProfileSettings() {
   const [currentName, setCurrentName] = useState("Sarah Smith");
   const [openCompanyDialog, setOpenCompanyDialog] = useState(false);
   const [currentCompanyName, setCurrentCompanyName] = useState("Acme Corporation");
+  const [openCompanyCacDialog, setOpenCompanyCacDialog] = useState(false);
+  const [currentCompanyCac, setCurrentCompanyCac] = useState("");
   const [openTimezoneDialog, setOpenTimezoneDialog] = useState(false);
   const [currentTimezone, setCurrentTimezone] = useState("Pacific Time (PT)");
 
@@ -71,6 +74,14 @@ export function ProfileSettings() {
         currentCompanyName={currentCompanyName}
         onSave={(companyName) => {
           setCurrentCompanyName(companyName);
+        }}
+      />
+      <EditCompanyCacDialog
+        open={openCompanyCacDialog}
+        onOpenChange={setOpenCompanyCacDialog}
+        currentCompanyCac={currentCompanyCac}
+        onSave={(companyCac) => {
+          setCurrentCompanyCac(companyCac);
         }}
       />
       <EditTimezoneDialog
@@ -206,6 +217,35 @@ export function ProfileSettings() {
                 variant="outline"
                 size="sm"
                 onClick={() => setOpenCompanyDialog(true)}
+                className="h-8 px-4 text-xs font-medium bg-white border-border hover:bg-muted text-foreground"
+              >
+                {tCommon("edit")}
+              </Button>
+            </TableCell>
+          </TableRow>
+
+          {/* Company CAC Number */}
+          <TableRow className="border-b border-[#E2E8F0]">
+            <TableCell className="py-6">
+              <span className="text-sm font-medium text-muted-foreground">
+                {t("companyCac")}
+              </span>
+            </TableCell>
+            <TableCell className="py-6">
+              <div className="flex flex-col">
+                <span className="text-sm font-bold text-foreground">
+                  {currentCompanyCac || t("notSet")}
+                </span>
+                <span className="text-xs text-muted-foreground mt-0.5">
+                  {t("companyCacDescription")}
+                </span>
+              </div>
+            </TableCell>
+            <TableCell className="py-6 text-right">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setOpenCompanyCacDialog(true)}
                 className="h-8 px-4 text-xs font-medium bg-white border-border hover:bg-muted text-foreground"
               >
                 {tCommon("edit")}

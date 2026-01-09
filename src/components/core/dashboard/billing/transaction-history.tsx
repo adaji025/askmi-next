@@ -2,6 +2,8 @@
 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import { Download } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { useTranslations } from "next-intl"
 
@@ -75,6 +77,13 @@ const transactions: Transaction[] = [
 export function TransactionHistory() {
   const t = useTranslations("billing.transactionHistory");
 
+  const handleDownloadInvoice = (transactionId: string) => {
+    // TODO: Implement actual invoice download logic
+    // This could call an API endpoint to generate/download the invoice PDF
+    console.log("Downloading invoice for transaction:", transactionId);
+    // Example: window.open(`/api/invoices/${transactionId}/download`, '_blank');
+  };
+
   return (
     <div className="w-full space-y-4 bg-white rounded-md">
       <h2 className="font-bold text-foreground">{t("title")}</h2>
@@ -99,6 +108,9 @@ export function TransactionHistory() {
               </TableHead>
               <TableHead className="py-4 px-6 text-[11px] font-bold uppercase tracking-wider text-muted-foreground">
                 {t("headers.date")}
+              </TableHead>
+              <TableHead className="py-4 px-6 text-[11px] font-bold uppercase tracking-wider text-muted-foreground text-center">
+                {t("headers.invoice")}
               </TableHead>
             </TableRow>
           </TableHeader>
@@ -125,6 +137,19 @@ export function TransactionHistory() {
                   </Badge>
                 </TableCell>
                 <TableCell className="py-5 px-6 text-muted-foreground text-right">{transaction.date}</TableCell>
+                <TableCell className="py-5 px-6 text-center">
+                  {transaction.status === "Paid" && (
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => handleDownloadInvoice(transaction.id)}
+                      className="h-8 w-8 p-0 hover:bg-muted"
+                      title={t("downloadInvoice")}
+                    >
+                      <Download className="h-4 w-4 text-muted-foreground" />
+                    </Button>
+                  )}
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>

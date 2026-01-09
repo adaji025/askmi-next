@@ -9,6 +9,9 @@
   "contactEmailDescription": "Primary email for platform communications",
   "company": "Company",
   "companyDescription": "Your brand or company name",
+  "companyCac": "Company CAC Number",
+  "companyCacDescription": "Your company's Corporate Affairs Commission number",
+  "notSet": "Not set",
   "phoneNumber": "Phone number",
   "phoneNumberDescription": "For account security and notifications",
   "language": "Language",
@@ -45,6 +48,12 @@
       "description": "Update your company name",
       "label": "Company Name",
       "placeholder": "Acme Corporation"
+    },
+    "editCompanyCac": {
+      "title": "Edit Company CAC Number",
+      "description": "Update your company's Corporate Affairs Commission number",
+      "label": "CAC Number",
+      "placeholder": "Enter CAC number"
     },
     "editTimezone": {
       "title": "Edit Timezone",

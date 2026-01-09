@@ -27,8 +27,10 @@
       "votesGotten": "Votes Gotten",
       "amount": "Amount",
       "status": "Status",
-      "date": "Date"
+      "date": "Date",
+      "invoice": "Invoice"
     },
+    "downloadInvoice": "Download Invoice",
     "status": {
       "paid": "Paid",
       "pending": "Pending"

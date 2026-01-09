@@ -3,8 +3,6 @@
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import ActiveInfluencerCard from "../influencers/active-influencer-card";
 import { useTranslations } from "next-intl";
 
 export default function CampaignDetail() {
@@ -28,7 +26,7 @@ export default function CampaignDetail() {
       </div>
 
       {/* Quick Stats */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         <Card className="bg-emerald-100 border-none shadow-none p-0">
           <CardContent className="p-6">
             <div className="text-2xl font-bold text-emerald-950">78%</div>
@@ -45,14 +43,14 @@ export default function CampaignDetail() {
             </div>
           </CardContent>
         </Card>
-        <Card className="bg-blue-50 border-none shadow-none p-0">
+        {/* <Card className="bg-blue-50 border-none shadow-none p-0">
           <CardContent className="p-6">
             <div className="text-2xl font-bold text-blue-950">4</div>
             <div className="text-[10px] font-semibold text-blue-800 uppercase tracking-widest mt-4">
               {t("influencers")}
             </div>
           </CardContent>
-        </Card>
+        </Card> */}
         <Card className="bg-amber-50 border-none shadow-none p-0">
           <CardContent className="p-6">
             <div className="text-2xl font-bold text-amber-950">7 days</div>
@@ -66,16 +64,15 @@ export default function CampaignDetail() {
       {/* Response Progress */}
       <div className="space-y-6">
         <div className="flex items-baseline justify-between">
-          <h2 className="text-lg font-bold text-black">{t("responseProgress")}</h2>
+          <h2 className="text-lg font-bold text-black">
+            {t("responseProgress")}
+          </h2>
           <div className="text-3xl font-bold">
             500 <span className="text-gray-400 font-bold text-lg">/ 1,000</span>
           </div>
         </div>
         <Progress value={50} className="h-4 bg-gray-100" />
       </div>
-
-      {/* Active Influencers */}
-      <ActiveInfluencerCard />
 
       {/* Survey Questions */}
       <div className="space-y-10 bg-white p-4 lg:p-6 rounded-md">
