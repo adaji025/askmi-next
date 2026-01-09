@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { MoreVertical, Plus } from "lucide-react";
+import { Plus } from "lucide-react";
 import React from "react";
 import { useDraggable } from "@dnd-kit/core";
 import { useQuestionStore } from "@/store/qustion-store";

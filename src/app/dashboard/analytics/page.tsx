@@ -1,6 +1,5 @@
 "use client";
 import { AgeDistribution } from "@/components/core/dashboard/analytics/age-distribution";
-import { VoteCollectionChart } from "@/components/core/dashboard/analytics/vote-collection-chart";
 import {
   CampaignsSVG,
   InfluencersSVG,
@@ -32,7 +31,7 @@ const Analytics = () => {
   const t = useTranslations("analytics");
   const tDashboard = useTranslations("dashboard");
   const [time, setTime] = React.useState(t("page.allTime"));
-  
+
   const timeItems = [
     t("page.allTime"),
     t("page.lastMonth"),
@@ -76,15 +75,14 @@ const Analytics = () => {
             <div className="">{t("page.allTime")}</div>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="outline" className="border border-[#E2E8F0]">{time}</Button>
+                <Button variant="outline" className="border border-[#E2E8F0]">
+                  {time}
+                </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="w-56" align="start">
                 <DropdownMenuGroup>
                   {timeItems.map((item, index) => (
-                    <DropdownMenuItem 
-                      key={index}
-                      onClick={() => setTime(item)}
-                    >
+                    <DropdownMenuItem key={index} onClick={() => setTime(item)}>
                       {item}
                     </DropdownMenuItem>
                   ))}
@@ -106,14 +104,14 @@ const Analytics = () => {
           <StatCard key={index} {...stat} />
         ))}
       </div>
-      <div className="mt-10">
-        <VoteCollectionChart />
-      </div>
+
       <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 mt-10">
         <AgeDistribution />
         {/* Recent Activity Section */}
         <div className="space-y-4 bg-white p-2 sm:p-5 shadow-xs rounded">
-          <h2 className="text-base font-bold">{tDashboard("sections.recentActivity")}</h2>
+          <h2 className="text-base font-bold">
+            {tDashboard("sections.recentActivity")}
+          </h2>
           {activities.length ? (
             <div className="divide-y divide-border">
               {activities.map((activity: ActivityProps) => (
