@@ -14,6 +14,7 @@ import enAnalytics from "@/messages/en/analytics/index.json";
 import enInfluencers from "@/messages/en/influencers/index.json";
 import enBilling from "@/messages/en/billing/index.json";
 import { routing } from "@/i18n/routing";
+import NextTopLoader from 'nextjs-toploader';
 
 const enMessages = {
   common: enCommon,
@@ -52,6 +53,7 @@ export default function RootLayout({
       <body
         className={`${inter.variable} font-sans antialiased`}
       >
+        <NextTopLoader color="emerald" />
         <LanguageProvider locale={locale} messages={enMessages}>
           {children}
         </LanguageProvider>
