@@ -19,6 +19,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 import React from "react";
 import { useTranslations } from "next-intl";
+import { VoteCollectionChart } from "@/components/core/dashboard/analytics/vote-collection-chart";
+import CampaignTable from "@/components/core/dashboard/analytics/campign-table";
 
 interface ActivityProps {
   id: number;
@@ -105,10 +107,15 @@ const Analytics = () => {
         ))}
       </div>
 
+      <div className="mt-10">
+        <VoteCollectionChart />
+      </div>
+
+      <CampaignTable />
       <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 mt-10">
-        <AgeDistribution />
+        {/* <AgeDistribution /> */}
         {/* Recent Activity Section */}
-        <div className="space-y-4 bg-white p-2 sm:p-5 shadow-xs rounded">
+        {/* <div className="space-y-4 bg-white p-2 sm:p-5 shadow-xs rounded">
           <h2 className="text-base font-bold">
             {tDashboard("sections.recentActivity")}
           </h2>
@@ -128,7 +135,7 @@ const Analytics = () => {
               {tDashboard("emptyStates.noRecentActivity")}
             </div>
           )}
-        </div>
+        </div> */}
       </div>
     </div>
   );
