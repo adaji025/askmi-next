@@ -4,6 +4,7 @@ import { AppSidebar } from "@/components/core/dashboard/dashboard/layout/app-sid
 import { SiteHeader } from "@/components/core/dashboard/dashboard/layout/site-header";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { useLanguageStore } from "@/store/language-store";
+import { usePathname } from "next/navigation";
 
 export default function DashboardLayout({
   children,
@@ -11,6 +12,12 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }>) {
   const { isRTL } = useLanguageStore();
+  const pathname = usePathname();
+
+  // Check if we're on an analytics details page (/dashboard/analytics/[id])
+  const isAnalyticsDetailPage =
+    pathname.startsWith("/dashboard/analytics/") &&
+    pathname !== "/dashboard/analytics";
 
   return (
     <SidebarProvider
@@ -23,7 +30,7 @@ export default function DashboardLayout({
     >
       <AppSidebar variant="inset" side={isRTL ? "right" : "left"} />
       <SidebarInset>
-        <SiteHeader />
+        {!isAnalyticsDetailPage && <SiteHeader />}
         <div className="flex flex-1 flex-col p-3 sm:p-5">
           {children}
         </div>

@@ -1,37 +1,14 @@
 "use client";
 
-import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { useTranslations } from "next-intl";
 import SurveyQuestions from "./survey-questions";
-import SurveyResultAnalysis from "../analytics/survey-result-analysis";
 
-interface CampaignDetailProps {
-  completed?: boolean;
-}
-export default function CampaignDetail({
-  completed = false,
-}: CampaignDetailProps) {
+export default function CampaignDetail() {
   const t = useTranslations("campaign.detail");
   return (
     <div className="max-w-5xl mx-auto p-6 space-y-12">
-      {/* Header */}
-      <div className="space-y-4">
-        <Badge
-          variant="outline"
-          className="bg-[#4AC3600D] rounded text-[#4AC360] border-[#4AC36026] font-medium px-2 py-1 uppercase text-[10px] tracking-wider"
-        >
-          {t("activeCampaign")}
-        </Badge>
-        <h1 className="text-2xl lg:text-4xl font-bold tracking-tight text-blck">
-          {t("productFeedbackSurvey")}
-        </h1>
-        <p className="text-[#8A97A0] max-w-3xl leading-relaxed">
-          {t("collectingInsights")}
-        </p>
-      </div>
-
       {/* Quick Stats */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         <Card className="bg-emerald-100 border-none shadow-none p-0">
@@ -75,8 +52,7 @@ export default function CampaignDetail({
       </div>
 
       {/* Survey Questions */}
-      {!completed &&<SurveyQuestions />}
-      <SurveyResultAnalysis />
+      <SurveyQuestions />
     </div>
   );
 }
