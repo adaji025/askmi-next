@@ -34,3 +34,23 @@ export interface RegisterErrorResponse {
 }
 
 export type RegisterResponse = RegisterSuccessResponse | RegisterErrorResponse;
+
+export interface LoginRequest {
+  email: string;
+  password: string;
+}
+
+export interface LoginSuccessResponse {
+  success: true;
+  message: string;
+  user: User;
+  token: string;
+}
+
+export interface LoginErrorResponse {
+  success: false;
+  message: string;
+  errors: Array<Record<string, unknown>>;
+}
+
+export type LoginResponse = LoginSuccessResponse | LoginErrorResponse;

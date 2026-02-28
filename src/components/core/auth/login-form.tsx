@@ -11,6 +11,8 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import LanguageDropdown from "../dashboard/dashboard/layout/lang-dropdown";
 import { useTranslations } from "next-intl";
+import { useLogin } from "@/features/auth/hooks/use-login";
+import { useUserStore } from "@/store/user-store";
 
 export function LoginForm() {
   const t = useTranslations("auth.signIn");
@@ -22,9 +24,9 @@ export function LoginForm() {
     email: "",
     password: "",
   });
-  const [error, setError] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+  const { login, isLoading, error: apiError, resetError } = useLogin();
+  const { login: setUserLogin } = useUserStore();
 
   const validateEmail = (email: string): string => {
     if (!email.trim()) {
@@ -61,28 +63,37 @@ export function LoginForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError("");
+    resetError();
 
     // Validate form before submitting
     if (!validateForm()) {
       return;
     }
 
-    setIsLoading(true);
-
     try {
-      console.log(formData.email, formData.password);
+      const response = await login({
+        email: formData.email,
+        password: formData.password,
+      });
+
+      // Store user data and token in the store
+      setUserLogin(response.user, response.token);
+
+      // Navigate to dashboard after successful login
       router.push("/dashboard");
     } catch (err) {
-      setError(t("invalidCredentials"));
-    } finally {
-      setIsLoading(false);
+      // Error is already set in the hook's error state
+      // The error message will be displayed via apiError
     }
   };
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, email: e.target.value });
-    // Clear error when user starts typing
+    // Clear API error when user starts typing
+    if (apiError) {
+      resetError();
+    }
+    // Clear validation error when user starts typing
     if (errors.email) {
       setErrors({ ...errors, email: "" });
     }
@@ -90,7 +101,11 @@ export function LoginForm() {
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, password: e.target.value });
-    // Clear error when user starts typing
+    // Clear API error when user starts typing
+    if (apiError) {
+      resetError();
+    }
+    // Clear validation error when user starts typing
     if (errors.password) {
       setErrors({ ...errors, password: "" });
     }
@@ -113,9 +128,9 @@ export function LoginForm() {
 
         {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-5">
-          {error && (
+          {apiError && (
             <div className="rounded-md bg-destructive/15 p-3 text-sm text-destructive">
-              {error}
+              {apiError}
             </div>
           )}
 
