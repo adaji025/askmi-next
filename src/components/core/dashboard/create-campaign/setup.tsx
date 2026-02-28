@@ -10,18 +10,20 @@ import {
   User,
   Users,
   Sparkles,
+  ChevronDown,
+  X,
+  Check,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Slider } from "@/components/ui/slider";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Badge } from "@/components/ui/badge";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 
@@ -125,19 +127,60 @@ export function CampaignSetup({ handleNext }: IProps) {
           <AudienceSelect
             icon={<MapPin className="w-4 h-4" />}
             label="Regions"
+            options={[
+              "All Regions",
+              "North America",
+              "South America",
+              "Europe",
+              "Asia",
+              "Africa",
+              "Oceania",
+            ]}
           />
           <AudienceSelect
             icon={<Building2 className="w-4 h-4" />}
             label="Cities"
+            options={[
+              "All Cities",
+              "New York",
+              "Los Angeles",
+              "London",
+              "Paris",
+              "Tokyo",
+              "Sydney",
+            ]}
           />
-          <AudienceSelect icon={<User className="w-4 h-4" />} label="Ages" />
+          <AudienceSelect
+            icon={<User className="w-4 h-4" />}
+            label="Ages"
+            options={[
+              "All Ages",
+              "18-24",
+              "25-34",
+              "35-44",
+              "45-54",
+              "55-64",
+              "65+",
+            ]}
+          />
           <AudienceSelect
             icon={<Users className="w-4 h-4" />}
             label="Genders"
+            options={["All Genders", "Male", "Female", "Non-binary", "Prefer not to say"]}
           />
           <AudienceSelect
             icon={<Sparkles className="w-4 h-4" />}
             label="Interests"
+            options={[
+              "All Interests",
+              "Technology",
+              "Fashion",
+              "Sports",
+              "Travel",
+              "Food",
+              "Music",
+              "Gaming",
+            ]}
           />
         </div>
       </section>
@@ -206,22 +249,127 @@ export function CampaignSetup({ handleNext }: IProps) {
 function AudienceSelect({
   icon,
   label,
+  options,
 }: {
   icon: React.ReactNode;
   label: string;
+  options?: string[];
 }) {
-  const [value, setValue] = useState<string>("");
+  const [open, setOpen] = useState(false);
+  const [selectedValues, setSelectedValues] = useState<string[]>([]);
+
+  // Default options if none provided
+  const defaultOptions = options || [
+    `All ${label}`,
+    `Option 1`,
+    `Option 2`,
+    `Option 3`,
+    `Option 4`,
+  ];
+
+  const toggleValue = (value: string) => {
+    if (value === `All ${label}`) {
+      // If "All" is selected, clear other selections or select all
+      if (selectedValues.includes(`All ${label}`)) {
+        setSelectedValues([]);
+      } else {
+        setSelectedValues([`All ${label}`]);
+      }
+    } else {
+      // Remove "All" if a specific option is selected
+      const newValues = selectedValues.filter((v) => v !== `All ${label}`);
+      
+      if (newValues.includes(value)) {
+        setSelectedValues(newValues.filter((v) => v !== value));
+      } else {
+        setSelectedValues([...newValues, value]);
+      }
+    }
+  };
+
+  const removeValue = (value: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    setSelectedValues(selectedValues.filter((v) => v !== value));
+  };
+
+  const displayText =
+    selectedValues.length === 0
+      ? label
+      : selectedValues.length === 1
+      ? selectedValues[0]
+      : `${selectedValues.length} selected`;
 
   return (
-    <Select value={value} onValueChange={setValue}>
-      <SelectTrigger className="w-auto h-12 px-6 rounded-full bg-white border-border hover:border-primary/50 transition-colors gap-3 group">
-        {icon}
-        <SelectValue placeholder={label} />
-      </SelectTrigger>
-      <SelectContent>
-        <SelectItem value="all">All {label}</SelectItem>
-        <SelectItem value="custom">Custom {label}</SelectItem>
-      </SelectContent>
-    </Select>
+    <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger asChild>
+        <Button
+          variant="outline"
+          className={cn(
+            "w-auto h-12 px-6 rounded-full bg-white border-border hover:border-primary/50 transition-colors gap-3 group justify-between",
+            selectedValues.length > 0 && "border-primary/50 bg-primary/5"
+          )}
+        >
+          <div className="flex items-center gap-2">
+            {icon}
+            <span className="text-sm font-medium">{displayText}</span>
+          </div>
+          <ChevronDown className="w-4 h-4 opacity-50 group-hover:opacity-100 transition-opacity" />
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent className="w-64 p-0 max-h-80 flex flex-col" align="start">
+        <div className="overflow-y-auto max-h-60 p-2">
+          <div className="space-y-1">
+            {defaultOptions.map((option) => {
+              const isSelected = selectedValues.includes(option);
+              return (
+                <button
+                  key={option}
+                  onClick={() => toggleValue(option)}
+                  className={cn(
+                    "w-full flex items-center justify-between px-3 py-2 rounded-md text-sm transition-colors hover:bg-muted",
+                    isSelected && "bg-primary/10"
+                  )}
+                >
+                  <span className="flex items-center gap-2">
+                    <div
+                      className={cn(
+                        "w-4 h-4 rounded border-2 flex items-center justify-center",
+                        isSelected
+                          ? "bg-primary border-primary"
+                          : "border-muted-foreground/30"
+                      )}
+                    >
+                      {isSelected && <Check className="w-3 h-3 text-white" />}
+                    </div>
+                    {option}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+        {selectedValues.length > 0 && (
+          <div className="mt-auto p-2 pt-3 border-t bg-muted/30">
+            <div className="flex flex-wrap gap-1.5">
+              {selectedValues.map((value) => (
+                <Badge
+                  key={value}
+                  variant="secondary"
+                  className="text-xs px-2 py-1 pr-1 flex items-center gap-1"
+                >
+                  {value}
+                  <button
+                    onClick={(e) => removeValue(value, e)}
+                    className="ml-1 hover:bg-muted-foreground/20 rounded-full p-0.5"
+                  >
+                    <X className="w-3 h-3" />
+                  </button>
+                </Badge>
+              ))}
+            </div>
+          </div>
+        )}
+      </PopoverContent>
+    </Popover>
   );
 }
