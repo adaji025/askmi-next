@@ -2,7 +2,7 @@ import React from "react";
 import { useTranslations } from "next-intl";
 
 const SurveyQuestions = () => {
-  const t = useTranslations("campaign");
+  const t = useTranslations("campaign.detail");
   
   return (
     <div className="space-y-10 bg-white p-4 lg:p-6 rounded-md">
