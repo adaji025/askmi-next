@@ -19,6 +19,7 @@ import LanguageDropdown from "../dashboard/dashboard/layout/lang-dropdown";
 import InfluenceDirections from "./influencer-directions";
 import { PhoneInput } from "./phone-number-input";
 import { useTranslations } from "next-intl";
+import { useRegister } from "@/features/auth/hooks/use-register";
 
 
 
@@ -34,7 +35,7 @@ export function RegisterForm() {
     company: "",
     email: "",
     phoneNumber: "",
-    countryCode: "+1",
+    countryCode: "",
     password: "",
     confirmPassword: "",
   });
@@ -46,9 +47,8 @@ export function RegisterForm() {
     password: "",
     confirmPassword: "",
   });
-  const [error, setError] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+  const { register, isLoading, error: apiError, resetError } = useRegister();
 
   const validateFullName = (fullName: string): string => {
     if (!fullName.trim()) {
@@ -144,30 +144,40 @@ export function RegisterForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError("");
+    resetError();
 
     // Validate form before submitting
     if (!validateForm()) {
       return;
     }
 
-    setIsLoading(true);
-
     try {
-      // TODO: Replace with actual registration API call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      console.log("Form submitted:", { accountType, ...formData });
-      router.push("/dashboard");
-      // Navigate to login or dashboard after successful registration
+      const response = await register({
+        email: formData.email,
+        phoneNumber: formData.phoneNumber,
+        countryCode: formData.countryCode,
+        company: formData.company,
+        fullName: formData.fullName,
+        password: formData.password,
+        confirmPassword: formData.confirmPassword,
+        role: accountType,
+      });
+
+      // Registration successful
+      console.log("User registered:", response.user);
+      router.push("/auth/sign-in");
     } catch (err) {
-      setError(t("registrationFailed"));
-    } finally {
-      setIsLoading(false);
+      // Error is already set in the hook's error state
+      // The error message will be displayed via apiError
     }
   };
 
   const handleFieldChange = (field: keyof typeof formData, value: string) => {
     setFormData({ ...formData, [field]: value });
+    // Clear API error when user starts typing
+    if (apiError) {
+      resetError();
+    }
     // Clear error when user starts typing (only for fields that have errors)
     if (field !== "countryCode" && errors[field as keyof typeof errors]) {
       setErrors({ ...errors, [field as keyof typeof errors]: "" });
@@ -223,9 +233,9 @@ export function RegisterForm() {
         {accountType === "brand" && (
           <div className="max-w-md mx-auto">
             <form onSubmit={handleSubmit} className="space-y-5">
-              {error && (
+              {apiError && (
                 <div className="rounded-md bg-destructive/15 p-3 text-sm text-destructive">
-                  {error}
+                  {apiError}
                 </div>
               )}
 
