@@ -12,13 +12,13 @@ import type { SurveyQuestion } from "@/features/surveys/types";
 const CreateSurveyHeader = () => {
   const router = useRouter();
   const t = useTranslations("survey.create.header");
-  const { questions, clearQuestions } = useQuestionStore();
+  const { questions, clearQuestions, surveyTitle } = useQuestionStore();
   const { createSurvey, isLoading, error, resetError } = useCreateSurvey();
 
   const handlePublish = async () => {
     resetError();
 
-    if (questions.length === 0) {
+    if (questions.length === 0 || !surveyTitle.trim()) {
       return;
     }
 
@@ -32,7 +32,7 @@ const CreateSurveyHeader = () => {
     }));
 
     try {
-      await createSurvey(surveyQuestions);
+      await createSurvey(surveyQuestions, surveyTitle.trim());
       clearQuestions();
       router.push(`/dashboard/surveys`);
     } catch {
@@ -98,7 +98,7 @@ const CreateSurveyHeader = () => {
         <Button
           variant="outline"
           onClick={handlePublish}
-          disabled={isLoading || questions.length === 0}
+          disabled={isLoading || questions.length === 0 || !surveyTitle.trim()}
           className="text-sm bg-white border border-gray-200 rounded-md shadow-sm hover:bg-gray-50 text-[#2563EB] h-10 px-4 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {isLoading ? (

@@ -16,16 +16,19 @@ export interface Question {
 
 interface QuestionStore {
   questions: Question[];
+  surveyTitle: string;
   addQuestion: (question: Omit<Question, "id" | "order">) => void;
   updateQuestion: (id: string, updates: Partial<Question>) => void;
   deleteQuestion: (id: string) => void;
   reorderQuestions: (questions: Question[]) => void;
   getQuestion: (id: string) => Question | undefined;
+  setSurveyTitle: (title: string) => void;
   clearQuestions: () => void;
 }
 
 export const useQuestionStore = create<QuestionStore>((set, get) => ({
   questions: [],
+  surveyTitle: "",
 
   addQuestion: (question) => {
     const currentQuestions = get().questions;
@@ -68,8 +71,12 @@ export const useQuestionStore = create<QuestionStore>((set, get) => ({
     return get().questions.find((question) => question.id === id);
   },
 
+  setSurveyTitle: (title) => {
+    set({ surveyTitle: title });
+  },
+
   clearQuestions: () => {
-    set({ questions: [] });
+    set({ questions: [], surveyTitle: "" });
   },
 }));
 

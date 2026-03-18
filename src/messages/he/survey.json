@@ -30,6 +30,15 @@
       "publishSurvey": "פרסם סקר",
       "publishing": "מפרסם..."
     },
+    "titleModal": {
+      "title": "כותרת הסקר",
+      "description": "תן לסקר שלך כותרת לפני הפרסום.",
+      "label": "כותרת הסקר",
+      "placeholder": "הזן כותרת סקר",
+      "cancel": "ביטול",
+      "publish": "פרסם",
+      "publishing": "מפרסם..."
+    },
     "sidebar": {
       "choiceQuestions": "שאלות בחירה",
       "ratingsQuestions": "שאלות דירוג",

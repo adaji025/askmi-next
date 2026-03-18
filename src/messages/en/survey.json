@@ -30,6 +30,15 @@
       "publishSurvey": "Publish Survey",
       "publishing": "Publishing..."
     },
+    "titleModal": {
+      "title": "Survey Title",
+      "description": "Give your survey a title before publishing.",
+      "label": "Survey title",
+      "placeholder": "Enter survey title",
+      "cancel": "Cancel",
+      "publish": "Publish",
+      "publishing": "Publishing..."
+    },
     "sidebar": {
       "choiceQuestions": "Choice Questions",
       "ratingsQuestions": "Ratings Questions",
