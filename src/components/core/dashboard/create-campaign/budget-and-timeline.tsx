@@ -14,6 +14,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import React from "react";
+import { useCampaignForm } from "./campaign-form-context";
 
 interface IProps {
   handleNext: (
@@ -22,11 +23,19 @@ interface IProps {
 }
 
 const BudgetAndTimeline = ({ handleNext }: IProps) => {
+  const { updateFormData, formData } = useCampaignForm();
   const [startDate, setStartDate] = useState<Date | undefined>(
-    new Date("2025-11-01")
+    formData.startDate ? new Date(formData.startDate) : new Date("2025-11-01")
   );
   const [costPerVote, setCostPerVote] = useState("0.2");
   const [matchingType, setMatchingType] = useState<"automatic" | "manual">();
+
+  const handleDateChange = (date: Date | undefined) => {
+    setStartDate(date);
+    if (date) {
+      updateFormData({ startDate: date.toISOString() });
+    }
+  };
 
   return (
     <div className="p-4 sm:p-6 lg:px-8 bg-white space-y-12 rounded-lg border border-[#E2E8F0]! shadow-none!">
@@ -58,7 +67,7 @@ const BudgetAndTimeline = ({ handleNext }: IProps) => {
                 <Calendar
                   mode="single"
                   selected={startDate}
-                  onSelect={setStartDate}
+                  onSelect={handleDateChange}
                   initialFocus
                 />
               </PopoverContent>

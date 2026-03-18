@@ -27,7 +27,8 @@
       "backToSurvey": "חזור לסקר",
       "autosaveOn": "שמירה אוטומטית פעילה...",
       "preview": "תצוגה מקדימה",
-      "publishSurvey": "פרסם סקר"
+      "publishSurvey": "פרסם סקר",
+      "publishing": "מפרסם..."
     },
     "sidebar": {
       "choiceQuestions": "שאלות בחירה",

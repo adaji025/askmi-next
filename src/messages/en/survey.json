@@ -27,7 +27,8 @@
       "backToSurvey": "Back to Survey",
       "autosaveOn": "Autosave is on...",
       "preview": "Preview",
-      "publishSurvey": "Publish Survey"
+      "publishSurvey": "Publish Survey",
+      "publishing": "Publishing..."
     },
     "sidebar": {
       "choiceQuestions": "Choice Questions",

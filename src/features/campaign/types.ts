@@ -7,6 +7,7 @@ export interface TargetAudience {
   region?: TargetAudienceItem;
   city?: TargetAudienceItem;
   age?: TargetAudienceItem;
+  gender?: TargetAudienceItem;
   interest?: TargetAudienceItem;
 }
 

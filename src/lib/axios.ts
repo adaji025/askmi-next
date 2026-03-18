@@ -1,5 +1,33 @@
 import axios, { AxiosError, AxiosInstance, InternalAxiosRequestConfig } from "axios";
 
+// Helper function to get token from localStorage
+const getTokenFromStorage = (): string | null => {
+  if (typeof window === "undefined") {
+    return null;
+  }
+
+  try {
+    const storedData = localStorage.getItem("askmi_brand");
+    if (!storedData) {
+      return null;
+    }
+
+    const parsed = JSON.parse(storedData);
+    // Zustand persist stores data in { state: { ... }, version: ... } format
+    const token = parsed?.state?.token;
+    
+    if (!token) {
+      console.warn("Token not found in localStorage. Structure:", parsed);
+      return null;
+    }
+
+    return token;
+  } catch (error) {
+    console.error("Error reading token from localStorage:", error);
+    return null;
+  }
+};
+
 // Create axios instance with default config
 const apiClient: AxiosInstance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:4000",
@@ -12,21 +40,19 @@ const apiClient: AxiosInstance = axios.create({
 // Request interceptor to add auth token
 apiClient.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
-    // Get token from localStorage (stored by zustand)
-    if (typeof window !== "undefined") {
-      try {
-        const storedData = localStorage.getItem("askmi_brand");
-        if (storedData) {
-          const parsed = JSON.parse(storedData);
-          const token = parsed?.state?.token;
-          if (token && config.headers) {
-            config.headers.Authorization = `Bearer ${token}`;
-          }
-        }
-      } catch (error) {
-        console.error("Error reading token from localStorage:", error);
+    const token = getTokenFromStorage();
+    
+    if (token) {
+      // Ensure headers object exists
+      if (!config.headers) {
+        config.headers = {} as any;
       }
+      config.headers.Authorization = `Bearer ${token}`;
+    } else {
+      console.warn("No token available for request to:", config.url);
+      console.warn("Please make sure you are logged in.");
     }
+    
     return config;
   },
   (error: AxiosError) => {

@@ -26,6 +26,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
+import { useCampaignForm } from "./campaign-form-context";
 
 interface IProps {
   handleNext: (
@@ -33,8 +34,22 @@ interface IProps {
   ) => void;
 }
 export function CampaignSetup({ handleNext }: IProps) {
-  const [surveyType, setSurveyType] = useState<"existing" | "new">("existing");
-  const [votes, setVotes] = useState([25000]);
+  const { updateFormData, formData } = useCampaignForm();
+  const [surveyType, setSurveyType] = useState<"existing" | "new">(
+    (formData.surveySource as "existing" | "new") || "existing"
+  );
+  const [votes, setVotes] = useState(
+    formData.totalVoteNeeded ? [formData.totalVoteNeeded] : [25000]
+  );
+  const [campaignName, setCampaignName] = useState(
+    formData.campaignName || ""
+  );
+  const [description, setDescription] = useState(formData.description || "");
+  const [selectedRegions, setSelectedRegions] = useState<string[]>([]);
+  const [selectedCities, setSelectedCities] = useState<string[]>([]);
+  const [selectedAges, setSelectedAges] = useState<string[]>([]);
+  const [selectedGenders, setSelectedGenders] = useState<string[]>([]);
+  const [selectedInterests, setSelectedInterests] = useState<string[]>([]);
 
   return (
     <div className="p-4 sm:p-6 lg:px-8 bg-white space-y-12 rounded-lg border border-[#E2E8F0]! shadow-none!">
@@ -53,6 +68,11 @@ export function CampaignSetup({ handleNext }: IProps) {
               id="campaign-name"
               placeholder="Name your campaign"
               className="h-12 bg-white"
+              value={campaignName}
+              onChange={(e) => {
+                setCampaignName(e.target.value);
+                updateFormData({ campaignName: e.target.value });
+              }}
             />
           </div>
           <div className="space-y-2">
@@ -66,6 +86,11 @@ export function CampaignSetup({ handleNext }: IProps) {
               id="description"
               placeholder="Short description about your campaign"
               className="min-h-30 bg-white resize-none"
+              value={description}
+              onChange={(e) => {
+                setDescription(e.target.value);
+                updateFormData({ description: e.target.value });
+              }}
             />
           </div>
         </div>
@@ -76,7 +101,10 @@ export function CampaignSetup({ handleNext }: IProps) {
         <h2 className="text-xl font-bold tracking-tight">Survey Details</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <button
-            onClick={() => setSurveyType("existing")}
+            onClick={() => {
+              setSurveyType("existing");
+              updateFormData({ surveySource: "existing" });
+            }}
             className={cn(
               "flex flex-col items-start p-6 rounded-xl border transition-all text-left group",
               surveyType === "existing"
@@ -98,7 +126,10 @@ export function CampaignSetup({ handleNext }: IProps) {
             </p>
           </button>
           <button
-            onClick={() => setSurveyType("new")}
+            onClick={() => {
+              setSurveyType("new");
+              updateFormData({ surveySource: "creating_new" });
+            }}
             className={cn(
               "flex flex-col items-start p-6 rounded-xl border transition-all text-left group",
               surveyType === "new"
@@ -127,6 +158,7 @@ export function CampaignSetup({ handleNext }: IProps) {
           <AudienceSelect
             icon={<MapPin className="w-4 h-4" />}
             label="Regions"
+            field="region"
             options={[
               "All Regions",
               "North America",
@@ -140,6 +172,7 @@ export function CampaignSetup({ handleNext }: IProps) {
           <AudienceSelect
             icon={<Building2 className="w-4 h-4" />}
             label="Cities"
+            field="city"
             options={[
               "All Cities",
               "New York",
@@ -153,6 +186,7 @@ export function CampaignSetup({ handleNext }: IProps) {
           <AudienceSelect
             icon={<User className="w-4 h-4" />}
             label="Ages"
+            field="age"
             options={[
               "All Ages",
               "18-24",
@@ -166,11 +200,13 @@ export function CampaignSetup({ handleNext }: IProps) {
           <AudienceSelect
             icon={<Users className="w-4 h-4" />}
             label="Genders"
+            field="gender"
             options={["All Genders", "Male", "Female", "Non-binary", "Prefer not to say"]}
           />
           <AudienceSelect
             icon={<Sparkles className="w-4 h-4" />}
             label="Interests"
+            field="interest"
             options={[
               "All Interests",
               "Technology",
@@ -200,7 +236,10 @@ export function CampaignSetup({ handleNext }: IProps) {
           <div className="space-y-4">
             <Slider
               value={votes}
-              onValueChange={setVotes}
+              onValueChange={(newVotes) => {
+                setVotes(newVotes);
+                updateFormData({ totalVoteNeeded: newVotes[0] });
+              }}
               min={50}
               max={50000}
               step={50}
@@ -250,13 +289,32 @@ function AudienceSelect({
   icon,
   label,
   options,
+  field,
 }: {
   icon: React.ReactNode;
   label: string;
   options?: string[];
+  field: "region" | "city" | "age" | "gender" | "interest";
 }) {
+  const { updateFormData, formData } = useCampaignForm();
   const [open, setOpen] = useState(false);
-  const [selectedValues, setSelectedValues] = useState<string[]>([]);
+  
+  // Get initial values from context
+  const getInitialValues = (): string[] => {
+    const audience = formData.targetAudience;
+    if (!audience) return [];
+    
+    const fieldData = audience[field as keyof typeof audience];
+    if (!fieldData) return [];
+    
+    // If type is "all", return ["All {label}"], otherwise return values
+    if (fieldData.type === "all") {
+      return [`All ${label}`];
+    }
+    return fieldData.values || [];
+  };
+  
+  const [selectedValues, setSelectedValues] = useState<string[]>(() => getInitialValues());
 
   // Default options if none provided
   const defaultOptions = options || [
@@ -268,23 +326,43 @@ function AudienceSelect({
   ];
 
   const toggleValue = (value: string) => {
+    let newValues: string[];
+    
     if (value === `All ${label}`) {
       // If "All" is selected, clear other selections or select all
       if (selectedValues.includes(`All ${label}`)) {
-        setSelectedValues([]);
+        newValues = [];
       } else {
-        setSelectedValues([`All ${label}`]);
+        newValues = [`All ${label}`];
       }
     } else {
       // Remove "All" if a specific option is selected
-      const newValues = selectedValues.filter((v) => v !== `All ${label}`);
+      newValues = selectedValues.filter((v) => v !== `All ${label}`);
       
       if (newValues.includes(value)) {
-        setSelectedValues(newValues.filter((v) => v !== value));
+        newValues = newValues.filter((v) => v !== value);
       } else {
-        setSelectedValues([...newValues, value]);
+        newValues = [...newValues, value];
       }
     }
+    
+    setSelectedValues(newValues);
+    
+    // Update context with formatted targetAudience data
+    const currentAudience = formData.targetAudience || {};
+    const hasAllOption = newValues.includes(`All ${label}`);
+    const type: "all" | "custom" = hasAllOption ? "all" : "custom";
+    const values = newValues.filter((v) => v !== `All ${label}`);
+    
+    updateFormData({
+      targetAudience: {
+        ...currentAudience,
+        [field]: {
+          type,
+          values: type === "all" ? [] : values,
+        },
+      },
+    });
   };
 
   const removeValue = (value: string, e: React.MouseEvent) => {

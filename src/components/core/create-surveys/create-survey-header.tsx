@@ -1,17 +1,61 @@
 "use client";
 
-import { ArrowLeft, CheckCircle2, Eye } from "lucide-react";
+import { ArrowLeft, CheckCircle2, Eye, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
+import { useCreateSurvey } from "@/features/surveys/use-create-survey";
+import { useQuestionStore } from "@/store/qustion-store";
+import type { SurveyQuestion } from "@/features/surveys/types";
 
 const CreateSurveyHeader = () => {
   const router = useRouter();
   const t = useTranslations("survey.create.header");
+  const { questions, clearQuestions } = useQuestionStore();
+  const { createSurvey, isLoading, error, resetError } = useCreateSurvey();
+
+  const handlePublish = async () => {
+    resetError();
+
+    if (questions.length === 0) {
+      return;
+    }
+
+    const surveyQuestions: SurveyQuestion[] = questions.map((q) => ({
+      type: q.type,
+      title: q.title,
+      required: q.required,
+      ...(q.options && { options: q.options }),
+      id: q.id,
+      order: q.order,
+    }));
+
+    try {
+      await createSurvey(surveyQuestions);
+      clearQuestions();
+      router.push(`/dashboard/surveys`);
+    } catch {
+      // Error is handled by the hook
+    }
+  };
 
   return (
-    <header className="bg-[#0F172A] px-6 py-4 flex items-center justify-between">
+    <>
+      {error && (
+        <div className="bg-destructive/15 text-destructive px-6 py-3 text-sm flex items-center justify-between">
+          <span>{error}</span>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={resetError}
+            className="text-destructive hover:bg-destructive/20 h-8"
+          >
+            Dismiss
+          </Button>
+        </div>
+      )}
+      <header className="bg-[#0F172A] px-6 py-4 flex items-center justify-between">
       {/* Left Section - Back Button */}
       <div className="lg:w-[38%]">
         <Button
@@ -53,13 +97,20 @@ const CreateSurveyHeader = () => {
         {/* Publish Survey Button */}
         <Button
           variant="outline"
-          className="text-sm bg-white border border-gray-200 rounded-md shadow-sm hover:bg-gray-50 text-[#2563EB] h-10 px-4"
+          onClick={handlePublish}
+          disabled={isLoading || questions.length === 0}
+          className="text-sm bg-white border border-gray-200 rounded-md shadow-sm hover:bg-gray-50 text-[#2563EB] h-10 px-4 disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          <CheckCircle2 className="h-4 w-4 ms:mr-2 text-[#2563EB]" />
-          {t("publishSurvey")}
+          {isLoading ? (
+            <Loader2 className="h-4 w-4 md:mr-2 animate-spin text-[#2563EB]" />
+          ) : (
+            <CheckCircle2 className="h-4 w-4 md:mr-2 text-[#2563EB]" />
+          )}
+          {isLoading ? t("publishing") : t("publishSurvey")}
         </Button>
       </div>
     </header>
+    </>
   );
 };
 
