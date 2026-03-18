@@ -24,6 +24,7 @@ interface SurveyCardProps {
   totalResponses: number;
   completionPercentage: number;
   daysLeft: number;
+  href?: string;
 }
 
 export function SurveyCard({
@@ -36,11 +37,12 @@ export function SurveyCard({
   totalResponses,
   completionPercentage,
   daysLeft,
+  href = "/dashboard/campaigns/1",
 }: SurveyCardProps) {
   const t = useTranslations("campaign.surveyCard");
 
   return (
-    <Link href="/dashboard/campaigns/1">
+    <Link href={href}>
       <Card className="flex-1 cursor-pointer rounded-sm shadow-none border-[#E2E8F0] transition-all hover:shadow-md">
         <CardHeader>
           <div className="flex flex-row items-start justify-between space-y-0">

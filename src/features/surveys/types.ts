@@ -37,3 +37,16 @@ export interface CreateSurveyErrorResponse {
   message: string;
   errors?: Array<Record<string, unknown>>;
 }
+
+export interface GetSurveysSuccessResponse {
+  success: true;
+  message: string;
+  surveys: Survey[];
+  total?: number;
+}
+
+export interface GetSurveysErrorResponse {
+  success: false;
+  message: string;
+  errors?: Array<Record<string, unknown>>;
+}

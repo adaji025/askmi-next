@@ -1,41 +1,27 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { Search, Plus } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import SurveyCard from "@/components/core/dashboard/survey/survey-card";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import NewSurveyCard from "@/components/core/dashboard/survey/new-survey-card";
-
-interface Survey {
-  id: string;
-  title: string;
-  status: "published" | "draft";
-  daysAgo: number;
-  questionsCount: number;
-}
-
-const mockSurveys: Survey[] = [
-  {
-    id: "1",
-    title: "Product Feedback Survey",
-    status: "published",
-    daysAgo: 3,
-    questionsCount: 5,
-  },
-  {
-    id: "2",
-    title: "Product Feedback Survey",
-    status: "draft",
-    daysAgo: 3,
-    questionsCount: 5,
-  },
-];
+import { useGetSurveys } from "@/features/surveys/use-get-surveys";
+import type { Survey } from "@/features/surveys/types";
+import { differenceInDays } from "date-fns";
 
 export default function Surveys() {
   const t = useTranslations("survey.page");
+  const { getSurveys, isLoading, error } = useGetSurveys();
+  const [surveys, setSurveys] = useState<Survey[]>([]);
+
+  useEffect(() => {
+    getSurveys()
+      .then((res) => setSurveys(res.surveys))
+      .catch(() => {});
+  }, [getSurveys]);
 
   return (
     <div className="space-y-6">
@@ -57,21 +43,40 @@ export default function Surveys() {
         </Link>
       </div>
 
+      {/* Error Message */}
+      {error && (
+        <div className="rounded-md bg-destructive/15 p-3 text-sm text-destructive">
+          {error}
+        </div>
+      )}
+
       {/* Survey Cards */}
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {/* Published and Draft Survey Cards */}
-        {mockSurveys.map((survey) => (
-          <SurveyCard
-            key={survey.id}
-            title={survey.title}
-            status={survey.status}
-            daysAgo={survey.daysAgo}
-            questionsCount={survey.questionsCount}
-          />
-        ))}
+        {/* Loading state */}
+        {isLoading && (
+          <div className="col-span-full text-center py-8 text-muted-foreground">
+            Loading surveys...
+          </div>
+        )}
 
-        {/*< New Survey Card */}
-        <NewSurveyCard />
+        {/* Published and Draft Survey Cards */}
+        {!isLoading &&
+          surveys.map((survey) => (
+            <SurveyCard
+              key={survey.id}
+              title={survey.title}
+              status={survey.status ?? "draft"}
+              daysAgo={
+                survey.createdAt
+                  ? differenceInDays(new Date(), new Date(survey.createdAt))
+                  : 0
+              }
+              questionsCount={survey.questions?.length ?? 0}
+            />
+          ))}
+
+        {/* New Survey Card */}
+        {!isLoading && <NewSurveyCard />}
       </div>
     </div>
   );
