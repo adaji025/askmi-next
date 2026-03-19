@@ -1,9 +1,9 @@
 "use client";
 
+import { MapPin, Building2, User, Users, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { MapPin, User, Users } from "lucide-react";
 import { format } from "date-fns";
 import React from "react";
 import { useRouter } from "next/navigation";
@@ -23,13 +23,42 @@ const Review = ({ handleNext }: IProps) => {
   const { createCampaign, isLoading, error, resetError } = useCreateCampaign();
   const { token, isAuthenticated } = useUserStore();
 
-  // Mock data for display - in a real app, this would come from formData
   const surveyTitle = formData.campaignName || "Product Feedback Survey";
-  const targetAudience = [
-    { label: "North America", icon: MapPin },
-    { label: "18-24", icon: User },
-    { label: "All genders", icon: Users },
-  ];
+
+  // Build target audience: icon + label, then badges for values
+  const targetAudienceConfig: Record<
+    string,
+    { label: string; icon: React.ComponentType<{ className?: string }> }
+  > = {
+    region: { label: "Region", icon: MapPin },
+    city: { label: "City", icon: Building2 },
+    age: { label: "Age", icon: User },
+    gender: { label: "Gender", icon: Users },
+    interest: { label: "Interest", icon: Sparkles },
+  };
+  const targetAudienceItems: {
+    label: string;
+    icon: React.ComponentType<{ className?: string }>;
+    values: string[];
+  }[] = [];
+  const audience = formData.targetAudience;
+  if (audience) {
+    (["region", "city", "age", "gender", "interest"] as const).forEach(
+      (field) => {
+        const item = audience[field];
+        if (!item) return;
+        const config = targetAudienceConfig[field];
+        const values = item.type === "all" ? ["All"] : item.values || [];
+        if (values.length > 0) {
+          targetAudienceItems.push({
+            label: config.label,
+            icon: config.icon,
+            values,
+          });
+        }
+      }
+    );
+  }
   const totalVotes = formData.totalVoteNeeded
     ? `${formData.totalVoteNeeded.toLocaleString()} votes`
     : "25,000 votes";
@@ -37,6 +66,9 @@ const Review = ({ handleNext }: IProps) => {
   const startDate = formData.startDate
     ? new Date(formData.startDate)
     : new Date("2025-01-11");
+  const endDate = formData.endDate
+    ? new Date(formData.endDate)
+    : undefined;
   const costPerVote = "$500";
 
   const handleSubmit = async () => {
@@ -74,6 +106,7 @@ const Review = ({ handleNext }: IProps) => {
       ...(formData.targetAudience && { targetAudience: formData.targetAudience }),
       totalVoteNeeded: formData.totalVoteNeeded,
       startDate: formData.startDate,
+      ...(formData.endDate && { endDate: formData.endDate }),
       isActive: formData.isActive ?? true, // Default to true
     };
 
@@ -94,13 +127,16 @@ const Review = ({ handleNext }: IProps) => {
   const ReviewRow = ({
     label,
     value,
+    icon: Icon,
   }: {
     label: string;
     value: React.ReactNode;
+    icon?: React.ComponentType<{ className?: string }>;
   }) => (
     <>
       <div className="flex items-center justify-between py-4">
-        <span className="text-sm font-medium text-muted-foreground">
+        <span className="text-sm font-medium text-muted-foreground flex items-center gap-2">
+          {Icon && <Icon className="h-4 w-4" />}
           {label}
         </span>
         <div className="text-sm font-bold">{value}</div>
@@ -123,32 +159,49 @@ const Review = ({ handleNext }: IProps) => {
 
       {/* Review Details */}
       <div className="space-y-0">
-        <ReviewRow
-          label="Target audience"
-          value={
-            <div className="flex items-center gap-2">
-              {targetAudience.map((item, index) => {
-                const Icon = item.icon;
-                return (
-                  <Badge
-                    key={index}
-                    variant="outline"
-                    className="bg-[#E2E8F0] rounded border-none text-[#8A97A0] font-normal"
-                  >
-                    <Icon className="w-3 h-3" />
-                    {item.label}
-                  </Badge>
-                );
-              })}
-            </div>
-          }
-        />
+        {targetAudienceItems.length > 0 ? (
+          targetAudienceItems.map((item, index) => (
+            <ReviewRow
+              key={index}
+              label={item.label}
+              icon={item.icon}
+              value={
+                <div className="flex flex-wrap gap-2">
+                  {item.values.map((value) => (
+                    <Badge
+                      key={value}
+                      variant="outline"
+                      className="bg-[#E2E8F0] rounded border-none text-[#8A97A0] font-normal"
+                    >
+                      {value}
+                    </Badge>
+                  ))}
+                </div>
+              }
+            />
+          ))
+        ) : (
+          <ReviewRow
+            label="Target audience"
+            value={
+              <span className="text-muted-foreground text-sm">
+                No target audience selected
+              </span>
+            }
+          />
+        )}
         <ReviewRow label="Total votes needed" value={totalVotes} />
         <ReviewRow label="Deviation range" value={deviationRange} />
         <ReviewRow
           label="Start date"
           value={format(startDate, "MMMM dd, yyyy")}
         />
+        {endDate && (
+          <ReviewRow
+            label="End date"
+            value={format(endDate, "MMMM dd, yyyy")}
+          />
+        )}
         <ReviewRow label="Estimated Price" value={costPerVote} />
       </div>
 

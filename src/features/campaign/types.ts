@@ -19,6 +19,7 @@ export interface CreateCampaignRequest {
   targetAudience?: TargetAudience;
   totalVoteNeeded: number;
   startDate: string;
+  endDate?: string;
   isActive?: boolean;
 }
 
@@ -30,7 +31,9 @@ export interface Campaign {
   surveyId: string;
   targetAudience: TargetAudience;
   totalVoteNeeded: number;
+  response: number;
   startDate: string;
+  endDate?: string;
   isActive: boolean;
   isCompleted: boolean;
   numberOfInfluencer: number;

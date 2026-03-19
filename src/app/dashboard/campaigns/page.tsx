@@ -8,6 +8,8 @@ import { useGetCampaigns } from "@/features/campaign/hooks/use-get-campaigns";
 import type { Campaign } from "@/features/campaign/types";
 import { differenceInDays } from "date-fns";
 
+const CAMPAIGN_DURATION_DAYS = 30;
+
 const Campaigns = () => {
   const t = useTranslations("campaign.page");
   const { getCampaigns, isLoading, error } = useGetCampaigns();
@@ -36,7 +38,13 @@ const Campaigns = () => {
             Loading campaigns...
           </div>
         )}
+        {!isLoading && campaigns.length === 0 && (
+          <div className="col-span-full text-center py-12 text-muted-foreground">
+            {t("noCampaigns")}
+          </div>
+        )}
         {!isLoading &&
+          campaigns.length > 0 &&
           campaigns.map((campaign) => (
             <SurveyCard
               key={campaign.id}
@@ -53,7 +61,15 @@ const Campaigns = () => {
               responsesCount={0}
               totalResponses={campaign.totalVoteNeeded}
               completionPercentage={0}
-              daysLeft={7}
+              daysLeft={Math.max(
+                0,
+                campaign.endDate
+                  ? differenceInDays(
+                      new Date(campaign.endDate),
+                      new Date(campaign.startDate)
+                    )
+                  : CAMPAIGN_DURATION_DAYS
+              )}
             />
           ))}
       </div>

@@ -21,6 +21,8 @@ export interface Survey {
   id: string;
   title: string;
   questions: SurveyQuestion[];
+  campaignId?: string;
+  userId?: string;
   status?: "draft" | "published";
   createdAt?: string;
   updatedAt?: string;
@@ -42,7 +44,7 @@ export interface GetSurveysSuccessResponse {
   success: true;
   message: string;
   surveys: Survey[];
-  total?: number;
+  count?: number;
 }
 
 export interface GetSurveysErrorResponse {

@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { Calendar as CalendarIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
   Popover,
@@ -27,13 +26,28 @@ const BudgetAndTimeline = ({ handleNext }: IProps) => {
   const [startDate, setStartDate] = useState<Date | undefined>(
     formData.startDate ? new Date(formData.startDate) : new Date("2025-11-01")
   );
-  const [costPerVote, setCostPerVote] = useState("0.2");
+  const [endDate, setEndDate] = useState<Date | undefined>(
+    formData.endDate ? new Date(formData.endDate) : undefined
+  );
   const [matchingType, setMatchingType] = useState<"automatic" | "manual">();
 
-  const handleDateChange = (date: Date | undefined) => {
+  const handleStartDateChange = (date: Date | undefined) => {
     setStartDate(date);
     if (date) {
       updateFormData({ startDate: date.toISOString() });
+      if (endDate && date > endDate) {
+        setEndDate(undefined);
+        updateFormData({ endDate: undefined });
+      }
+    }
+  };
+
+  const handleEndDateChange = (date: Date | undefined) => {
+    setEndDate(date);
+    if (date) {
+      updateFormData({ endDate: date.toISOString() });
+    } else {
+      updateFormData({ endDate: undefined });
     }
   };
 
@@ -67,32 +81,44 @@ const BudgetAndTimeline = ({ handleNext }: IProps) => {
                 <Calendar
                   mode="single"
                   selected={startDate}
-                  onSelect={handleDateChange}
+                  onSelect={handleStartDateChange}
                   initialFocus
                 />
               </PopoverContent>
             </Popover>
           </div>
           <div className="space-y-2">
-            {/* <Label
-              htmlFor="cost-per-vote"
+            <Label
+              htmlFor="end-date"
               className="text-sm font-semibold text-muted-foreground"
             >
-              Cost per vote
+              End date
             </Label>
-            <div className="relative">
-              <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground">
-                $
-              </span>
-              <Input
-                id="cost-per-vote"
-                type="number"
-                value={costPerVote}
-                onChange={(e) => setCostPerVote(e.target.value)}
-                className="h-12 pl-7 bg-white"
-                placeholder="0.2"
-              />
-            </div> */}
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button
+                  variant="outline"
+                  className={cn(
+                    "w-full h-12 justify-start text-left font-normal bg-white",
+                    !endDate && "text-muted-foreground"
+                  )}
+                >
+                  <CalendarIcon className="mr-2 h-4 w-4" />
+                  {endDate ? format(endDate, "dd-MM-yyyy") : "Pick a date"}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0" align="start">
+                <Calendar
+                  mode="single"
+                  selected={endDate}
+                  onSelect={handleEndDateChange}
+                  disabled={(date) =>
+                    startDate ? date < startDate : false
+                  }
+                  initialFocus
+                />
+              </PopoverContent>
+            </Popover>
           </div>
         </div>
       </section>

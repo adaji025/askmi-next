@@ -1,6 +1,7 @@
 {
   "page": {
-    "description": "Track, manage, and optimize all your survey campaigns in one place"
+    "description": "Track, manage, and optimize all your survey campaigns in one place",
+    "noCampaigns": "No campaigns yet. Create your first campaign to get started."
   },
   "filters": {
     "all": "All",

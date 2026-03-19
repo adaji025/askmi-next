@@ -75,8 +75,7 @@ apiClient.interceptors.response.use(
       if (status === 401) {
         if (typeof window !== "undefined") {
           localStorage.removeItem("askmi_brand");
-          // Optionally redirect to login page
-          // window.location.href = "/auth/sign-in";
+          window.location.href = "/auth/sign-in";
         }
       }
       
