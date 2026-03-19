@@ -17,18 +17,21 @@ export interface Question {
 interface QuestionStore {
   questions: Question[];
   surveyTitle: string;
+  campaignId: string;
   addQuestion: (question: Omit<Question, "id" | "order">) => void;
   updateQuestion: (id: string, updates: Partial<Question>) => void;
   deleteQuestion: (id: string) => void;
   reorderQuestions: (questions: Question[]) => void;
   getQuestion: (id: string) => Question | undefined;
   setSurveyTitle: (title: string) => void;
+  setCampaignId: (campaignId: string) => void;
   clearQuestions: () => void;
 }
 
 export const useQuestionStore = create<QuestionStore>((set, get) => ({
   questions: [],
   surveyTitle: "",
+  campaignId: "",
 
   addQuestion: (question) => {
     const currentQuestions = get().questions;
@@ -75,8 +78,12 @@ export const useQuestionStore = create<QuestionStore>((set, get) => ({
     set({ surveyTitle: title });
   },
 
+  setCampaignId: (campaignId) => {
+    set({ campaignId });
+  },
+
   clearQuestions: () => {
-    set({ questions: [], surveyTitle: "" });
+    set({ questions: [], surveyTitle: "", campaignId: "" });
   },
 }));
 

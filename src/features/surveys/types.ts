@@ -15,6 +15,7 @@ export interface SurveyQuestion {
 export interface CreateSurveyRequest {
   questions: SurveyQuestion[];
   title?: string;
+  campaignId?: string;
 }
 
 export interface Survey {

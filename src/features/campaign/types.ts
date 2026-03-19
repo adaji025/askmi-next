@@ -16,6 +16,7 @@ export interface CreateCampaignRequest {
   description?: string;
   surveySource: "creating_new" | "existing";
   surveyId?: string;
+  totalQuestions?: number;
   targetAudience?: TargetAudience;
   totalVoteNeeded: number;
   startDate: string;

@@ -1,7 +1,7 @@
 "use client";
 
-import React, { createContext, useContext, useState, ReactNode } from "react";
-import type { CreateCampaignRequest, TargetAudience } from "@/features/campaign/types";
+import { createContext, useContext, useState, ReactNode } from "react";
+import type { CreateCampaignRequest, } from "@/features/campaign/types";
 
 interface CampaignFormContextType {
   formData: Partial<CreateCampaignRequest>;

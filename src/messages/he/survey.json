@@ -18,6 +18,7 @@
   "card": {
     "published": "פורסם",
     "draft": "טיוטה",
+    "createdToday": "נוצר היום",
     "createdDaysAgo": "נוצר לפני {days} ימים",
     "questions": "{count} שאלות",
     "edit": "ערוך"
@@ -29,6 +30,11 @@
       "preview": "תצוגה מקדימה",
       "publishSurvey": "פרסם סקר",
       "publishing": "מפרסם..."
+    },
+    "campaignSelect": {
+      "label": "קמפיין",
+      "placeholder": "בחר קמפיין",
+      "none": "ללא קמפיין"
     },
     "titleModal": {
       "title": "כותרת הסקר",

@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { Calendar as CalendarIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
   Popover,
@@ -30,6 +31,9 @@ const BudgetAndTimeline = ({ handleNext }: IProps) => {
     formData.endDate ? new Date(formData.endDate) : undefined
   );
   const [matchingType, setMatchingType] = useState<"automatic" | "manual">();
+  const [numberOfQuestions, setNumberOfQuestions] = useState<
+    number | undefined
+  >(formData.totalQuestions);
 
   // Sync default start date (today) to formData when not set
   useEffect(() => {
@@ -38,6 +42,11 @@ const BudgetAndTimeline = ({ handleNext }: IProps) => {
       updateFormData({ startDate: today.toISOString() });
     }
   }, []);
+
+  // Sync numberOfQuestions from formData when it changes (e.g. from setup)
+  useEffect(() => {
+    setNumberOfQuestions(formData.totalQuestions);
+  }, [formData.totalQuestions]);
 
   const handleStartDateChange = (date: Date | undefined) => {
     setStartDate(date);
@@ -57,6 +66,17 @@ const BudgetAndTimeline = ({ handleNext }: IProps) => {
     } else {
       updateFormData({ endDate: undefined });
     }
+  };
+
+  const handleNumberOfQuestionsChange = (value: number | undefined) => {
+    if (value == null || value === 0) {
+      setNumberOfQuestions(undefined);
+      updateFormData({ totalQuestions: undefined });
+      return;
+    }
+    const num = Math.max(1, Math.min(1000, value));
+    setNumberOfQuestions(num);
+    updateFormData({ totalQuestions: num });
   };
 
   return (
@@ -130,9 +150,35 @@ const BudgetAndTimeline = ({ handleNext }: IProps) => {
           </div>
         </div>
       </section>
+      <div className="space-y-2">
+        <Label
+          htmlFor="number-of-questions"
+          className="text-sm font-semibold text-muted-foreground"
+        >
+          Number of questions
+        </Label>
+        <Input
+          id="number-of-questions"
+          type="number"
+          min={1}
+          max={100}
+          placeholder="Enter number"
+          value={numberOfQuestions ?? ""}
+          onChange={(e) => {
+            const raw = e.target.value;
+            if (raw === "") {
+              handleNumberOfQuestionsChange(undefined);
+              return;
+            }
+            const val = parseInt(raw, 10);
+            if (!isNaN(val)) handleNumberOfQuestionsChange(val);
+          }}
+          className="h-12 bg-white"
+        />
+      </div>
 
       {/* Influencer Matching Section */}
-      <section className="space-y-6">
+      <section className="space-y-6 block">
         <h2 className="text-xl font-bold tracking-tight">
           Influencer Matching
         </h2>
@@ -173,7 +219,7 @@ const BudgetAndTimeline = ({ handleNext }: IProps) => {
         </Button>
         <Button
           onClick={() => handleNext("Review")}
-          disabled={!startDate || !endDate}
+          disabled={!startDate || !endDate || numberOfQuestions == null}
           className="px-10 h-12 text-base font-semibold bg-[#2563EB] hover:bg-[#2563EB]/90 rounded-lg transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           Continue

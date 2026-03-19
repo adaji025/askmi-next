@@ -29,6 +29,9 @@
   },
   "detail": {
     "activeCampaign": "Active Campaign",
+    "targetAudience": "Target Audience",
+    "surveys": "Surveys",
+    "noSurveys": "No surveys in this campaign yet.",
     "responseProgress": "Response Progress",
     "surveyQuestions": "Survey Questions",
     "questionOf": "Question {current} of {total}",

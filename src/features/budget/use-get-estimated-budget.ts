@@ -2,47 +2,66 @@
 
 import { useState, useCallback } from "react";
 import apiClient from "@/lib/axios";
-import type {
-  SurveyQuestion,
-  CreateSurveyRequest,
-  CreateSurveySuccessResponse,
-  CreateSurveyErrorResponse,
-} from "./types";
 
-interface UseCreateSurveyReturn {
-  createSurvey: (
-    questions: SurveyQuestion[],
-    title?: string,
-    campaignId?: string
-  ) => Promise<CreateSurveySuccessResponse>;
+export interface BudgetEstimate {
+  baseBudget?: number;
+  minBudget?: number;
+  maxBudget?: number;
+  totalQuestions?: number;
+  desiredVote?: number;
+  deviationPercent?: number;
+  [key: string]: unknown;
+}
+
+export interface GetBudgetEstimateSuccessResponse {
+  success: true;
+  message?: string;
+  estimate?: BudgetEstimate;
+  [key: string]: unknown;
+}
+
+export interface GetBudgetEstimateErrorResponse {
+  success: false;
+  message: string;
+  errors?: Array<Record<string, unknown>>;
+}
+
+export type GetBudgetEstimateResponse =
+  | GetBudgetEstimateSuccessResponse
+  | GetBudgetEstimateErrorResponse;
+
+interface UseGetEstimatedBudgetParams {
+  totalQuestions: number;
+  desiredVote: number;
+}
+
+interface UseGetEstimatedBudgetReturn {
+  getEstimate: (
+    params: UseGetEstimatedBudgetParams
+  ) => Promise<GetBudgetEstimateSuccessResponse>;
   isLoading: boolean;
   error: string | null;
   resetError: () => void;
 }
 
-export function useCreateSurvey(): UseCreateSurveyReturn {
+export function useGetEstimatedBudget(): UseGetEstimatedBudgetReturn {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const createSurvey = useCallback(
-    async (
-      questions: SurveyQuestion[],
-      title?: string,
-      campaignId?: string
-    ): Promise<CreateSurveySuccessResponse> => {
+  const getEstimate = useCallback(
+    async ({
+      totalQuestions,
+      desiredVote,
+    }: UseGetEstimatedBudgetParams): Promise<GetBudgetEstimateSuccessResponse> => {
       setIsLoading(true);
       setError(null);
 
-      const payload: CreateSurveyRequest = {
-        questions,
-        ...(title && { title }),
-        ...(campaignId && { campaignId }),
-      };
-
       try {
-        const response = await apiClient.post<CreateSurveySuccessResponse>(
-          "/api/survey",
-          payload
+        const response = await apiClient.get<GetBudgetEstimateSuccessResponse>(
+          "/api/budget/estimate",
+          {
+            params: { totalQuestions, desiredVote },
+          }
         );
 
         const result = response.data;
@@ -51,10 +70,10 @@ export function useCreateSurvey(): UseCreateSurveyReturn {
           setIsLoading(false);
           return result;
         } else {
-          const errorResponse = result as unknown as CreateSurveyErrorResponse;
+          const errorResponse = result as unknown as GetBudgetEstimateErrorResponse;
           const errorMessage =
             errorResponse.message ||
-            "Survey creation failed. Please try again.";
+            "Failed to fetch budget estimate. Please try again.";
           setError(errorMessage);
           throw new Error(errorMessage);
         }
@@ -64,7 +83,7 @@ export function useCreateSurvey(): UseCreateSurveyReturn {
         if (err && typeof err === "object" && "response" in err) {
           const axiosError = err as {
             response?: {
-              data?: CreateSurveyErrorResponse;
+              data?: GetBudgetEstimateErrorResponse;
               status?: number;
             };
           };
@@ -73,7 +92,7 @@ export function useCreateSurvey(): UseCreateSurveyReturn {
             const errorResponse = axiosError.response.data;
             const errorMessage =
               errorResponse.message ||
-              "Survey creation failed. Please try again.";
+              "Failed to fetch budget estimate. Please try again.";
             setError(errorMessage);
             throw new Error(errorMessage);
           }
@@ -97,7 +116,7 @@ export function useCreateSurvey(): UseCreateSurveyReturn {
   }, []);
 
   return {
-    createSurvey,
+    getEstimate,
     isLoading,
     error,
     resetError,

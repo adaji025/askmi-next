@@ -40,7 +40,7 @@ const SurveyCard = ({ title, status, daysAgo, questionsCount }: SurveyCardProps)
               <Calendar className="h-3 w-3" />
               <span>
                 <strong className="text-foreground">
-                  {t("createdDaysAgo", { days: daysAgo })}
+                  {daysAgo === 0 ? t("createdToday") : t("createdDaysAgo", { days: daysAgo })}
                 </strong>
               </span>
             </div>

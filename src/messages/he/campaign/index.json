@@ -29,6 +29,9 @@
   },
   "detail": {
     "activeCampaign": "קמפיין פעיל",
+    "targetAudience": "קהל יעד",
+    "surveys": "סקרים",
+    "noSurveys": "אין סקרים בקמפיין זה עדיין.",
     "responseProgress": "התקדמות תגובות",
     "surveyQuestions": "שאלות הסקר",
     "questionOf": "שאלה {current} מתוך {total}",

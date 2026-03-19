@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { MapPin, Building2, User, Users, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -8,8 +9,10 @@ import { format } from "date-fns";
 import React from "react";
 import { useRouter } from "next/navigation";
 import { useCreateCampaign } from "@/features/campaign/hooks/use-create-campaign";
+import { useGetEstimatedBudget } from "@/features/budget/use-get-estimated-budget";
 import { useCampaignForm } from "./campaign-form-context";
 import { useUserStore } from "@/store/user-store";
+import type { BudgetEstimate } from "@/features/budget/use-get-estimated-budget";
 
 interface IProps {
   handleNext: (
@@ -21,7 +24,22 @@ const Review = ({ handleNext }: IProps) => {
   const router = useRouter();
   const { formData } = useCampaignForm();
   const { createCampaign, isLoading, error, resetError } = useCreateCampaign();
+  const { getEstimate, isLoading: isEstimateLoading } = useGetEstimatedBudget();
   const { token, isAuthenticated } = useUserStore();
+  const [estimate, setEstimate] = useState<BudgetEstimate | null>(null);
+
+  const totalQuestions = formData.totalQuestions ?? 5;
+  const desiredVote = formData.totalVoteNeeded ?? 0;
+
+  useEffect(() => {
+    if (desiredVote > 0) {
+      getEstimate({ totalQuestions, desiredVote })
+        .then((res) => setEstimate(res.estimate ?? null))
+        .catch(() => setEstimate(null));
+    } else {
+      setEstimate(null);
+    }
+  }, [totalQuestions, desiredVote, getEstimate]);
 
   const surveyTitle = formData.campaignName || "Product Feedback Survey";
 
@@ -62,15 +80,24 @@ const Review = ({ handleNext }: IProps) => {
   const totalVotes = formData.totalVoteNeeded
     ? `${formData.totalVoteNeeded.toLocaleString()} votes`
     : "25,000 votes";
-  const deviationRange = "±20%";
+  const deviationRange =
+    estimate?.deviationPercent != null
+      ? `±${estimate.deviationPercent}%`
+      : isEstimateLoading
+        ? "..."
+        : "±20%";
+  const estimatedPrice =
+    estimate?.baseBudget != null
+      ? `$${estimate.baseBudget.toLocaleString()}`
+      : isEstimateLoading
+        ? "..."
+        : "$500";
   const startDate = formData.startDate
     ? new Date(formData.startDate)
     : new Date("2025-01-11");
   const endDate = formData.endDate
     ? new Date(formData.endDate)
     : undefined;
-  const costPerVote = "$500";
-
   const handleSubmit = async () => {
     resetError();
 
@@ -202,7 +229,7 @@ const Review = ({ handleNext }: IProps) => {
             value={format(endDate, "MMMM dd, yyyy")}
           />
         )}
-        <ReviewRow label="Estimated Price" value={costPerVote} />
+        <ReviewRow label="Estimated Price" value={estimatedPrice} />
       </div>
 
       {/* Error Message */}

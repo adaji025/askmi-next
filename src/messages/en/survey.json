@@ -18,6 +18,7 @@
   "card": {
     "published": "Published",
     "draft": "Draft",
+    "createdToday": "Created today",
     "createdDaysAgo": "Created {days} days ago",
     "questions": "{count} questions",
     "edit": "Edit"
@@ -29,6 +30,11 @@
       "preview": "Preview",
       "publishSurvey": "Publish Survey",
       "publishing": "Publishing..."
+    },
+    "campaignSelect": {
+      "label": "Campaign",
+      "placeholder": "Select a campaign",
+      "none": "No campaign"
     },
     "titleModal": {
       "title": "Survey Title",

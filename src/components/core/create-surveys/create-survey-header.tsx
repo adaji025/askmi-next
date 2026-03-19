@@ -12,7 +12,8 @@ import type { SurveyQuestion } from "@/features/surveys/types";
 const CreateSurveyHeader = () => {
   const router = useRouter();
   const t = useTranslations("survey.create.header");
-  const { questions, clearQuestions, surveyTitle } = useQuestionStore();
+  const { questions, clearQuestions, surveyTitle, campaignId } =
+    useQuestionStore();
   const { createSurvey, isLoading, error, resetError } = useCreateSurvey();
 
   const handlePublish = async () => {
@@ -32,7 +33,11 @@ const CreateSurveyHeader = () => {
     }));
 
     try {
-      await createSurvey(surveyQuestions, surveyTitle.trim());
+      await createSurvey(
+        surveyQuestions,
+        surveyTitle.trim(),
+        campaignId || undefined
+      );
       clearQuestions();
       router.push(`/dashboard/surveys`);
     } catch {
