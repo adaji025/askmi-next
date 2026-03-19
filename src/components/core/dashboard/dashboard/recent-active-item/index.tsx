@@ -9,13 +9,15 @@ interface ActivityItemProps {
   title: string;
   metric: number;
   timeAgo: string;
+  campaignId?: string;
 }
 
-export function ActivityItem({ title, metric, timeAgo }: ActivityItemProps) {
+export function ActivityItem({ title, metric, timeAgo, campaignId }: ActivityItemProps) {
   const t = useTranslations("dashboard.activityItem");
+  const href = campaignId ? `/dashboard/campaigns/${campaignId}` : "/dashboard/campaigns";
 
   return (
-    <Link href={`/dashboard/campaigns/1`}>
+    <Link href={href}>
       <div className="flex items-start gap-3 py-3 cursor-pointer">
         <Avatar className="h-10 w-10 rounded-md bg-muted border border-border">
           <AvatarFallback className="bg-muted">
