@@ -2,7 +2,7 @@
 
 import type React from "react";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   HelpCircle,
   MapPin,
@@ -38,18 +38,36 @@ export function CampaignSetup({ handleNext }: IProps) {
   const [surveyType, setSurveyType] = useState<"existing" | "new">(
     (formData.surveySource as "existing" | "new") || "existing"
   );
+  const SLIDER_MAX = 50000;
   const [votes, setVotes] = useState(
-    formData.totalVoteNeeded ? [formData.totalVoteNeeded] : [25000]
+    formData.totalVoteNeeded ? [formData.totalVoteNeeded] : [SLIDER_MAX]
   );
   const [campaignName, setCampaignName] = useState(
     formData.campaignName || ""
   );
   const [description, setDescription] = useState(formData.description || "");
-  const [selectedRegions, setSelectedRegions] = useState<string[]>([]);
-  const [selectedCities, setSelectedCities] = useState<string[]>([]);
-  const [selectedAges, setSelectedAges] = useState<string[]>([]);
-  const [selectedGenders, setSelectedGenders] = useState<string[]>([]);
-  const [selectedInterests, setSelectedInterests] = useState<string[]>([]);
+
+  // Sync default votes to formData when not set
+  useEffect(() => {
+    if (!formData.totalVoteNeeded) {
+      updateFormData({ totalVoteNeeded: SLIDER_MAX });
+    }
+  }, []);
+
+  // Check if all required data is provided
+  const hasTargetAudience = (() => {
+    const audience = formData.targetAudience;
+    if (!audience) return false;
+    const fields = ["region", "city", "age", "gender", "interest"] as const;
+    return fields.some((field) => {
+      const item = audience[field];
+      return item && (item.type === "all" || (item.values?.length ?? 0) > 0);
+    });
+  })();
+  const isFormValid =
+    campaignName.trim().length > 0 &&
+    hasTargetAudience &&
+    (formData.totalVoteNeeded ?? votes[0]) > 0;
 
   return (
     <div className="p-4 sm:p-6 lg:px-8 bg-white space-y-12 rounded-lg border border-[#E2E8F0]! shadow-none!">
@@ -241,7 +259,7 @@ export function CampaignSetup({ handleNext }: IProps) {
                 updateFormData({ totalVoteNeeded: newVotes[0] });
               }}
               min={50}
-              max={50000}
+              max={SLIDER_MAX}
               step={50}
               className="**:[[role=slider]]:h-5 **:[[role=slider]]:w-5"
             />
@@ -276,7 +294,8 @@ export function CampaignSetup({ handleNext }: IProps) {
       <div className="flex justify-end pt-4">
         <Button
           onClick={() => handleNext("Budget & Timeline")}
-          className="px-10 h-12 text-base font-semibold bg-[#2563EB] hover:bg-[#2563EB]/90 rounded-lg transition-all active:scale-95"
+          disabled={!isFormValid}
+          className="px-10 h-12 text-base font-semibold bg-[#2563EB] hover:bg-[#2563EB]/90 rounded-lg transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           Continue
         </Button>
@@ -298,22 +317,22 @@ function AudienceSelect({
 }) {
   const { updateFormData, formData } = useCampaignForm();
   const [open, setOpen] = useState(false);
-  
+
   // Get initial values from context
   const getInitialValues = (): string[] => {
     const audience = formData.targetAudience;
     if (!audience) return [];
-    
+
     const fieldData = audience[field as keyof typeof audience];
     if (!fieldData) return [];
-    
+
     // If type is "all", return ["All {label}"], otherwise return values
     if (fieldData.type === "all") {
       return [`All ${label}`];
     }
     return fieldData.values || [];
   };
-  
+
   const [selectedValues, setSelectedValues] = useState<string[]>(() => getInitialValues());
 
   // Default options if none provided
@@ -327,7 +346,7 @@ function AudienceSelect({
 
   const toggleValue = (value: string) => {
     let newValues: string[];
-    
+
     if (value === `All ${label}`) {
       // If "All" is selected, clear other selections or select all
       if (selectedValues.includes(`All ${label}`)) {
@@ -338,22 +357,22 @@ function AudienceSelect({
     } else {
       // Remove "All" if a specific option is selected
       newValues = selectedValues.filter((v) => v !== `All ${label}`);
-      
+
       if (newValues.includes(value)) {
         newValues = newValues.filter((v) => v !== value);
       } else {
         newValues = [...newValues, value];
       }
     }
-    
+
     setSelectedValues(newValues);
-    
+
     // Update context with formatted targetAudience data
     const currentAudience = formData.targetAudience || {};
     const hasAllOption = newValues.includes(`All ${label}`);
     const type: "all" | "custom" = hasAllOption ? "all" : "custom";
     const values = newValues.filter((v) => v !== `All ${label}`);
-    
+
     updateFormData({
       targetAudience: {
         ...currentAudience,
@@ -374,8 +393,8 @@ function AudienceSelect({
     selectedValues.length === 0
       ? label
       : selectedValues.length === 1
-      ? selectedValues[0]
-      : `${selectedValues.length} selected`;
+        ? selectedValues[0]
+        : `${selectedValues.length} selected`;
 
   return (
     <Popover open={open} onOpenChange={setOpen}>

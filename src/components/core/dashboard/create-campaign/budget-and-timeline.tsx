@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Calendar as CalendarIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -24,12 +24,20 @@ interface IProps {
 const BudgetAndTimeline = ({ handleNext }: IProps) => {
   const { updateFormData, formData } = useCampaignForm();
   const [startDate, setStartDate] = useState<Date | undefined>(
-    formData.startDate ? new Date(formData.startDate) : new Date("2025-11-01")
+    formData.startDate ? new Date(formData.startDate) : new Date()
   );
   const [endDate, setEndDate] = useState<Date | undefined>(
     formData.endDate ? new Date(formData.endDate) : undefined
   );
   const [matchingType, setMatchingType] = useState<"automatic" | "manual">();
+
+  // Sync default start date (today) to formData when not set
+  useEffect(() => {
+    if (!formData.startDate) {
+      const today = new Date();
+      updateFormData({ startDate: today.toISOString() });
+    }
+  }, []);
 
   const handleStartDateChange = (date: Date | undefined) => {
     setStartDate(date);
@@ -165,7 +173,8 @@ const BudgetAndTimeline = ({ handleNext }: IProps) => {
         </Button>
         <Button
           onClick={() => handleNext("Review")}
-          className="px-10 h-12 text-base font-semibold bg-[#2563EB] hover:bg-[#2563EB]/90 rounded-lg transition-all active:scale-95"
+          disabled={!startDate || !endDate}
+          className="px-10 h-12 text-base font-semibold bg-[#2563EB] hover:bg-[#2563EB]/90 rounded-lg transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           Continue
         </Button>
