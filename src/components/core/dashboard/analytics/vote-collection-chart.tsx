@@ -9,8 +9,9 @@ import {
   type ChartConfig,
 } from "@/components/ui/chart";
 import { useTranslations } from "next-intl";
+import type { VoteCollectionOverTime } from "@/features/analytics/use-get-analytics";
 
-const chartData = [
+const defaultChartData = [
   { month: "Jan", votes: 42 },
   { month: "Feb", votes: 58 },
   { month: "Mar", votes: 85 },
@@ -25,7 +26,15 @@ const chartData = [
   { month: "Dec", votes: 128 },
 ];
 
-export function VoteCollectionChart() {
+interface VoteCollectionChartProps {
+  data?: VoteCollectionOverTime[];
+}
+
+export function VoteCollectionChart({ data }: VoteCollectionChartProps) {
+  const chartData =
+    data?.length && data.length > 0
+      ? data.map((d) => ({ month: d.month, votes: d.voteCount / 1000 }))
+      : defaultChartData;
   const t = useTranslations("analytics.charts");
 
   const chartConfig = {

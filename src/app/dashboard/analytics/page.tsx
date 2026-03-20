@@ -1,13 +1,12 @@
 "use client";
-import { AgeDistribution } from "@/components/core/dashboard/analytics/age-distribution";
+
+import { useEffect, useState } from "react";
 import {
   CampaignsSVG,
   InfluencersSVG,
   SurveysSVG,
 } from "@/components/core/dashboard/dashboard/layout/svg";
-import { ActivityItem } from "@/components/core/dashboard/dashboard/recent-active-item";
 import { StatCard } from "@/components/core/dashboard/dashboard/stat-card";
-import { activities } from "@/components/core/dashboard/data";
 import { ExportSVG, WadOfMoneySVG } from "@/components/core/dashboard/svg";
 import { Button } from "@/components/ui/button";
 import {
@@ -17,22 +16,31 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import React from "react";
 import { useTranslations } from "next-intl";
 import { VoteCollectionChart } from "@/components/core/dashboard/analytics/vote-collection-chart";
 import CampaignTable from "@/components/core/dashboard/analytics/campign-table";
-
-interface ActivityProps {
-  id: number;
-  title: string;
-  metric: number;
-  timeAgo: string;
-}
+import { useGetAnalytics } from "@/features/analytics/use-get-analytics";
+import type { AnalyticsStats, VoteCollectionOverTime, AnalyticsCampaign } from "@/features/analytics/use-get-analytics";
 
 const Analytics = () => {
   const t = useTranslations("analytics");
-  const tDashboard = useTranslations("dashboard");
-  const [time, setTime] = React.useState(t("page.allTime"));
+  const [time, setTime] = useState(t("page.allTime"));
+  const { getAnalytics, isLoading, error } = useGetAnalytics();
+  const [stats, setStats] = useState<AnalyticsStats | null>(null);
+  const [voteCollectionOverTime, setVoteCollectionOverTime] = useState<
+    VoteCollectionOverTime[]
+  >([]);
+  const [campaigns, setCampaigns] = useState<AnalyticsCampaign[]>([]);
+
+  useEffect(() => {
+    getAnalytics()
+      .then((res) => {
+        setStats(res.stats);
+        setVoteCollectionOverTime(res.voteCollectionOverTime ?? []);
+        setCampaigns(res.campaigns ?? []);
+      })
+      .catch(() => {});
+  }, [getAnalytics]);
 
   const timeItems = [
     t("page.allTime"),
@@ -42,34 +50,43 @@ const Analytics = () => {
     t("page.thisYear"),
   ];
 
-  const stats = [
-    {
-      title: t("stats.totalVotes"),
-      value: "20, 000",
-      icon: InfluencersSVG,
-      bgColor: "bg-[#EAF5FF]", // Light Blue
-    },
-    {
-      title: t("stats.activeCampaigns"),
-      value: "4",
-      icon: CampaignsSVG,
-      bgColor: "bg-[#EAF5FF]", // Light Blue
-    },
-    {
-      title: t("stats.avgResponseRate"),
-      value: "78%",
-      icon: SurveysSVG,
-      bgColor: "bg-[#F0F2FF]", // Light Lavender
-    },
-    {
-      title: t("stats.totalSpend"),
-      value: "$63,771",
-      icon: WadOfMoneySVG,
-      bgColor: "bg-[#EAF5FF]", // Light Blue
-    },
-  ];
+  const statCards = stats
+    ? [
+        {
+          title: t("stats.totalVotes"),
+          value: stats.totalVotes.toLocaleString(),
+          icon: InfluencersSVG,
+          bgColor: "bg-[#EAF5FF]",
+        },
+        {
+          title: t("stats.activeCampaigns"),
+          value: stats.activeCampaigns.toLocaleString(),
+          icon: CampaignsSVG,
+          bgColor: "bg-[#EAF5FF]",
+        },
+        {
+          title: t("stats.avgResponseRate"),
+          value: `${stats.avgResponseRate}%`,
+          icon: SurveysSVG,
+          bgColor: "bg-[#F0F2FF]",
+        },
+        {
+          title: t("stats.totalSpend"),
+          value: `$${stats.totalSpend.toLocaleString()}`,
+          icon: WadOfMoneySVG,
+          bgColor: "bg-[#EAF5FF]",
+        },
+      ]
+    : [];
+
   return (
     <div>
+      {error && (
+        <div className="rounded-md bg-destructive/15 p-3 text-sm text-destructive mb-4">
+          {error}
+        </div>
+      )}
+
       <div className="flex flex-col md:flex-row md:items-center justify-between">
         <h2>{t("page.title")}</h2>
         <div className="flex justify-between items-center gap-2">
@@ -102,41 +119,22 @@ const Analytics = () => {
         </div>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-4">
-        {stats.map((stat, index) => (
-          <StatCard key={index} {...stat} />
-        ))}
+        {isLoading ? (
+          <div className="col-span-full text-center py-8 text-muted-foreground">
+            Loading...
+          </div>
+        ) : (
+          statCards.map((stat, index) => (
+            <StatCard key={index} {...stat} />
+          ))
+        )}
       </div>
 
       <div className="mt-10">
-        <VoteCollectionChart />
+        <VoteCollectionChart data={voteCollectionOverTime} />
       </div>
 
-      <CampaignTable />
-      <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 mt-10">
-        {/* <AgeDistribution /> */}
-        {/* Recent Activity Section */}
-        {/* <div className="space-y-4 bg-white p-2 sm:p-5 shadow-xs rounded">
-          <h2 className="text-base font-bold">
-            {tDashboard("sections.recentActivity")}
-          </h2>
-          {activities.length ? (
-            <div className="divide-y divide-border">
-              {activities.map((activity: ActivityProps) => (
-                <ActivityItem
-                  key={activity.id}
-                  title={activity.title}
-                  metric={activity.metric}
-                  timeAgo={activity.timeAgo}
-                />
-              ))}
-            </div>
-          ) : (
-            <div className="min-h-50 text-sm text-[#8E8E8E] flex flex-col justify-center items-center">
-              {tDashboard("emptyStates.noRecentActivity")}
-            </div>
-          )}
-        </div> */}
-      </div>
+      <CampaignTable campaigns={campaigns} />
     </div>
   );
 };

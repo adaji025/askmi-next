@@ -6,82 +6,14 @@ import { Button } from "@/components/ui/button";
 import { MessageCircle, Users, Eye } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
+import type { AnalyticsCampaign } from "@/features/analytics/use-get-analytics";
 
-interface Campaign {
-  id: string;
-  name: string;
-  status: "Active" | "Completed";
-  responses: number;
-  completionRate: number;
-  costPerResponse: number;
-  influencers: number;
-  confidence: "High" | "Medium" | "Low";
+interface CampaignTableProps {
+  campaigns?: AnalyticsCampaign[];
 }
 
-const campaigns: Campaign[] = [
-  {
-    id: "1",
-    name: "IG Product Test - Q4",
-    status: "Active",
-    responses: 1247,
-    completionRate: 82,
-    costPerResponse: 0.43,
-    influencers: 3,
-    confidence: "High",
-  },
-  {
-    id: "2",
-    name: "Product Feedback Survey",
-    status: "Completed",
-    responses: 1247,
-    completionRate: 82,
-    costPerResponse: 0.43,
-    influencers: 3,
-    confidence: "High",
-  },
-  {
-    id: "3",
-    name: "Brand Awareness Poll",
-    status: "Completed",
-    responses: 1247,
-    completionRate: 82,
-    costPerResponse: 0.43,
-    influencers: 3,
-    confidence: "Medium",
-  },
-  {
-    id: "4",
-    name: "Feature Validation",
-    status: "Active",
-    responses: 1247,
-    completionRate: 82,
-    costPerResponse: 0.43,
-    influencers: 3,
-    confidence: "Medium",
-  },
-  {
-    id: "5",
-    name: "Consumer Sentiment Study",
-    status: "Completed",
-    responses: 1247,
-    completionRate: 82,
-    costPerResponse: 0.43,
-    influencers: 3,
-    confidence: "High",
-  },
-  {
-    id: "6",
-    name: "Holiday Shopping Preferences",
-    status: "Active",
-    responses: 1247,
-    completionRate: 82,
-    costPerResponse: 0.43,
-    influencers: 3,
-    confidence: "High",
-  },
-];
-
-export function CampaignTable() {
+export function CampaignTable({ campaigns: campaignsProp }: CampaignTableProps) {
+  const campaigns = campaignsProp ?? [];
   const router = useRouter();
 
   const handleViewDetails = (campaignId: string) => {
@@ -124,19 +56,19 @@ export function CampaignTable() {
             {campaigns.map((campaign) => (
               <TableRow key={campaign.id} className="hover:bg-muted/20 border-border">
                 <TableCell className="py-5 px-6 font-bold text-foreground">
-                  {campaign.name}
+                  {campaign.campaignName}
                 </TableCell>
                 <TableCell className="py-5 px-6 text-center">
                   <Badge
                     variant="outline"
                     className={cn(
                       "px-3 py-1 rounded-md text-[11px] font-medium border",
-                      campaign.status === "Active"
+                      campaign.status === "active"
                         ? "bg-green-50 text-green-600 border-green-100 hover:bg-green-50"
                         : "bg-blue-50 text-blue-600 border-blue-100 hover:bg-blue-50",
                     )}
                   >
-                    {campaign.status}
+                    {campaign.status === "active" ? "Active" : "Completed"}
                   </Badge>
                 </TableCell>
                 <TableCell className="py-5 px-6 text-center">
@@ -166,14 +98,14 @@ export function CampaignTable() {
                     <div
                       className={cn(
                         "h-2 w-2 rounded-full",
-                        campaign.confidence === "High"
+                        campaign.confidence === "high"
                           ? "bg-green-500"
-                          : campaign.confidence === "Medium"
+                          : campaign.confidence === "medium"
                             ? "bg-orange-500"
                             : "bg-red-500",
                       )}
                     />
-                    <span className="text-foreground font-medium text-sm">
+                    <span className="text-foreground font-medium text-sm capitalize">
                       {campaign.confidence}
                     </span>
                   </div>
