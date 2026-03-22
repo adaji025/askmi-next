@@ -59,7 +59,9 @@
       "title": "Edit Timezone",
       "description": "Update your timezone",
       "label": "Timezone",
-      "selectPlaceholder": "Select timezone"
+      "selectPlaceholder": "Select timezone",
+      "searchPlaceholder": "Search timezone...",
+      "noResults": "No timezone found."
     }
   }
 }

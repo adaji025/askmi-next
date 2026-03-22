@@ -1,4 +1,6 @@
-"use client"
+"use client";
+
+import { useEffect, useState } from "react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
@@ -8,16 +10,19 @@ import {
   TableCell,
   TableRow,
 } from "@/components/ui/table";
-import { useState } from "react";
 import EditPhoneNumberDialog from "./edit-phone-number";
 import EditEmailDialog from "./edit-email";
 import EditNameDialog from "./edit-name";
 import EditCompanyNameDialog from "./edit-company-name";
 import EditCompanyCacDialog from "./edit-company-cac";
-import EditTimezoneDialog from "./edit-timezone";
+import EditTimezoneDialog, {
+  getTimezoneLabel,
+} from "./edit-timezone";
 import ChangeLangDialog from "./change-lang";
 import { useTranslations } from "next-intl";
 import { useLanguageStore } from "@/store/language-store";
+import { useGetPreferences } from "@/features/preferences/use-get-preferences";
+import { useUpdatePreferences } from "@/features/preferences/use-update-preferences";
 
 export function ProfileSettings() {
   const t = useTranslations("profile");
@@ -37,6 +42,28 @@ export function ProfileSettings() {
   const [currentCompanyCac, setCurrentCompanyCac] = useState("");
   const [openTimezoneDialog, setOpenTimezoneDialog] = useState(false);
   const [currentTimezone, setCurrentTimezone] = useState("Pacific Time (PT)");
+  const [campaignUpdate, setCampaignUpdate] = useState(true);
+  const [responseAlerts, setResponseAlerts] = useState(true);
+  const [influencerActivity, setInfluencerActivity] = useState(false);
+
+  const { getPreferences } = useGetPreferences();
+  const { updatePreferences } = useUpdatePreferences();
+
+
+  useEffect(() => {
+    getPreferences()
+      .then((res) => {
+        const p = res.preferences;
+        setCampaignUpdate(p.campaignUpdate ?? true);
+        setResponseAlerts(p.responseAlerts ?? true);
+        setInfluencerActivity(p.influencerActivity ?? false);
+        if (p.timeZone) {
+          setCurrentTimezone(getTimezoneLabel(p.timeZone) ?? "Pacific Time (PT)");
+        }
+
+      })
+      .catch(() => { });
+  }, [getPreferences]);
 
   return (
     <div className="space-y-6">
@@ -88,8 +115,8 @@ export function ProfileSettings() {
         open={openTimezoneDialog}
         onOpenChange={setOpenTimezoneDialog}
         currentTimezone={currentTimezone}
-        onSave={(timezone) => {
-          setCurrentTimezone(timezone);
+        onSave={(timezoneLabel) => {
+          setCurrentTimezone(timezoneLabel ?? "Pacific Time (PT)");
         }}
       />
       <div className="flex flex-col gap-1">
@@ -363,7 +390,11 @@ export function ProfileSettings() {
               </TableCell>
               <TableCell className="py-6 text-right w-1/3">
                 <Switch
-                  defaultChecked
+                  checked={campaignUpdate}
+                  onCheckedChange={(checked) => {
+                    setCampaignUpdate(checked);
+                    updatePreferences({ campaignUpdate: checked }).catch(() => { });
+                  }}
                   className="data-[state=checked]:bg-[#2563EB]"
                 />
               </TableCell>
@@ -383,7 +414,11 @@ export function ProfileSettings() {
               </TableCell>
               <TableCell className="py-6 text-right w-1/3">
                 <Switch
-                  defaultChecked
+                  checked={responseAlerts}
+                  onCheckedChange={(checked) => {
+                    setResponseAlerts(checked);
+                    updatePreferences({ responseAlerts: checked }).catch(() => { });
+                  }}
                   className="data-[state=checked]:bg-[#2563EB]"
                 />
               </TableCell>
@@ -402,7 +437,14 @@ export function ProfileSettings() {
                 </span>
               </TableCell>
               <TableCell className="py-6 text-right w-1/3">
-                <Switch className="data-[state=checked]:bg-[#2563EB]" />
+                <Switch
+                  checked={influencerActivity}
+                  onCheckedChange={(checked) => {
+                    setInfluencerActivity(checked);
+                    updatePreferences({ influencerActivity: checked }).catch(() => { });
+                  }}
+                  className="data-[state=checked]:bg-[#2563EB]"
+                />
               </TableCell>
             </TableRow>
           </TableBody>

@@ -59,7 +59,9 @@
       "title": "ערוך אזור זמן",
       "description": "עדכן את אזור הזמן שלך",
       "label": "אזור זמן",
-      "selectPlaceholder": "בחר אזור זמן"
+      "selectPlaceholder": "בחר אזור זמן",
+      "searchPlaceholder": "חפש אזור זמן...",
+      "noResults": "לא נמצא אזור זמן."
     }
   }
 }
