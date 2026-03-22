@@ -15,6 +15,8 @@ import { cn } from "@/lib/utils";
 import { useLanguageStore } from "@/store/language-store";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
+import { useGetUserProfile } from "@/features/user/use-get-user-details";
+import { useUpdateUser } from "@/features/user/use-update-user";
 
 interface Language {
   code: string;
@@ -57,29 +59,51 @@ export function ChangeLangDialog({
   const { language, setLanguage } = useLanguageStore();
   const t = useTranslations();
   const router = useRouter();
-  const [selectedLanguage, setSelectedLanguage] = useState(
-    currentLanguage || language
-  );
+  const [selectedLanguage, setSelectedLanguage] = useState(currentLanguage || language);
+  const { getProfile, isLoading: isProfileLoading } = useGetUserProfile();
+  const {
+    updateUser,
+    isLoading: isUpdateLoading,
+    error: updateError,
+    resetError,
+  } = useUpdateUser();
 
   useEffect(() => {
-    if (currentLanguage) {
-      setSelectedLanguage(currentLanguage);
-    } else {
-      setSelectedLanguage(language);
+    if (open) {
+      resetError();
+      getProfile()
+        .then((res) => {
+          const user = res.users?.[0];
+          const lang = user?.lang ?? currentLanguage ?? language;
+          setSelectedLanguage(lang);
+        })
+        .catch(() => {
+          setSelectedLanguage(currentLanguage ?? language);
+        });
     }
-  }, [currentLanguage, language]);
+  }, [open, getProfile, resetError, currentLanguage, language]);
 
-  const handleSave = () => {
-    setLanguage(selectedLanguage as "en" | "he");
-    if (onSave) {
-      onSave(selectedLanguage);
+  const handleOpenChange = (isOpen: boolean) => {
+    if (!isOpen) {
+      resetError();
     }
-    onOpenChange(false);
-    router.refresh();
+    onOpenChange(isOpen);
+  };
+
+  const handleSave = async () => {
+    try {
+      await updateUser({ lang: selectedLanguage });
+      setLanguage(selectedLanguage as "en" | "he");
+      onSave?.(selectedLanguage);
+      onOpenChange(false);
+      router.refresh();
+    } catch {
+      // Error is handled by the hook
+    }
   };
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogContent className="max-w-md">
         <DialogHeader>
           <DialogTitle className="text-xl font-bold">
@@ -91,10 +115,16 @@ export function ChangeLangDialog({
         </DialogHeader>
 
         <div className="space-y-3 py-4">
+          {updateError && (
+            <div className="rounded-md bg-destructive/15 p-3 text-sm text-destructive">
+              {updateError}
+            </div>
+          )}
           {languages.map((lang) => (
             <button
               key={lang.code}
               onClick={() => setSelectedLanguage(lang.code)}
+              disabled={isProfileLoading}
               className={cn(
                 "w-full flex items-center gap-3 p-4 rounded-lg border text-left transition-all rtl:text-right",
                 selectedLanguage === lang.code
@@ -127,14 +157,16 @@ export function ChangeLangDialog({
             variant="outline"
             onClick={() => onOpenChange(false)}
             className="h-10 px-6"
+            disabled={isUpdateLoading}
           >
             {t("common.cancel")}
           </Button>
           <Button
             onClick={handleSave}
+            disabled={isProfileLoading || isUpdateLoading}
             className="h-10 px-6 bg-[#2563EB] hover:bg-[#2563EB]/90 text-white"
           >
-            {t("language.saveChanges")}
+            {isUpdateLoading ? "Saving..." : t("language.saveChanges")}
           </Button>
         </DialogFooter>
       </DialogContent>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Dialog,
   DialogContent,
@@ -13,6 +13,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useTranslations } from "next-intl";
+import { useGetUserProfile } from "@/features/user/use-get-user-details";
+import { useUpdateUser } from "@/features/user/use-update-user";
 
 interface EditEmailDialogProps {
   open: boolean;
@@ -24,26 +26,50 @@ interface EditEmailDialogProps {
 export function EditEmailDialog({
   open,
   onOpenChange,
-  currentEmail = "sarah@acme.com",
+  currentEmail = "",
   onSave,
 }: EditEmailDialogProps) {
   const t = useTranslations("profile.dialogs.editEmail");
   const tCommon = useTranslations("common");
   const [email, setEmail] = useState("");
+  const { getProfile, isLoading: isProfileLoading } = useGetUserProfile();
+  const {
+    updateUser,
+    isLoading: isUpdateLoading,
+    error: updateError,
+    resetError,
+  } = useUpdateUser();
 
-  // Set email when dialog opens
+  useEffect(() => {
+    if (open) {
+      resetError();
+      getProfile()
+        .then((res) => {
+          const user = res.users?.[0];
+          setEmail(user?.email ?? currentEmail ?? "");
+        })
+        .catch(() => {
+          setEmail(currentEmail ?? "");
+        });
+    }
+  }, [open, getProfile, resetError, currentEmail]);
+
   const handleOpenChange = (isOpen: boolean) => {
-    if (isOpen && currentEmail) {
-      setEmail(currentEmail);
+    if (!isOpen) {
+      resetError();
     }
     onOpenChange(isOpen);
   };
 
-  const handleSave = () => {
-    if (onSave && email) {
-      onSave(email);
+  const handleSave = async () => {
+    if (!email.trim()) return;
+    try {
+      await updateUser({ email: email.trim() });
+      onSave?.(email.trim());
+      onOpenChange(false);
+    } catch {
+      // Error is handled by the hook
     }
-    onOpenChange(false);
   };
 
   return (
@@ -59,6 +85,11 @@ export function EditEmailDialog({
         </DialogHeader>
 
         <div className="space-y-4 py-4">
+          {updateError && (
+            <div className="rounded-md bg-destructive/15 p-3 text-sm text-destructive">
+              {updateError}
+            </div>
+          )}
           <div className="space-y-2">
             <Label htmlFor="email-address" className="text-sm text-muted-foreground">
               {t("label")}
@@ -70,6 +101,7 @@ export function EditEmailDialog({
               onChange={(e) => setEmail(e.target.value)}
               placeholder={t("placeholder")}
               className="h-10"
+              disabled={isProfileLoading}
             />
           </div>
         </div>
@@ -79,14 +111,16 @@ export function EditEmailDialog({
             variant="outline"
             onClick={() => onOpenChange(false)}
             className="h-10 px-6"
+            disabled={isUpdateLoading}
           >
             {tCommon("cancel")}
           </Button>
           <Button
             onClick={handleSave}
+            disabled={!email.trim() || isProfileLoading || isUpdateLoading}
             className="h-10 px-6 bg-[#2563EB] hover:bg-[#2563EB]/90 text-white"
           >
-            {tCommon("saveChanges")}
+            {isUpdateLoading ? "Saving..." : tCommon("saveChanges")}
           </Button>
         </DialogFooter>
       </DialogContent>

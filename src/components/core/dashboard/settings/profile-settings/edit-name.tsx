@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Dialog,
   DialogContent,
@@ -13,6 +13,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useTranslations } from "next-intl";
+import { useGetUserProfile } from "@/features/user/use-get-user-details";
+import { useUpdateUser } from "@/features/user/use-update-user";
 
 interface EditNameDialogProps {
   open: boolean;
@@ -24,26 +26,50 @@ interface EditNameDialogProps {
 export function EditNameDialog({
   open,
   onOpenChange,
-  currentName = "Adaji Mukhtar",
+  currentName = "",
   onSave,
 }: EditNameDialogProps) {
   const t = useTranslations("profile.dialogs.editName");
   const tCommon = useTranslations("common");
   const [fullName, setFullName] = useState("");
+  const { getProfile, isLoading: isProfileLoading } = useGetUserProfile();
+  const {
+    updateUser,
+    isLoading: isUpdateLoading,
+    error: updateError,
+    resetError,
+  } = useUpdateUser();
 
-  // Set email when dialog opens
+  useEffect(() => {
+    if (open) {
+      resetError();
+      getProfile()
+        .then((res) => {
+          const user = res.users?.[0];
+          setFullName(user?.fullName ?? currentName ?? "");
+        })
+        .catch(() => {
+          setFullName(currentName ?? "");
+        });
+    }
+  }, [open, getProfile, resetError, currentName]);
+
   const handleOpenChange = (isOpen: boolean) => {
-    if (isOpen && currentName) {
-      setFullName(currentName);
+    if (!isOpen) {
+      resetError();
     }
     onOpenChange(isOpen);
   };
 
-  const handleSave = () => {
-    if (onSave && fullName) {
-      onSave(fullName);
+  const handleSave = async () => {
+    if (!fullName.trim()) return;
+    try {
+      await updateUser({ fullName: fullName.trim() });
+      onSave?.(fullName.trim());
+      onOpenChange(false);
+    } catch {
+      // Error is handled by the hook
     }
-    onOpenChange(false);
   };
 
   return (
@@ -59,6 +85,11 @@ export function EditNameDialog({
         </DialogHeader>
 
         <div className="space-y-4 py-4">
+          {updateError && (
+            <div className="rounded-md bg-destructive/15 p-3 text-sm text-destructive">
+              {updateError}
+            </div>
+          )}
           <div className="space-y-2">
             <Label htmlFor="full-name" className="text-sm text-muted-foreground">
               {t("label")}
@@ -70,6 +101,7 @@ export function EditNameDialog({
               onChange={(e) => setFullName(e.target.value)}
               placeholder={t("placeholder")}
               className="h-10"
+              disabled={isProfileLoading}
             />
           </div>
         </div>
@@ -79,14 +111,16 @@ export function EditNameDialog({
             variant="outline"
             onClick={() => onOpenChange(false)}
             className="h-10 px-6"
+            disabled={isUpdateLoading}
           >
             {tCommon("cancel")}
           </Button>
           <Button
             onClick={handleSave}
+            disabled={!fullName.trim() || isProfileLoading || isUpdateLoading}
             className="h-10 px-6 bg-[#2563EB] hover:bg-[#2563EB]/90 text-white"
           >
-            {tCommon("saveChanges")}
+            {isUpdateLoading ? "Saving..." : tCommon("saveChanges")}
           </Button>
         </DialogFooter>
       </DialogContent>

@@ -1,7 +1,6 @@
 "use client";
 
-import { useState } from "react";
-import { ChevronDown } from "lucide-react";
+import { useState, useEffect } from "react";
 import {
   Dialog,
   DialogContent,
@@ -11,16 +10,19 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { cn } from "@/lib/utils";
 import { PhoneInput } from "../../../auth/phone-number-input";
 import { useTranslations } from "next-intl";
+import { useGetUserProfile } from "@/features/user/use-get-user-details";
+import { useUpdateUser } from "@/features/user/use-update-user";
+
+const DIAL_CODE_TO_COUNTRY: Record<string, string> = {
+  "+1": "US",
+  "+972": "IL",
+  "+44": "GB",
+  "+33": "FR",
+  "+49": "DE",
+};
 
 interface CountryCode {
   code: string;
@@ -36,15 +38,6 @@ const countryCodes: CountryCode[] = [
   { code: "+49", flag: "🇩🇪", name: "Germany" },
 ];
 
-interface PhoneInputProps {
-  value: string;
-  onChange: (value: string) => void;
-  countryCode: string;
-  onCountryCodeChange: (code: string) => void;
-  placeholder?: string;
-  className?: string;
-}
-
 interface EditPhoneNumberDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -55,34 +48,73 @@ interface EditPhoneNumberDialogProps {
 export function EditPhoneNumberDialog({
   open,
   onOpenChange,
-  currentPhoneNumber = "+1 (555) 123-4567",
+  currentPhoneNumber = "",
   onSave,
 }: EditPhoneNumberDialogProps) {
   const t = useTranslations("profile.dialogs.editPhoneNumber");
   const tCommon = useTranslations("common");
-  const [countryCode, setCountryCode] = useState("+972");
+  const [countryCode, setCountryCode] = useState("+1");
   const [phoneNumber, setPhoneNumber] = useState("");
+  const { getProfile, isLoading: isProfileLoading } = useGetUserProfile();
+  const {
+    updateUser,
+    isLoading: isUpdateLoading,
+    error: updateError,
+    resetError,
+  } = useUpdateUser();
 
-  // Parse current phone number on open
+  const parsePhoneFromProfile = (fullPhone: string) => {
+    const match = fullPhone?.match(/^(\+\d+)/);
+    if (match) {
+      setCountryCode(match[1]);
+      setPhoneNumber(fullPhone.replace(match[1], "").trim().replace(/\D/g, ""));
+    } else if (fullPhone) {
+      setPhoneNumber(fullPhone.replace(/\D/g, ""));
+    }
+  };
+
+  useEffect(() => {
+    if (open) {
+      resetError();
+      getProfile()
+        .then((res) => {
+          const user = res.users?.[0];
+          const fullPhone = user?.phoneNumber ?? currentPhoneNumber;
+          if (fullPhone) {
+            parsePhoneFromProfile(fullPhone);
+          } else {
+            setCountryCode("+1");
+            setPhoneNumber("");
+          }
+        })
+        .catch(() => {
+          if (currentPhoneNumber) {
+            parsePhoneFromProfile(currentPhoneNumber);
+          }
+        });
+    }
+  }, [open, getProfile, resetError, currentPhoneNumber]);
+
   const handleOpenChange = (isOpen: boolean) => {
-    if (isOpen && currentPhoneNumber) {
-      // Extract country code if present
-      const match = currentPhoneNumber.match(/^(\+\d+)/);
-      if (match) {
-        setCountryCode(match[1]);
-        setPhoneNumber(currentPhoneNumber.replace(match[1], "").trim());
-      } else {
-        setPhoneNumber(currentPhoneNumber);
-      }
+    if (!isOpen) {
+      resetError();
     }
     onOpenChange(isOpen);
   };
 
-  const handleSave = () => {
-    if (onSave) {
-      onSave(phoneNumber, countryCode);
+  const handleSave = async () => {
+    const fullPhoneNumber = `${countryCode}${phoneNumber.replace(/\D/g, "")}`;
+    const countryCodeAlpha = DIAL_CODE_TO_COUNTRY[countryCode] ?? "US";
+    try {
+      await updateUser({
+        phoneNumber: fullPhoneNumber,
+        countryCode: countryCodeAlpha,
+      });
+      onSave?.(phoneNumber, countryCode);
+      onOpenChange(false);
+    } catch {
+      // Error is handled by the hook
     }
-    onOpenChange(false);
   };
 
   return (
@@ -98,6 +130,11 @@ export function EditPhoneNumberDialog({
         </DialogHeader>
 
         <div className="space-y-4 py-4">
+          {updateError && (
+            <div className="rounded-md bg-destructive/15 p-3 text-sm text-destructive">
+              {updateError}
+            </div>
+          )}
           <div className="space-y-2">
             <Label
               htmlFor="phone-number"
@@ -120,14 +157,16 @@ export function EditPhoneNumberDialog({
             variant="outline"
             onClick={() => onOpenChange(false)}
             className="h-10 px-6"
+            disabled={isUpdateLoading}
           >
             {tCommon("cancel")}
           </Button>
           <Button
             onClick={handleSave}
+            disabled={isProfileLoading || isUpdateLoading}
             className="h-10 px-6 bg-[#2563EB] hover:bg-[#2563EB]/90 text-white"
           >
-            {tCommon("saveChanges")}
+            {isUpdateLoading ? "Saving..." : tCommon("saveChanges")}
           </Button>
         </DialogFooter>
       </DialogContent>
