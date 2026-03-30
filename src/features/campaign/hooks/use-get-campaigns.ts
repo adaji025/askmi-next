@@ -25,7 +25,7 @@ export function useGetCampaigns(): UseGetCampaignsReturn {
 
       try {
         const response = await apiClient.get<GetCampaignsSuccessResponse>(
-          "/api/campaign"
+          "/api/campaign/mine"
         );
 
         const result = response.data;
