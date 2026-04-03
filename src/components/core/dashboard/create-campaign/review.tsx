@@ -143,6 +143,7 @@ const Review = ({ handleNext }: IProps) => {
     try {
       let surveyId = formData.surveyId;
       let campaignSurveySource: "creating_new" | "existing" = surveySource;
+      let totalQuestionsForCampaign = formData.totalQuestions;
 
       // New survey: create survey first, then campaign with returned id
       if (surveySource === "creating_new") {
@@ -154,6 +155,8 @@ const Review = ({ handleNext }: IProps) => {
         const surveyResponse = await createSurvey(draft.questions, draft.title);
         surveyId = surveyResponse.survey.id;
         campaignSurveySource = "existing";
+        totalQuestionsForCampaign =
+          surveyResponse.survey.questions?.length ?? draft.questions.length;
       }
 
       if (!surveyId) {
@@ -166,6 +169,7 @@ const Review = ({ handleNext }: IProps) => {
         description: formData.description || "",
         surveySource: campaignSurveySource,
         surveyId,
+        totalQuestions: totalQuestionsForCampaign ?? 0,
         ...(formData.targetAudience && {
           targetAudience: formData.targetAudience,
         }),
