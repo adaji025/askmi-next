@@ -18,6 +18,11 @@ export interface CreateSurveyRequest {
   campaignId?: string;
 }
 
+export interface NewSurveyDraft {
+  title: string;
+  questions: SurveyQuestion[];
+}
+
 export interface Survey {
   id: string;
   title: string;

@@ -1,3 +1,5 @@
+import type { NewSurveyDraft } from "@/features/surveys/types";
+
 export interface TargetAudienceItem {
   type: "all" | "custom";
   values: string[];
@@ -16,6 +18,8 @@ export interface CreateCampaignRequest {
   description?: string;
   surveySource: "creating_new" | "existing";
   surveyId?: string;
+  /** When creating a new survey with the campaign, filled in setup; survey is POSTed on submit. */
+  newSurveyDraft?: NewSurveyDraft;
   totalQuestions?: number;
   targetAudience?: TargetAudience;
   totalVoteNeeded: number;

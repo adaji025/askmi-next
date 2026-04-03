@@ -13,11 +13,19 @@ import {
   ChevronDown,
   X,
   Check,
+  Plus,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Slider } from "@/components/ui/slider";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import {
   Popover,
   PopoverContent,
@@ -27,17 +35,26 @@ import { Badge } from "@/components/ui/badge";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 import { useCampaignForm } from "./campaign-form-context";
+import { useGetSurveys } from "@/features/surveys/use-get-surveys";
+import type { Survey } from "@/features/surveys/types";
+import { SurveyDrawer } from "./survey-drawer";
 
 interface IProps {
   handleNext: (
     value: "Campaign Setup" | "Budget & Timeline" | "Review"
   ) => void;
 }
+
 export function CampaignSetup({ handleNext }: IProps) {
   const { updateFormData, formData } = useCampaignForm();
+  const { getSurveys, isLoading: isSurveysLoading, error: surveysError } =
+    useGetSurveys();
+  const initialSurveyType: "existing" | "new" =
+    formData.surveySource === "existing" ? "existing" : "new";
   const [surveyType, setSurveyType] = useState<"existing" | "new">(
-    (formData.surveySource as "existing" | "new") || "existing"
+    initialSurveyType
   );
+  const [surveys, setSurveys] = useState<Survey[]>([]);
   const SLIDER_MAX = 50000;
   const [votes, setVotes] = useState(
     formData.totalVoteNeeded ? [formData.totalVoteNeeded] : [SLIDER_MAX]
@@ -46,6 +63,7 @@ export function CampaignSetup({ handleNext }: IProps) {
     formData.campaignName || ""
   );
   const [description, setDescription] = useState(formData.description || "");
+  const [isSurveyDrawerOpen, setIsSurveyDrawerOpen] = useState(false);
 
   // Sync default votes to formData when not set
   useEffect(() => {
@@ -53,6 +71,21 @@ export function CampaignSetup({ handleNext }: IProps) {
       updateFormData({ totalVoteNeeded: SLIDER_MAX });
     }
   }, []);
+
+  useEffect(() => {
+    getSurveys()
+      .then((res) => setSurveys(res.surveys ?? []))
+      .catch(() => {
+        setSurveys([]);
+      });
+  }, [getSurveys]);
+
+  useEffect(() => {
+    if (!formData.surveyId || surveys.length === 0) return;
+    const selectedSurvey = surveys.find((survey) => survey.id === formData.surveyId);
+    if (!selectedSurvey) return;
+    updateFormData({ totalQuestions: selectedSurvey.questions?.length || 0 });
+  }, [formData.surveyId, surveys, updateFormData]);
 
   // Check if all required data is provided
   const hasTargetAudience = (() => {
@@ -64,9 +97,17 @@ export function CampaignSetup({ handleNext }: IProps) {
       return item && (item.type === "all" || (item.values?.length ?? 0) > 0);
     });
   })();
+  
+  const hasNewSurveyDraft =
+    !!formData.newSurveyDraft?.title?.trim() &&
+    (formData.newSurveyDraft?.questions?.length ?? 0) > 0;
+
   const isFormValid =
     campaignName.trim().length > 0 &&
     hasTargetAudience &&
+    (surveyType === "existing"
+      ? !!formData.surveyId
+      : hasNewSurveyDraft) &&
     (formData.totalVoteNeeded ?? votes[0]) > 0;
 
   return (
@@ -121,7 +162,10 @@ export function CampaignSetup({ handleNext }: IProps) {
           <button
             onClick={() => {
               setSurveyType("existing");
-              updateFormData({ surveySource: "existing" });
+              updateFormData({
+                surveySource: "existing",
+                newSurveyDraft: undefined,
+              });
             }}
             className={cn(
               "flex flex-col items-start p-6 rounded-xl border transition-all text-left group",
@@ -146,7 +190,12 @@ export function CampaignSetup({ handleNext }: IProps) {
           <button
             onClick={() => {
               setSurveyType("new");
-              updateFormData({ surveySource: "creating_new" });
+              updateFormData({
+                surveySource: "creating_new",
+                surveyId: undefined,
+                newSurveyDraft: undefined,
+                totalQuestions: undefined,
+              });
             }}
             className={cn(
               "flex flex-col items-start p-6 rounded-xl border transition-all text-left group",
@@ -167,6 +216,86 @@ export function CampaignSetup({ handleNext }: IProps) {
             </p>
           </button>
         </div>
+        {surveyType === "existing" && (
+          <div className="space-y-2">
+            <Label
+              htmlFor="existing-survey-select"
+              className="text-sm font-semibold text-muted-foreground"
+            >
+              Existing Survey
+            </Label>
+            <Select
+              value={formData.surveyId || ""}
+              onValueChange={(value) => {
+                const selectedSurvey = surveys.find((survey) => survey.id === value);
+                updateFormData({
+                  surveySource: "existing",
+                  surveyId: value,
+                  totalQuestions: selectedSurvey?.questions?.length || 0,
+                  newSurveyDraft: undefined,
+                });
+              }}
+            >
+              <SelectTrigger
+                id="existing-survey-select"
+                className="h-12 bg-white w-full"
+                disabled={isSurveysLoading}
+              >
+                <SelectValue
+                  placeholder={
+                    isSurveysLoading ? "Loading surveys..." : "Select a survey"
+                  }
+                />
+              </SelectTrigger>
+              <SelectContent>
+                {surveys.map((survey) => (
+                  <SelectItem key={survey.id} value={survey.id}>
+                    {survey.title || "Untitled survey"}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            {surveysError && (
+              <p className="text-sm text-destructive">
+                Failed to load surveys. Please refresh and try again.
+              </p>
+            )}
+            {!isSurveysLoading && !surveysError && surveys.length === 0 && (
+              <p className="text-sm text-muted-foreground">
+                No surveys found. Create one first or switch to create new survey.
+              </p>
+            )}
+          </div>
+        )}
+        {surveyType === "new" && (
+          <div className="space-y-3">
+            <Button
+              type="button"
+              variant="outline"
+              className="h-12 px-4"
+              onClick={() => setIsSurveyDrawerOpen(true)}
+            >
+              <Plus className="w-4 h-4 mr-2" />
+              {formData.newSurveyDraft ? "Edit survey" : "Build survey"}
+            </Button>
+            {formData.newSurveyDraft ? (
+              <p className="text-sm text-muted-foreground">
+                Saved:{" "}
+                <span className="font-medium text-foreground">
+                  {formData.newSurveyDraft.title}
+                </span>{" "}
+                ({formData.newSurveyDraft.questions.length} question
+                {formData.newSurveyDraft.questions.length === 1 ? "" : "s"}).
+                It will be created when you submit the campaign.
+              </p>
+            ) : (
+              <p className="text-sm text-muted-foreground">
+                Add questions here; the survey is created when you finish the
+                campaign.
+              </p>
+            )}
+          </div>
+        )}
       </section>
 
       {/* Target Audience */}
@@ -300,6 +429,20 @@ export function CampaignSetup({ handleNext }: IProps) {
           Continue
         </Button>
       </div>
+
+      <SurveyDrawer
+        open={isSurveyDrawerOpen}
+        onOpenChange={setIsSurveyDrawerOpen}
+        initialDraft={formData.newSurveyDraft}
+        onSaveDraft={(draft) => {
+          updateFormData({
+            surveySource: "creating_new",
+            surveyId: undefined,
+            newSurveyDraft: draft,
+            totalQuestions: draft.questions.length,
+          });
+        }}
+      />
     </div>
   );
 }

@@ -10,6 +10,7 @@ import React from "react";
 import { useRouter } from "next/navigation";
 import { useCreateCampaign } from "@/features/campaign/hooks/use-create-campaign";
 import { useGetEstimatedBudget } from "@/features/budget/use-get-estimated-budget";
+import { useCreateSurvey } from "@/features/surveys/use-create-survey";
 import { useCampaignForm } from "./campaign-form-context";
 import { useUserStore } from "@/store/user-store";
 import type { BudgetEstimate } from "@/features/budget/use-get-estimated-budget";
@@ -24,11 +25,20 @@ const Review = ({ handleNext }: IProps) => {
   const router = useRouter();
   const { formData } = useCampaignForm();
   const { createCampaign, isLoading, error, resetError } = useCreateCampaign();
+  const {
+    createSurvey,
+    isLoading: isCreatingSurvey,
+    error: surveyCreateError,
+    resetError: resetSurveyCreateError,
+  } = useCreateSurvey();
   const { getEstimate, isLoading: isEstimateLoading } = useGetEstimatedBudget();
   const { token, isAuthenticated } = useUserStore();
   const [estimate, setEstimate] = useState<BudgetEstimate | null>(null);
 
-  const totalQuestions = formData.totalQuestions ?? 5;
+  const totalQuestions =
+    formData.newSurveyDraft?.questions.length ??
+    formData.totalQuestions ??
+    5;
   const desiredVote = formData.totalVoteNeeded ?? 0;
 
   useEffect(() => {
@@ -41,7 +51,10 @@ const Review = ({ handleNext }: IProps) => {
     }
   }, [totalQuestions, desiredVote, getEstimate]);
 
-  const surveyTitle = formData.campaignName || "Product Feedback Survey";
+  const surveyTitle =
+    formData.newSurveyDraft?.title?.trim() ||
+    formData.campaignName ||
+    "Product Feedback Survey";
 
   // Build target audience: icon + label, then badges for values
   const targetAudienceConfig: Record<
@@ -100,6 +113,7 @@ const Review = ({ handleNext }: IProps) => {
     : undefined;
   const handleSubmit = async () => {
     resetError();
+    resetSurveyCreateError();
 
     // Check if user is authenticated
     if (!isAuthenticated() || !token) {
@@ -124,30 +138,54 @@ const Review = ({ handleNext }: IProps) => {
       return;
     }
 
-    // Prepare campaign data from formData - ensure all fields are included
-    const campaignData = {
-      campaignName: formData.campaignName,
-      description: formData.description || "",
-      surveySource: formData.surveySource || "creating_new",
-      ...(formData.surveyId && { surveyId: formData.surveyId }),
-      ...(formData.targetAudience && { targetAudience: formData.targetAudience }),
-      totalVoteNeeded: formData.totalVoteNeeded,
-      startDate: formData.startDate,
-      ...(formData.endDate && { endDate: formData.endDate }),
-      isActive: formData.isActive ?? true, // Default to true
-    };
-
-    console.log("Submitting campaign data:", JSON.stringify(campaignData, null, 2));
+    const surveySource = formData.surveySource ?? "creating_new";
 
     try {
+      let surveyId = formData.surveyId;
+      let campaignSurveySource: "creating_new" | "existing" = surveySource;
+
+      // New survey: create survey first, then campaign with returned id
+      if (surveySource === "creating_new") {
+        if (!formData.newSurveyDraft) {
+          console.error("Survey draft is missing. Go back and save your survey.");
+          return;
+        }
+        const draft = formData.newSurveyDraft;
+        const surveyResponse = await createSurvey(draft.questions, draft.title);
+        surveyId = surveyResponse.survey.id;
+        campaignSurveySource = "existing";
+      }
+
+      if (!surveyId) {
+        console.error("surveyId is required to create a campaign.");
+        return;
+      }
+
+      const campaignData = {
+        campaignName: formData.campaignName,
+        description: formData.description || "",
+        surveySource: campaignSurveySource,
+        surveyId,
+        ...(formData.targetAudience && {
+          targetAudience: formData.targetAudience,
+        }),
+        totalVoteNeeded: formData.totalVoteNeeded,
+        startDate: formData.startDate,
+        ...(formData.endDate && { endDate: formData.endDate }),
+        isActive: formData.isActive ?? true,
+      };
+
+      console.log(
+        "Submitting campaign data:",
+        JSON.stringify(campaignData, null, 2)
+      );
+
       const response = await createCampaign(campaignData);
       console.log("Campaign created successfully:", response.campaign);
-      
-      // Navigate to campaigns page or campaign detail page
+
       router.push(`/dashboard/campaigns/${response.campaign.id}`);
     } catch (err) {
-      // Error is already set in the hook's error state
-      console.error("Failed to create campaign:", error);
+      console.error("Failed to create survey or campaign:", err);
     }
   };
 
@@ -217,6 +255,14 @@ const Review = ({ handleNext }: IProps) => {
             }
           />
         )}
+        <ReviewRow
+          label="Total questions"
+          value={
+            formData.newSurveyDraft?.questions.length ??
+            formData.totalQuestions ??
+            "—"
+          }
+        />
         <ReviewRow label="Total votes needed" value={totalVotes} />
         <ReviewRow label="Deviation range" value={deviationRange} />
         <ReviewRow
@@ -233,9 +279,10 @@ const Review = ({ handleNext }: IProps) => {
       </div>
 
       {/* Error Message */}
-      {error && (
-        <div className="rounded-md bg-destructive/15 p-3 text-sm text-destructive">
-          {error}
+      {(surveyCreateError || error) && (
+        <div className="rounded-md bg-destructive/15 p-3 text-sm text-destructive space-y-1">
+          {surveyCreateError && <p>{surveyCreateError}</p>}
+          {error && <p>{error}</p>}
         </div>
       )}
 
@@ -245,16 +292,16 @@ const Review = ({ handleNext }: IProps) => {
           variant={"outline"}
           onClick={() => handleNext("Budget & Timeline")}
           className="px-10 h-12 text-base font-semibold text-[#2563EB] border-[#2563EB] hover:bg-[#2563EB]/10 rounded-lg transition-all active:scale-95"
-          disabled={isLoading}
+          disabled={isLoading || isCreatingSurvey}
         >
           Back
         </Button>
         <Button
           onClick={handleSubmit}
           className="px-10 h-12 text-base font-semibold bg-[#2563EB] hover:bg-[#2563EB]/90 rounded-lg transition-all active:scale-95"
-          disabled={isLoading}
+          disabled={isLoading || isCreatingSurvey}
         >
-          {isLoading ? "Creating..." : "Submit"}
+          {isLoading || isCreatingSurvey ? "Creating..." : "Submit"}
         </Button>
       </div>
     </div>
